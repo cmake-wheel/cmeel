@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "cmw"
+version = "0.1.0"
+description = "cmake wheels"
+authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
+license = "BSD-2-Clause"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+cmake = "^3.22.3"
+tomli = "^2.0.1"
+wheel = "^0.37.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
