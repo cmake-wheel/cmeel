@@ -37,7 +37,8 @@ class Backend:
         check_call(
             f"cmake -S . -B {BLD}".split()
             + [
-                f"-DCMAKE_INSTALL_PREFIX={PFX}/{distribution}-{self.conf['version']}.data/data",
+                "-DCMAKE_INSTALL_PREFIX="
+                f"{PFX}/{distribution}-{self.conf['version']}.data/data",
                 f"-DPYTHON_EXECUTABLE={PYTHON}",
                 "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache",
                 "-DCMAKE_INSTALL_LIBDIR=../../cmw.lib",
