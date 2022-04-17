@@ -7,12 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.0] - 2022-04-17
+
 - setup tooling
 - add changelog
+- setup release process
 
 ## [v0.1.0] - 2022-04-16
 
 - Initial minial working example
 
-[Unreleased]: https://github.com/nim65s/cmw/compare/v0.1.0...main
+[Unreleased]: https://github.com/nim65s/cmw/compare/v0.2.0...main
+[v0.2.0]: https://github.com/nim65s/cmw/compare/v0.1.0...v0.2.0
 [v2.0.0]: https://github.com/nim65s/cmw/releases/tag/v0.1.0

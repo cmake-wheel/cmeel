@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cmw"
-version = "0.1.0"
+version = "0.2.0"
 description = "cmake wheels"
 authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
 license = "BSD-2-Clause"
