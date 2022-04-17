@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- removed Backend main class.
+
 ## [v0.2.0] - 2022-04-17
 
 - setup tooling
