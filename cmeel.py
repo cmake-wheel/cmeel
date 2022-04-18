@@ -4,7 +4,9 @@ from shutil import rmtree
 from subprocess import check_call, check_output
 import tomli
 
-DIR = Path("/tmp/cmw")
+__version__ = "0.2.0"
+
+DIR = Path("/tmp/cmeel")
 BLD = DIR / "bld"
 PFX = DIR / "pfx"
 TAG = "from packaging.tags import sys_tags; print(next(sys_tags()))"
@@ -37,8 +39,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             f"{PFX}/{distribution}-{conf['version']}.data/data",
             f"-DPYTHON_EXECUTABLE={PYTHON}",
             "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache",
-            "-DCMAKE_INSTALL_LIBDIR=../../cmw.lib",
-            "-DCMAKE_INSTALL_BINDIR=../../cmw.bin",
+            "-DCMAKE_INSTALL_LIBDIR=../../cmeel.lib",
+            "-DCMAKE_INSTALL_BINDIR=../../cmeel.bin",
             "-DPYTHON_SITELIB=../..",
         ]
     )
@@ -86,7 +88,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             "\n".join(
                 [
                     "Wheel-Version: 1.0",
-                    "Generator: cmw 0.0.1",
+                    f"Generator: cmeel {__version__}",
                     "Root-Is-Purelib: false",
                     f"Tag: {tag}",
                 ]

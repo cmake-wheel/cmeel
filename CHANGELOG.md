@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - removed Backend main class.
+- renamed cmw -> cmeel
 
 ## [v0.2.0] - 2022-04-17
 
@@ -19,6 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial minial working example
 
-[Unreleased]: https://github.com/nim65s/cmw/compare/v0.2.0...main
-[v0.2.0]: https://github.com/nim65s/cmw/compare/v0.1.0...v0.2.0
-[v2.0.0]: https://github.com/nim65s/cmw/releases/tag/v0.1.0
+[Unreleased]: https://github.com/nim65s/cmeel/compare/v0.2.0...main
+[v0.2.0]: https://github.com/nim65s/cmeel/compare/v0.1.0...v0.2.0
+[v2.0.0]: https://github.com/nim65s/cmeel/releases/tag/v0.1.0

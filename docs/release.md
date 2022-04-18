@@ -4,7 +4,7 @@ A github actions handle the build of the release archives, and push them to PyPI
 To trigger it, we just need to:
 
 1. use poetry to update the version number
-2. update `__version__` in `cmw.py`
+2. update `__version__` in `cmeel.py`
 3. update the changelog
 3. `git commit`
 4. `git tag`
