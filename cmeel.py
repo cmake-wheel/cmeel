@@ -4,7 +4,7 @@ from shutil import rmtree
 from subprocess import check_call, check_output
 import tomli
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 DIR = Path("/tmp/cmeel")
 BLD = DIR / "bld"
