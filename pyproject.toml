@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cmeel"
-version = "0.4.0"
+version = "0.4.1"
 description = "Create Wheel from CMake projects"
 authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
 license = "BSD-2-Clause"

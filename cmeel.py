@@ -11,7 +11,7 @@ import os
 from packaging.tags import sys_tags
 import tomli
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 TEMP = Path(TemporaryDirectory(prefix="cmeel-").name)
 BUILD = TEMP / "bld"
