@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.0] - 2022-04-20
+
 - switch to PEP 621 style
 
 ## [v0.3.0] - 2022-04-18
@@ -24,7 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial minial working example
 
-[Unreleased]: https://github.com/nim65s/cmeel/compare/v0.3.0...main
+[Unreleased]: https://github.com/nim65s/cmeel/compare/v0.4.0...main
+[v0.4.0]: https://github.com/nim65s/cmeel/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/nim65s/cmeel/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/nim65s/cmeel/compare/v0.1.0...v0.2.0
 [v2.0.0]: https://github.com/nim65s/cmeel/releases/tag/v0.1.0
