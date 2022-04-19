@@ -10,6 +10,7 @@ python = "^3.8"
 cmake = "^3.22.3"
 tomli = "^2.0.1"
 wheel = "^0.37.1"
+packaging = "^21.3"
 
 [tool.poetry.dev-dependencies]
 
