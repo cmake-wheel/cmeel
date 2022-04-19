@@ -2,11 +2,14 @@
 from pathlib import Path
 from shutil import rmtree
 from subprocess import check_call, check_output
+from tempfile import TemporaryDirectory
+import logging
+
 import tomli
 
 __version__ = "0.3.0"
 
-DIR = Path("/tmp/cmeel")
+DIR = TemporaryDirectory()
 BLD = DIR / "bld"
 PFX = DIR / "pfx"
 TAG = "from packaging.tags import sys_tags; print(next(sys_tags()))"
@@ -15,23 +18,21 @@ PYTHON = "python"
 DEPS = []  # TODO
 
 
-def _txt(txt: str, char: str = "·", width=88):
-    print(f" {txt} ".center(width, char))
+def get_requires_for_build_wheel(config_settings=None):
+    return ["packaging"]
 
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
-    _txt("CMake Wheels", "=")
-    _txt("load conf")
+    logging.info("CMake Wheel")
+    logging.info("load conf from pyproject.toml")
     with open("pyproject.toml", "rb") as f:
         conf = tomli.load(f)["tool"]["poetry"]
-    _txt("clean tmp dir")
-    DIR.mkdir(exist_ok=True)
-    rmtree(DIR)
+    DIR.mkdir()
 
-    _txt("build wheel")
+    logging.info("build wheel")
     # Configure
     distribution = conf["name"].replace("-", "_")
-    _txt("configure", "~")
+    logging.info("configure")
     check_call(
         f"cmake -S . -B {BLD}".split()
         + [
@@ -39,21 +40,19 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             f"{PFX}/{distribution}-{conf['version']}.data/data",
             f"-DPYTHON_EXECUTABLE={PYTHON}",
             "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache",
-            "-DCMAKE_INSTALL_LIBDIR=../../cmeel.lib",
-            "-DCMAKE_INSTALL_BINDIR=../../cmeel.bin",
-            "-DPYTHON_SITELIB=../..",
         ]
     )
-    _txt("build", "~")
+    logging.info("build")
     check_call(f"cmake --build {BLD}".split())
-    _txt("test", "~")
+    logging.info("test")
     check_call(f"cmake --build {BLD} -t test".split())
-    _txt("install", "~")
-    check_call(f"cmake --build {BLD} -t install".split())
-    _txt("dist-info")
+    logging.info("install")
+    check_call(f"cmake --install {BLD}".split())
+
+    logging.info("create dist-info")
     dist_info = PFX / f"{distribution}-{conf['version']}.dist-info"
-    _txt("METADATA")
     dist_info.mkdir()
+    logging.info("create dist-info / METADATA")
     with open(conf["readme"]) as f:
         readme = f.read()
     requires = "\n".join([f"Requires-Dist: {dep}" for dep in DEPS])
@@ -78,10 +77,10 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 ]
             )
         )
-    _txt("top level")
+    logging.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
         f.write("")
-    _txt("wheel")
+    logging.info("create dist-info / WHEEL")
     tag = check_output(["python", "-c", TAG]).decode().strip()
     with (dist_info / "WHEEL").open("w") as f:
         f.write(
@@ -94,10 +93,13 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 ]
             )
         )
-    _txt("pack")
+
+    logging.info("wheel pack")
     name = check_output(f"wheel pack -d {DIR} {PFX}".split()).decode()
     name = name.split("/")[-1][:-6]
-    _txt("done")
-    print(name)
+    logging.info("move to {wheel_directory}")
     (DIR / name).rename(Path(wheel_directory) / name)
+    logging.info("clean")
+    rmtree(DIR)
+    logging.info("done")
     return name
