@@ -9,12 +9,14 @@ include = ['cmeel.pth']
 
 [tool.poetry.dependencies]
 python = "^3.8"
-cmake = "^3.22.3"
 tomli = "^2.0.1"
-wheel = "^0.37.1"
-packaging = "^21.3"
+cmake = { version = "^3.22.3", optional = true }
+packaging = { version = "^21.3", optional = true }
+wheel = { version = "^0.37.1", optional = true }
 
-[tool.poetry.dev-dependencies]
+
+[tool.poetry.extras]
+build = ["cmake", "packaging", "wheel"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - split cmeel.py into cmeel/ package
 - add cmeel/pth.py & cmeel.pth
 - add config through `${XDG_CONFIG_HOME:-~/.config}/cmeel/cmeel.toml`
+- cmake, wheel & packaging are now optionnal, roquired only for the build module
 
 ## [v0.4.2] - 2022-04-20
 
