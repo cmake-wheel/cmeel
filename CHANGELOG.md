@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.5.1] - 2022-05-02
+
 - add metadata
 - fix type hint for python < 3.10
 
@@ -43,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/nim65s/cmeel/compare/v0.4.2...main
+[v0.5.1]: https://github.com/nim65s/cmeel/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://github.com/nim65s/cmeel/compare/v0.4.3...v0.5.0
 [v0.4.2]: https://github.com/nim65s/cmeel/compare/v0.4.1...v0.4.2
 [v0.4.1]: https://github.com/nim65s/cmeel/compare/v0.4.0...v0.4.1
