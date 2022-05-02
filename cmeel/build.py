@@ -2,41 +2,17 @@ from pathlib import Path
 from subprocess import check_call, check_output
 from tempfile import TemporaryDirectory
 import logging
-import sys
-import os
-import distutils.sysconfig
 
 from packaging.tags import sys_tags
 import tomli
 
-from .consts import SITELIB, CMEEL_PREFIX
+from .consts import CMEEL_PREFIX
+from .config import cmeel_config
 from . import __version__
 
 
 def get_deps():
-    return []  # TODO
-
-
-def get_test_env():
-    return {"CTEST_OUTPUT_ON_FAILURE": "1", "CTEST_PARALLEL_LEVEL": "4", **os.environ}
-
-
-def get_configure_args(install: Path | str):
-    return [
-        # "-DCMAKE_C_COMPILER_LAUNCHER=sccache",
-        # "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache",
-        f"-DCMAKE_INSTALL_PREFIX={install}",
-        f"-DPYTHON_EXECUTABLE={sys.executable}",
-        # f"-DPython_EXECUTABLE={sys.executable}",
-        # f"-DPython3_EXECUTABLE={sys.executable}",
-        # f"-DPython3_ROOT_DIR={sys.exec_prefix}",
-        f"-DPython3_INCLUDE_DIR={distutils.sysconfig.get_python_inc()}",
-        # f"-DPython3_LIBRARIES=libpython3.so",
-        f"-DPYTHON_SITELIB={SITELIB}",
-        # f"-DPYTHON_EXT_SUFFIX={sysconfg.get_config_var('EXT_SUFFIX')}",
-        # "-DPYTHONLIBS_FOUND=TRUE",
-        # "-DFINDPYTHON_ALREADY_CALLED=TRUE",
-    ]
+    return ["cmeel"]  # TODO
 
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
@@ -58,13 +34,16 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     # Configure
 
     logging.info("configure")
-    check_call(["cmake", "-S", ".", "-B", BUILD] + get_configure_args(INSTALL))
+    configure_args = cmeel_config.get_configure_args(CONF["name"], INSTALL)
+    configure_env = cmeel_config.get_configure_env(CONF["name"])
+    check_call(["cmake", "-S", ".", "-B", BUILD] + configure_args, env=configure_env)
 
     logging.info("build")
     check_call(["cmake", "--build", BUILD])
 
     logging.info("test")
-    check_call(["cmake", "--build", BUILD, "-t", "test"], env=get_test_env())
+    test_env = cmeel_config.get_test_env(CONF["name"])
+    check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
 
     logging.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
