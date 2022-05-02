@@ -5,6 +5,7 @@ description = "Create Wheel from CMake projects"
 authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
 license = "BSD-2-Clause"
 readme = "README.md"
+include = ['cmeel.pth']
 
 [tool.poetry.dependencies]
 python = "^3.8"
