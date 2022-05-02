@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+from typing import Union
 import distutils.sysconfig
 
 import tomli
@@ -24,7 +25,7 @@ class CmeelConfig:
         else:
             self.env = {p: os.environ[p] for p in ["PATH", "PYTHONPATH"]}
 
-    def get_configure_args(self, project: str, install: Path | str) -> [str]:
+    def get_configure_args(self, project: str, install: Union[Path, str]) -> [str]:
         ret = [
             f"-DCMAKE_INSTALL_PREFIX={install}",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
