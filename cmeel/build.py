@@ -3,7 +3,12 @@ from subprocess import check_call, check_output
 from tempfile import TemporaryDirectory
 import logging
 
-from packaging.tags import sys_tags
+try:
+    from packaging.tags import sys_tags
+except ImportError as e:
+    err = "You need the 'build' extra option to use this build module.\n"
+    err += "For this you can install the 'cmeel[build]' package."
+    raise ImportError(err) from e
 import tomli
 
 from .consts import CMEEL_PREFIX
