@@ -16,10 +16,6 @@ from .config import cmeel_config
 from . import __version__
 
 
-def get_deps():
-    return ["cmeel"]  # TODO
-
-
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("CMake Wheel")
 
@@ -61,7 +57,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("create dist-info / METADATA")
     with open(CONF["readme"]) as f:
         readme = f.read()
-    requires = "\n".join([f"Requires-Dist: {dep}" for dep in get_deps()])
+    dependencies = ["cmeel"] + CONF.get("dependencies", [])
+    requires = "\n".join([f"Requires-Dist: {dep}" for dep in dependencies])
     with (dist_info / "METADATA").open("w") as f:
         if CONF["readme"].lower().endswith(".md"):
             content_type = "text/markdown"

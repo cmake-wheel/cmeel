@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- parse dependencies
+
 ## [v0.5.2] - 2022-05-02
 
 - fix pth when the current prefix is not the last
