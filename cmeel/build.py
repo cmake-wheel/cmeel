@@ -30,6 +30,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         pyproject = tomli.load(f)
         CONF = pyproject["project"]
         SOURCE = pyproject["build-system"].get("source", ".")
+        RUN_TESTS = pyproject["build-system"].get("run_tests", True)
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")
@@ -44,9 +45,10 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("build")
     check_call(["cmake", "--build", BUILD])
 
-    logging.info("test")
-    test_env = cmeel_config.get_test_env(CONF["name"])
-    check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
+    if RUN_TESTS:
+        logging.info("test")
+        test_env = cmeel_config.get_test_env(CONF["name"])
+        check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
 
     logging.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
