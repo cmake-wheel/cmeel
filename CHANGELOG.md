@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - parse dependencies
+- configurable source dir
 
 ## [v0.5.2] - 2022-05-02
 

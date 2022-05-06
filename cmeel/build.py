@@ -27,7 +27,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     logging.info("load conf from pyproject.toml")
     with open("pyproject.toml", "rb") as f:
-        CONF = tomli.load(f)["project"]
+        pyproject = tomli.load(f)
+        CONF = pyproject["project"]
+        SOURCE = pyproject["build-system"].get("source", ".")
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")
@@ -37,7 +39,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("configure")
     configure_args = cmeel_config.get_configure_args(CONF["name"], INSTALL)
     configure_env = cmeel_config.get_configure_env(CONF["name"])
-    check_call(["cmake", "-S", ".", "-B", BUILD] + configure_args, env=configure_env)
+    check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 
     logging.info("build")
     check_call(["cmake", "--build", BUILD])
