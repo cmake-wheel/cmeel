@@ -29,14 +29,8 @@ class CmeelConfig:
         ret = [
             f"-DCMAKE_INSTALL_PREFIX={install}",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
-            # f"-DPython_EXECUTABLE={sys.executable}",
-            # f"-DPython3_EXECUTABLE={sys.executable}",
-            # f"-DPython3_ROOT_DIR={sys.exec_prefix}",
             f"-DPython3_INCLUDE_DIR={distutils.sysconfig.get_python_inc()}",
-            # f"-DPython3_LIBRARIES=libpython3.so",
             f"-DPYTHON_SITELIB={SITELIB}",
-            # f"-DPYTHON_EXT_SUFFIX={sysconfg.get_config_var('EXT_SUFFIX')}",
-            # "-DFINDPYTHON_ALREADY_CALLED=TRUE",
         ] + self.conf.get("configure_args", [])
         if project in self.conf:
             ret += self.conf[project].get("configure_args", [])
