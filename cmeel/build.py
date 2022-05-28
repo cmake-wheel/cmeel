@@ -2,6 +2,7 @@ from pathlib import Path
 from subprocess import check_call, check_output
 from tempfile import TemporaryDirectory
 import logging
+import sys
 
 try:
     from packaging.tags import sys_tags
@@ -38,20 +39,24 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     # Configure
 
     logging.info("configure")
-    configure_args = cmeel_config.get_configure_args(CONF["name"], INSTALL)
-    configure_env = cmeel_config.get_configure_env(CONF["name"])
+    configure_args = cmeel_config.get_configure_args(CONF, INSTALL)
+    configure_env = cmeel_config.get_configure_env(CONF)
     check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 
     logging.info("build")
-    check_call(["cmake", "--build", BUILD])
+    check_call(["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"])
 
     if RUN_TESTS:
         logging.info("test")
-        test_env = cmeel_config.get_test_env(CONF["name"])
+        test_env = cmeel_config.get_test_env(CONF)
         check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
 
     logging.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
+
+    logging.info("fix relocatablization")
+    for f in INSTALL.rglob("*.cmake"):
+        check_call(["sed", "-i", f"s|{INSTALL}|${{PACKAGE_PREFIX_DIR}}|g", str(f)])
 
     logging.info("create dist-info")
 
@@ -81,7 +86,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     "Classifier: Programming Language :: Python :: 3",
                     "Classifier: License :: OSI Approved :: BSD License",
                     "Classifier: Operating System :: POSIX :: Linux",
-                    f"Requires-Python: {CONF['requires-python']}",
+                    f"Requires-Python: {CONF.get('requires-python', '>=3.8')}",
                     f"Description-Content-Type: {content_type}",
                     f"{requires}",
                     "",
@@ -112,7 +117,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         # TODO
 
     logging.info("wheel pack")
-    name = check_output(["wheel", "pack", "-d", wheel_directory, PREFIX]).decode()
+    name = check_output(
+        [sys.executable, "-m", "wheel", "pack", "-d", wheel_directory, PREFIX]
+    ).decode()
     name = name.split("/")[-1][:-6]
 
     logging.info("done")
