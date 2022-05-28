@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- apply `cmeel.patch` if exists
+
 ## [v0.7.0] - 2022-05-28
 
 - move to `cmake-wheel` org

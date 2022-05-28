@@ -36,6 +36,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     logging.info("build wheel")
 
+    # Patch
+
+    if Path("cmeel.patch").exists():
+        logging.info("patching")
+        check_call(["patch", "-p0", "-i", "cmeel.patch"])
+
     # Configure
 
     logging.info("configure")
