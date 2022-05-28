@@ -6,7 +6,7 @@ authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
 license = "BSD-2-Clause"
 readme = "README.md"
 include = ['cmeel.pth']
-homepage = "https://github.com/nim65s/cmeel"
+homepage = "https://github.com/cmake-wheel/cmeel"
 
 [tool.poetry.dependencies]
 python = "^3.8"
