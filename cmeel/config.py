@@ -39,6 +39,7 @@ class CmeelConfig:
                 f"-DPython3_INCLUDE_DIR={distutils.sysconfig.get_python_inc()}",
                 f"-DPYTHON_INCLUDE_DIRS={distutils.sysconfig.get_python_inc()}",
                 f"-DPYTHON_SITELIB={SITELIB}",
+                "-DPYTHON_COMPONENTS=Interpreter",
             ]
             + conf.get("configure_args", [])
             + self.conf.get("configure_args", [])
