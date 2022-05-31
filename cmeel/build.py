@@ -16,6 +16,11 @@ from .consts import CMEEL_PREFIX
 from .config import cmeel_config
 from . import __version__
 
+EXECUTABLE = """#!python
+from cmeel.run import cmeel_run
+cmeel_run()
+"""
+
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("CMake Wheel")
@@ -118,9 +123,16 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             )
         )
 
-    if (INSTALL / "bin").is_dir():
-        logging.info("adding entrypoint")
-        # TODO
+    BIN = INSTALL / "bin"
+    if BIN.is_dir():
+        logging.info("adding executables")
+        scripts = PREFIX / f"{DISTRIBUTION}-{CONF['version']}.data" / "scripts"
+        scripts.mkdir(parents=True)
+        for fn in BIN.glob("*"):
+            executable = scripts / fn.name
+            with executable.open("w") as fe:
+                fe.write(EXECUTABLE)
+            executable.chmod(0o755)
 
     logging.info("wheel pack")
     name = check_output(

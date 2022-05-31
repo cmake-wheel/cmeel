@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add executables
+
 ## [v0.8.0] - 2022-05-28
 
 - apply `cmeel.patch` if exists

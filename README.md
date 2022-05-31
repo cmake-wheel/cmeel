@@ -4,11 +4,13 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/cmake-wheel/cmeel/main.svg)](https://results.pre-commit.ci/latest/github/cmake-wheel/cmeel/main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Pip build backend using CMake.
+Wheel build backend using CMake, to package anything with pip and distribut on PyPI.
 
 Following those relevant PEPs:
+- [PEP 427](https://peps.python.org/pep-0427/), The Wheel Binary Package Format 1.0
 - [PEP 517](https://peps.python.org/pep-0517/), A build-system independent format for source trees
 - [PEP 518](https://peps.python.org/pep-0518/), Specifying Minimum Build System Requirements for Python Projects
+- [PEP 600](https://peps.python.org/pep-0600/), Future ‘manylinux’ Platform Tags for Portable Linux Built Distributions
 - [PEP 621](https://peps.python.org/pep-0621/), Storing project metadata in pyproject.toml
 
 ## Basic idea
