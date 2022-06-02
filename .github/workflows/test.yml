@@ -1,0 +1,26 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8","3.9","3.10"]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: setup
+        run: |
+          python -m pip install -U pip
+          python -m pip install -U wheel simple503
+      - name: build cmeel wheel
+        run: python -m pip wheel -w $HOME/wh .
+      - name: update index
+        run: python -m simple503 -B file://$HOME/wh wh
+      - name: build example
+        run: python -m pip install --extra-index-url file://$HOME/wh git+https://github.com/cmake-wheel/cmeel-example
+      - name: test executable
+        run: cmeel-add 3 4
