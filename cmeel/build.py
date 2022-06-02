@@ -51,7 +51,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     logging.info("configure")
     configure_args = cmeel_config.get_configure_args(CONF, INSTALL)
-    configure_env = cmeel_config.get_configure_env(CONF)
+    configure_env = cmeel_config.get_configure_env()
     check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 
     logging.info("build")
@@ -59,7 +59,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     if RUN_TESTS:
         logging.info("test")
-        test_env = cmeel_config.get_test_env(CONF)
+        test_env = cmeel_config.get_test_env()
         check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
 
     logging.info("install")

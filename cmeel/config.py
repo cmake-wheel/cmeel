@@ -48,16 +48,16 @@ class CmeelConfig:
             ret += self.conf[project].get("configure_args", [])
         return ret
 
-    def get_configure_env(self, conf: Dict[str, Any]) -> {str: str}:
+    def get_configure_env(self) -> {str: str}:
         ret = self.env.copy()
         available = self._get_available_prefix()
         if available:
             cpp = ret.get("CMAKE_PREFIX_PATH", "")
             if available not in cpp.split(":"):
-                ret["CMAKE_PREFIX_PATH"] = f"{available}:{cpp}"
+                ret["CMAKE_PREFIX_PATH"] = f"{available}:{cpp}".strip(":")
         return ret
 
-    def get_test_env(self, conf: Dict[str, Any]) -> {str: str}:
+    def get_test_env(self) -> {str: str}:
         ret = self.env.copy()
         ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL="4")
         return ret
