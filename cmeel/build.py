@@ -22,6 +22,10 @@ cmeel_run()
 """
 
 
+class NonRelocatableError(Exception):
+    pass
+
+
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("CMake Wheel")
 
@@ -133,6 +137,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             with executable.open("w") as fe:
                 fe.write(EXECUTABLE)
             executable.chmod(0o755)
+
+    logging.info("check generated cmake files")
+    for fc in INSTALL.glob("**/*.cmake"):
+        with fc.open() as f:
+            if "/tmp/pip-build-env" in f.read():
+                raise NonRelocatableError(f"{fc} references '/tmp/pip-build-env'")
 
     logging.info("wheel pack")
     name = check_output(
