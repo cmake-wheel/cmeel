@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- check generated cmake files to ensure we don't have relocatablization issues
+
 ## [v0.9.0] - 2022-05-31
 
 - add executables

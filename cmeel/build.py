@@ -141,8 +141,20 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("check generated cmake files")
     for fc in INSTALL.glob("**/*.cmake"):
         with fc.open() as f:
-            if "/tmp/pip-build-env" in f.read():
-                raise NonRelocatableError(f"{fc} references '/tmp/pip-build-env'")
+            cmake_file = f.read()
+            if "/tmp/pip-build-env" in cmake_file:
+                lines = cmake_file.split("\n")
+                # Get indexes of of problematic lines
+                indexes = [i for i, l in enumerate(lines) if "/tmp/pip-build-env" in l]
+                # Get lines at those indexes and around them to display
+                display = [
+                    f"{i}: {l}"
+                    for i, l in enumerate(lines)
+                    if any(idx in indexes for idx in (i - 2, i - 1, i, i + 1, i + 2))
+                ]
+                raise NonRelocatableError(
+                    f"{fc} references '/tmp/pip-build-env':\n" + "\n".join(display)
+                )
 
     logging.info("wheel pack")
     name = check_output(
