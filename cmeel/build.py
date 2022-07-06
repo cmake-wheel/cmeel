@@ -40,7 +40,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         pyproject = tomli.load(f)
         CONF = pyproject["project"]
         SOURCE = pyproject["build-system"].get("source", ".")
-        RUN_TESTS = pyproject["build-system"].get("run_tests", True)
+        RUN_TESTS = pyproject["build-system"].get("run-tests", True)
+        BUILD_NUMBER = pyproject["build-system"].get("build-number", 0)
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")
@@ -158,7 +159,17 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     logging.info("wheel pack")
     name = check_output(
-        [sys.executable, "-m", "wheel", "pack", "-d", wheel_directory, PREFIX]
+        [
+            sys.executable,
+            "-m",
+            "wheel",
+            "pack",
+            "--build-number",
+            str(BUILD_NUMBER),
+            "-d",
+            wheel_directory,
+            PREFIX,
+        ]
     ).decode()
     name = name.split("/")[-1][:-6]
 
