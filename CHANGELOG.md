@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - check generated cmake files to ensure we don't have relocatablization issues
 - add `build-number` parameter
+- add `Numpy` to `-DPYTHON_COMPONENTS`
 - :warning: BREAKING: rename `run_tests` into `run-tests`
 
 ## [v0.9.0] - 2022-05-31

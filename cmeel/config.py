@@ -30,6 +30,13 @@ class CmeelConfig:
         self, conf: Dict[str, Any], install: Union[Path, str]
     ) -> [str]:
         project = conf["name"]
+        python_components = "Interpreter;Development.Module"
+        try:
+            import numpy  # noqa: F401
+
+            python_components += ";NumPy"
+        except ImportError:
+            pass
         ret = (
             [
                 "-DBoost_NO_WARN_NEW_VERSIONS=ON",
@@ -39,7 +46,7 @@ class CmeelConfig:
                 f"-DPython3_INCLUDE_DIR={distutils.sysconfig.get_python_inc()}",
                 f"-DPYTHON_INCLUDE_DIRS={distutils.sysconfig.get_python_inc()}",
                 f"-DPYTHON_SITELIB={SITELIB}",
-                "-DPYTHON_COMPONENTS=Interpreter",
+                f"-DPYTHON_COMPONENTS={python_components}",
             ]
             + conf.get("configure_args", [])
             + self.conf.get("configure_args", [])
