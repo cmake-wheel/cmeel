@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 from typing import Any, Dict, Union, Optional
-import distutils.sysconfig
 
 import tomli
 
@@ -30,23 +29,13 @@ class CmeelConfig:
         self, conf: Dict[str, Any], install: Union[Path, str]
     ) -> [str]:
         project = conf["name"]
-        python_components = "Interpreter;Development.Module"
-        try:
-            import numpy  # noqa: F401
-
-            python_components += ";NumPy"
-        except ImportError:
-            pass
         ret = (
             [
                 "-DBoost_NO_WARN_NEW_VERSIONS=ON",
                 "-DCMAKE_BUILD_TYPE=Release",
                 f"-DCMAKE_INSTALL_PREFIX={install}",
-                f"-DPYTHON_EXECUTABLE={sys.executable}",
-                f"-DPython3_INCLUDE_DIR={distutils.sysconfig.get_python_inc()}",
-                f"-DPYTHON_INCLUDE_DIRS={distutils.sysconfig.get_python_inc()}",
                 f"-DPYTHON_SITELIB={SITELIB}",
-                f"-DPYTHON_COMPONENTS={python_components}",
+                f"-DPython3_EXECUTABLE={sys.executable}",
             ]
             + conf.get("configure_args", [])
             + self.conf.get("configure_args", [])

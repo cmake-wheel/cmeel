@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add `build-number` parameter
 - add `Numpy` to `-DPYTHON_COMPONENTS`
 - :warning: BREAKING: rename `run_tests` into `run-tests`
+- :warning: BREAKING: remove `PYTHON_COMPONENTS`
 
 ## [v0.9.0] - 2022-05-31
 
