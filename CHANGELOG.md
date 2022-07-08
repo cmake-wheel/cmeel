@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - check generated cmake files to ensure we don't have relocatablization issues
 - add `build-number` parameter
 - add `Numpy` to `-DPYTHON_COMPONENTS`
+- add `temp-dir` / `CMEEL_TEMP_DIR` configuration (useful for caching builds, as default generate names)
 - :warning: BREAKING: rename `run_tests` into `run-tests`
+- :warning: BREAKING: rename `default_env` into `default-env`
+- :warning: BREAKING: rename `configure_args` into `configure-args`
 - :warning: BREAKING: remove `PYTHON_COMPONENTS`
 
 ## [v0.9.0] - 2022-05-31

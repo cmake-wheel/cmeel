@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any, Dict, Union, Optional
 
 import tomli
@@ -9,7 +10,7 @@ from .consts import CMEEL_PREFIX, SITELIB
 
 
 class CmeelConfig:
-    def __init__(self, default_env: bool = True):
+    def __init__(self):
         config_home = os.path.expanduser("~/.config")
         config_home = Path(os.environ.get("XDG_CONFIG_HOME", config_home))
         config_path = config_home / "cmeel"
@@ -19,11 +20,17 @@ class CmeelConfig:
         if config_file.exists():
             with config_file.open("rb") as f:
                 self.conf = tomli.load(f)
-        if self.conf.get("default_env", True):
+        if self.conf.get("default-env", True):
             self.env = os.environ
         else:
             self.env = {p: os.environ[p] for p in ["PATH", "PYTHONPATH"]}
         self.jobs = int(self.conf.get("jobs", "4"))
+        self.temp_dir = Path(
+            self.env.get(
+                "CMEEL_TEMP_DIR",
+                self.conf.get("temp-dir", TemporaryDirectory(prefix="cmeel-").name),
+            )
+        )
 
     def get_configure_args(
         self, conf: Dict[str, Any], install: Union[Path, str]
@@ -37,11 +44,11 @@ class CmeelConfig:
                 f"-DPYTHON_SITELIB={SITELIB}",
                 f"-DPython3_EXECUTABLE={sys.executable}",
             ]
-            + conf.get("configure_args", [])
-            + self.conf.get("configure_args", [])
+            + conf.get("configure-args", [])
+            + self.conf.get("configure-args", [])
         )
         if project in self.conf:
-            ret += self.conf[project].get("configure_args", [])
+            ret += self.conf[project].get("configure-args", [])
         return ret
 
     def get_configure_env(self) -> {str: str}:

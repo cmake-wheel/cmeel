@@ -1,6 +1,5 @@
 from pathlib import Path
 from subprocess import check_call, check_output
-from tempfile import TemporaryDirectory
 import logging
 import sys
 
@@ -29,7 +28,7 @@ class NonRelocatableError(Exception):
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("CMake Wheel")
 
-    TEMP = Path(TemporaryDirectory(prefix="cmeel-").name)
+    TEMP = cmeel_config.temp_dir
     BUILD = TEMP / "bld"
     PREFIX = TEMP / "pfx"
     INSTALL = PREFIX / CMEEL_PREFIX
