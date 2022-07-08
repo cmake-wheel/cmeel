@@ -94,7 +94,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             "\n".join(
                 [
                     "Metadata-Version: 2.1",
-                    f"Name: {DISTRIBUTION}",
+                    f"Name: {CONF['name']}",
                     f"Version: {CONF['version']}",
                     f"Summary: {CONF['description']}",
                     f"Home-page: {CONF['urls']['homepage']}",

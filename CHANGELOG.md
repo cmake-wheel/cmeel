@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add `build-number` parameter
 - add `Numpy` to `-DPYTHON_COMPONENTS`
 - add `temp-dir` / `CMEEL_TEMP_DIR` configuration (useful for caching builds, as default generate names)
+- :warning: BREAKING: fix wheel name (it was using distribution, which replace `-` by `_`)
 - :warning: BREAKING: rename `run_tests` into `run-tests`
 - :warning: BREAKING: rename `default_env` into `default-env`
 - :warning: BREAKING: rename `configure_args` into `configure-args`
