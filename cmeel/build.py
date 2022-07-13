@@ -41,6 +41,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         SOURCE = pyproject["build-system"].get("source", ".")
         RUN_TESTS = pyproject["build-system"].get("run-tests", True)
         BUILD_NUMBER = pyproject["build-system"].get("build-number", 0)
+        CONFIGURE_ARGS = pyproject["build-system"].get("configure-args", [])
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")
@@ -54,7 +55,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     # Configure
 
     logging.info("configure")
-    configure_args = cmeel_config.get_configure_args(CONF, INSTALL)
+    configure_args = cmeel_config.get_configure_args(CONF, INSTALL, CONFIGURE_ARGS)
     configure_env = cmeel_config.get_configure_env()
     check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 

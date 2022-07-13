@@ -33,7 +33,10 @@ class CmeelConfig:
         )
 
     def get_configure_args(
-        self, conf: Dict[str, Any], install: Union[Path, str]
+        self,
+        conf: Dict[str, Any],
+        install: Union[Path, str],
+        configure_args: Dict[str, Any],
     ) -> [str]:
         project = conf["name"]
         ret = (
@@ -44,7 +47,7 @@ class CmeelConfig:
                 f"-DPYTHON_SITELIB={SITELIB}",
                 f"-DPython3_EXECUTABLE={sys.executable}",
             ]
-            + conf.get("configure-args", [])
+            + configure_args
             + self.conf.get("configure-args", [])
         )
         if project in self.conf:
