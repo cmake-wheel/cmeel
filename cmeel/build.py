@@ -40,6 +40,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         CONF = pyproject["project"]
         SOURCE = pyproject["build-system"].get("source", ".")
         RUN_TESTS = pyproject["build-system"].get("run-tests", True)
+        RUN_TESTS_AFTER_INSTALL = pyproject["build-system"].get(
+            "run-tests-after-install", False
+        )
         BUILD_NUMBER = pyproject["build-system"].get("build-number", 0)
         CONFIGURE_ARGS = pyproject["build-system"].get("configure-args", [])
     DISTRIBUTION = CONF["name"].replace("-", "_")
@@ -62,13 +65,19 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("build")
     check_call(["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"])
 
-    if RUN_TESTS:
+    def run_tests():
         logging.info("test")
         test_env = cmeel_config.get_test_env()
         check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
 
+    if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
+        run_tests()
+
     logging.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
+
+    if RUN_TESTS and RUN_TESTS_AFTER_INSTALL:
+        run_tests()
 
     logging.info("fix relocatablization")
     for f in INSTALL.rglob("*.cmake"):

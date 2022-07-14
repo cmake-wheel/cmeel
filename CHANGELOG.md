@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - check generated cmake files to ensure we don't have relocatablization issues
 - add `build-number` parameter
+- add `run-tests-after-install` parameter
 - add `Numpy` to `-DPYTHON_COMPONENTS`
 - add `temp-dir` / `CMEEL_TEMP_DIR` configuration (useful for caching builds, as default generate names)
 - :warning: BREAKING: fix wheel name (it was using distribution, which replace `-` by `_`)
