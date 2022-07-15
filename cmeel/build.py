@@ -149,7 +149,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             executable.chmod(0o755)
 
     logging.info("check generated cmake files")
-    WRONG_DIRS = ["/tmp/pip-build-env", "/tmp/pip-req-build", str(TEMP)]
+    WRONG_DIRS = [
+        "/tmp/pip-build-env",
+        "/tmp/pip-req-build",
+        "/opt/_internal",
+        str(TEMP),
+    ]
     for fc in INSTALL.glob("**/*.cmake"):
         with fc.open() as f:
             cmake_file = f.read()
