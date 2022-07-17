@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.10.0] - 2022-07-17
+
 - check generated cmake files to ensure we don't have relocatablization issues
 - add `build-number` parameter
 - add `run-tests-after-install` parameter
@@ -84,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.10.0]: https://github.com/cmake-wheel/cmeel/compare/v0.9.0...v0.10.0
 [v0.9.0]: https://github.com/cmake-wheel/cmeel/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/cmake-wheel/cmeel/compare/v0.7.0...v0.8.0
 [v0.7.0]: https://github.com/cmake-wheel/cmeel/compare/v0.6.2...v0.7.0
