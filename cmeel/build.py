@@ -68,25 +68,30 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("build")
     check_call(["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"])
 
-    def run_tests():
+    def run_tests(after_install: bool = False):
         logging.info("test")
         test_env = cmeel_config.get_test_env()
+        if after_install:
+            path = f"{INSTALL / SITELIB}"
+            if old := test_env.get("PYTHONPATH", ""):
+                path += f"{os.pathsep}{old}"
+            test_env.update(PYTHONPATH=path)
         test_cmd = [i.replace("BUILD_DIR", str(BUILD)) for i in TEST_CMD]
         check_call(test_cmd, env=test_env, shell=True)
 
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
-        run_tests()
+        run_tests(after_install=False)
 
     logging.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
 
     if RUN_TESTS and RUN_TESTS_AFTER_INSTALL:
-        run_tests()
+        run_tests(after_install=True)
 
     logging.info("fix relocatablization")
     for f in INSTALL.rglob("*.cmake"):
         ff = INSTALL / f"{f.stem}.fix"
-        with f.open("r") as fr, fw.open("w") as fw:
+        with f.open("r") as fr, ff.open("w") as fw:
             fw.write(fr.read().replace(INSTALL, "${PACKAGE_PREFIX_DIR}"))
         f.unlink()
         ff.rename(f)

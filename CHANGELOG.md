@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add INSTALL / SITLIB to PYTHONPATH for tests after install
+
 ## [v0.12.3] - 2022-07-30
 
 - implement sed
