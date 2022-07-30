@@ -68,7 +68,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     def run_tests():
         logging.info("test")
         test_env = cmeel_config.get_test_env()
-        check_call(["cmake", "--build", BUILD, "-t", "test"], env=test_env)
+        test_cmd = cmeel_config.get_test_cmd(BUILD)
+        check_call(test_cmd, env=test_env)
 
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
         run_tests()

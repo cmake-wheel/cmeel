@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add `test-cmd` parameter
+
 ## [v0.10.1] - 2022-07-30
 
 - fix sed -i on OSX

@@ -31,6 +31,9 @@ class CmeelConfig:
                 self.conf.get("temp-dir", TemporaryDirectory(prefix="cmeel-").name),
             )
         )
+        self.test_cmd = self.conf.get(
+            "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
+        )
 
     def get_configure_args(
         self,
@@ -62,6 +65,9 @@ class CmeelConfig:
             if available not in cpp.split(":"):
                 ret["CMAKE_PREFIX_PATH"] = f"{available}:{cpp}".strip(":")
         return ret
+
+    def get_test_cmd(self, build_dir: Union[Path, str]) -> [str]:
+        return [i if i != "BUILD_DIR" else build_dir for i in self.test_cmd]
 
     def get_test_env(self) -> {str: str}:
         ret = self.env.copy()
