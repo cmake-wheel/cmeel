@@ -165,6 +165,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 fe.write(EXECUTABLE)
             executable.chmod(0o755)
 
+    print("+" * 80)
     logging.info("check generated cmake files")
     WRONG_DIRS = [
         "/tmp/pip-build-env",
@@ -193,6 +194,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     f"{fc} references temporary paths:\n" + "\n".join(display)
                 )
 
+    print("X" * 80)
     logging.info("wheel pack")
     name = check_output(
         [
