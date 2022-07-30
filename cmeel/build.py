@@ -209,5 +209,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     ).decode()
     name = name.split("/")[-1][:-6]
 
+    raise Exception(f"{name=}")
+
     logging.info("done")
     return name
