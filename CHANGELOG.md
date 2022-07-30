@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- move `test-cmd` parameter to pyproject.toml
+
 ## [v0.11.0] - 2022-07-30
 
 - add `test-cmd` parameter

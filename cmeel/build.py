@@ -45,6 +45,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         )
         BUILD_NUMBER = pyproject["build-system"].get("build-number", 0)
         CONFIGURE_ARGS = pyproject["build-system"].get("configure-args", [])
+        TEST_CMD = pyproject["build-system"].get(
+            "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
+        )
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")
@@ -68,7 +71,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     def run_tests():
         logging.info("test")
         test_env = cmeel_config.get_test_env()
-        test_cmd = cmeel_config.get_test_cmd(BUILD)
+        test_cmd = [i if i != "BUILD_DIR" else BUILD for i in TEST_CMD]
         check_call(test_cmd, env=test_env)
 
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
