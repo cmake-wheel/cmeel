@@ -194,6 +194,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 )
 
     logging.info("wheel pack")
+    raise Exception("before wheel pack")
     name = check_output(
         [
             sys.executable,
@@ -208,8 +209,6 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         ]
     ).decode()
     name = name.split("/")[-1][:-6]
-
-    raise Exception(f"{name=}")
 
     logging.info("done")
     return name
