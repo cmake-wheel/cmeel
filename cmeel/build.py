@@ -59,7 +59,6 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         logging.info("patching")
         check_call(["patch", "-p0", "-i", "cmeel.patch"])
 
-    raise Exception("before wheel pack")
     # Set env
 
     if RUN_TESTS_AFTER_INSTALL:
@@ -208,7 +207,11 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
+    print("X" * 80)
+    print(f"{name=}")
     name = name.split("/")[-1][:-6]
+    print(f"{name=}")
+    print("+" * 80)
 
     logging.info("done")
     return name
