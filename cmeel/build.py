@@ -59,6 +59,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         logging.info("patching")
         check_call(["patch", "-p0", "-i", "cmeel.patch"])
 
+    raise Exception("before wheel pack")
     # Set env
 
     if RUN_TESTS_AFTER_INSTALL:
@@ -194,7 +195,6 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 )
 
     logging.info("wheel pack")
-    raise Exception("before wheel pack")
     name = check_output(
         [
             sys.executable,
