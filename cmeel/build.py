@@ -207,7 +207,11 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
+    print("=" * 80)
+    print(name)
     name = name.split("/")[-1][:-6]
+    print(name)
+    print("=" * 80)
 
     logging.info("done")
     return name
