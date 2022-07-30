@@ -1,6 +1,7 @@
 from pathlib import Path
 from subprocess import check_call, check_output
 import logging
+import os
 import sys
 
 try:
@@ -11,7 +12,7 @@ except ImportError as e:
     raise ImportError(err) from e
 import tomli
 
-from .consts import CMEEL_PREFIX
+from .consts import CMEEL_PREFIX, SITELIB
 from .config import cmeel_config
 from . import __version__
 
@@ -92,7 +93,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     for f in INSTALL.rglob("*.cmake"):
         ff = INSTALL / f"{f.stem}.fix"
         with f.open("r") as fr, ff.open("w") as fw:
-            fw.write(fr.read().replace(INSTALL, "${PACKAGE_PREFIX_DIR}"))
+            fw.write(fr.read().replace(str(INSTALL), "${PACKAGE_PREFIX_DIR}"))
         f.unlink()
         ff.rename(f)
 
