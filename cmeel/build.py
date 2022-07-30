@@ -165,7 +165,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 fe.write(EXECUTABLE)
             executable.chmod(0o755)
 
-    print("+" * 80)
+    print("+" * 80, file=sys.stderr)
     logging.info("check generated cmake files")
     WRONG_DIRS = [
         "/tmp/pip-build-env",
@@ -194,7 +194,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     f"{fc} references temporary paths:\n" + "\n".join(display)
                 )
 
-    print("X" * 80)
+    print("X" * 80, file=sys.stderr)
     logging.info("wheel pack")
     name = check_output(
         [
@@ -209,11 +209,11 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
-    print("=" * 80)
-    print(name)
+    print("=" * 80, file=sys.stderr)
+    print(name, file=sys.stderr)
     name = name.split("/")[-1][:-6]
-    print(name)
-    print("=" * 80)
+    print(name, file=sys.stderr)
+    print("=" * 80, file=sys.stderr)
 
     logging.info("done")
     return name
