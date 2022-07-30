@@ -71,7 +71,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     def run_tests():
         logging.info("test")
         test_env = cmeel_config.get_test_env()
-        test_cmd = [i if i != "BUILD_DIR" else BUILD for i in TEST_CMD]
+        test_cmd = [i.replace("BUILD_DIR", str(BUILD)) for i in TEST_CMD]
         check_call(test_cmd, env=test_env)
 
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
