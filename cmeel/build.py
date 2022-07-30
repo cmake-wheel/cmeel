@@ -81,7 +81,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     logging.info("fix relocatablization")
     for f in INSTALL.rglob("*.cmake"):
-        check_call(["sed", "-i", f"s|{INSTALL}|${{PACKAGE_PREFIX_DIR}}|g", str(f)])
+        check_call(["sed", "-i.old", f"s|{INSTALL}|${{PACKAGE_PREFIX_DIR}}|g", str(f)])
+    for f in INSTALL.rglob("*.cmake.old"):
+        f.unlink()
 
     logging.info("create dist-info")
 
