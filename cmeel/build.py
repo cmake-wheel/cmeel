@@ -59,6 +59,14 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         logging.info("patching")
         check_call(["patch", "-p0", "-i", "cmeel.patch"])
 
+    # Set env
+
+    if RUN_TESTS_AFTER_INSTALL:
+        path = f"{INSTALL / SITELIB}"
+        if old := os.environ.get("PYTHONPATH", ""):
+            path += f"{os.pathsep}{old}"
+        os.environ.update(PYTHONPATH=path)
+
     # Configure
 
     logging.info("configure")
@@ -69,25 +77,20 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("build")
     check_call(["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"])
 
-    def run_tests(after_install: bool = False):
+    def run_tests():
         logging.info("test")
         test_env = cmeel_config.get_test_env()
-        if after_install:
-            path = f"{INSTALL / SITELIB}"
-            if old := test_env.get("PYTHONPATH", ""):
-                path += f"{os.pathsep}{old}"
-            test_env.update(PYTHONPATH=path)
         test_cmd = [i.replace("BUILD_DIR", str(BUILD)) for i in TEST_CMD]
         check_call(test_cmd, env=test_env, shell=True)
 
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
-        run_tests(after_install=False)
+        run_tests()
 
     logging.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
 
     if RUN_TESTS and RUN_TESTS_AFTER_INSTALL:
-        run_tests(after_install=True)
+        run_tests()
 
     logging.info("fix relocatablization")
     for f in INSTALL.rglob("*.cmake"):

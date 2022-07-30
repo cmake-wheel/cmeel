@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- set env before configure
+
 ## [v0.12.4] - 2022-07-30
 
 - add INSTALL / SITLIB to PYTHONPATH for tests after install
