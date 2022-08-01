@@ -1,14 +1,19 @@
-name: Tests
-on: [push, pull_request]
+name: Test with example
+
+on: ["push", "pull_request"]
+
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: Test ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os}}
     strategy:
       matrix:
+        os: ["ubuntu-latest", "macos-latest"]
         python-version: ["3.8","3.9","3.10"]
     steps:
-      - uses: actions/checkout@v2
-
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -20,7 +25,9 @@ jobs:
         run: python -m pip wheel -w $HOME/wh .
       - name: update index
         run: python -m simple503 -B file://$HOME/wh wh
-      - name: build example
+      - name: install example
         run: python -m pip install --extra-index-url file://$HOME/wh git+https://github.com/cmake-wheel/cmeel-example
+      - name: test module
+        run: python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
       - name: test executable
         run: cmeel-add 3 4
