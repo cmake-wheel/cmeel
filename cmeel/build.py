@@ -194,7 +194,6 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 )
 
     logging.info("wheel pack")
-    print("=" * 80)
     name = check_output(
         [
             sys.executable,
@@ -208,11 +207,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
-    print("X" * 80)
-    print(f"{name=}")
-    name = name.split(os.sep)[-1][:-6]
-    print(f"{name=}")
-    print("+" * 80)
+    name = name.split("/")[-1][:-6]
 
     logging.info("done")
     return name
