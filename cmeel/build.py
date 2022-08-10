@@ -33,7 +33,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     BUILD = TEMP / "bld"
     PREFIX = TEMP / "pfx"
     INSTALL = PREFIX / CMEEL_PREFIX
-    TAG = str(next(sys_tags()))
+    TAG = os.environ.get("_PYTHON_HOST_PLATFORM", str(next(sys_tags())))
 
     logging.info("load conf from pyproject.toml")
     with open("pyproject.toml", "rb") as f:

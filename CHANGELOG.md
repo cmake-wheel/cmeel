@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- support macOS arm64 crosscompilation for cibuildwheel
+
 ## [v0.12.5] - 2022-07-30
 
 - set env before configure
