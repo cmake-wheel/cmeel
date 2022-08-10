@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix TAG for macOS
+
 ## [v0.13.0] - 2022-08-10
 
 - support macOS arm64 crosscompilation for cibuildwheel
