@@ -43,6 +43,7 @@ class CmeelConfig:
             [
                 "-DBoost_NO_WARN_NEW_VERSIONS=ON",
                 "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_INSTALL_LIBDIR=lib",
                 f"-DCMAKE_INSTALL_PREFIX={install}",
                 f"-DPYTHON_SITELIB={SITELIB}",
                 f"-DPython3_EXECUTABLE={sys.executable}",

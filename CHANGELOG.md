@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- set `CMAKE_INSTALL_LIBDIR` to `lib`
+
 ## [v0.13.3] - 2022-08-10
 
 - debug
