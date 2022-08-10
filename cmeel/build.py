@@ -37,7 +37,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     # handle cross compilation on macOS with cibuildwheel
     # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
     if "_PYTHON_HOST_PLATFORM" in os.environ:
-        TAG = "-".join(TAG.split("-")[:-1] + [os.environ["_PYTHON_HOST_PLATFORM"]])
+        plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
+        TAG = "-".join(TAG.split("-")[:-1] + [plat])
+        print(f"{os.environ['_PYTHON_HOST_PLATFORM']=} | {TAG=}")
 
     logging.info("load conf from pyproject.toml")
     with open("pyproject.toml", "rb") as f:
