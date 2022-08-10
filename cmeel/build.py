@@ -39,7 +39,6 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     if "_PYTHON_HOST_PLATFORM" in os.environ:
         plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
         TAG = "-".join(TAG.split("-")[:-1] + [plat])
-        print(f"{os.environ['_PYTHON_HOST_PLATFORM']=} | {TAG=}")
 
     logging.info("load conf from pyproject.toml")
     with open("pyproject.toml", "rb") as f:
