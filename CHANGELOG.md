@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.13.2] - 2022-08-10
+
+- fix TAG for macOS
+
 ## [v0.13.1] - 2022-08-10
 
 - fix TAG for macOS
@@ -124,6 +128,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.13.2]: https://github.com/cmake-wheel/cmeel/compare/v0.13.1...v0.13.2
 [v0.13.1]: https://github.com/cmake-wheel/cmeel/compare/v0.13.0...v0.13.1
 [v0.13.0]: https://github.com/cmake-wheel/cmeel/compare/v0.12.5...v0.13.0
 [v0.12.5]: https://github.com/cmake-wheel/cmeel/compare/v0.12.4...v0.12.5
