@@ -68,7 +68,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     if RUN_TESTS_AFTER_INSTALL:
         path = f"{INSTALL / SITELIB}"
-        if old := os.environ.get("PYTHONPATH", ""):
+        old = os.environ.get("PYTHONPATH", "")
+        if old:
             path += f"{os.pathsep}{old}"
         os.environ.update(PYTHONPATH=path)
 
