@@ -1,3 +1,4 @@
+"""Cmeel constants."""
 import os
 import sys
 

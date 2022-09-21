@@ -1,3 +1,4 @@
+"""Cmeel build."""
 from pathlib import Path
 from subprocess import check_call, check_output
 import logging
@@ -23,10 +24,13 @@ cmeel_run()
 
 
 class NonRelocatableError(Exception):
+    """Exception raised when absolute paths are in the final package."""
+
     pass
 
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
+    """Main entry point for PEP 517."""
     logging.info("CMake Wheel")
 
     TEMP = cmeel_config.temp_dir
@@ -99,6 +103,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         run_tests()
 
     logging.info("fix relocatablization")
+    # Replace absolute install path in generated .cmake files, if any.
     for f in INSTALL.rglob("*.cmake"):
         ff = INSTALL / f"{f.stem}.fix"
         with f.open("r") as fr, ff.open("w") as fw:

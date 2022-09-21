@@ -1,3 +1,4 @@
+"""Append cmeel prefix sitelib to sys.path."""
 import sys
 from pathlib import Path
 
