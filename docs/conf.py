@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-import cmeel
+import cmeel  # noqa
 
 project = "cmeel"
 copyright = "2022, Guilhem Saurel"

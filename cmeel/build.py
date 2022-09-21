@@ -25,6 +25,7 @@ cmeel_run()
 
 class NonRelocatableError(Exception):
     """Exception raised when absolute paths are in the final package."""
+
     pass
 
 
