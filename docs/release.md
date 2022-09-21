@@ -1,4 +1,4 @@
-# Publish a new release
+# Publish a cmeel release
 
 A github actions handle the build of the release archives, and push them to PyPI and Github Releases.
 To trigger it, we just need to:

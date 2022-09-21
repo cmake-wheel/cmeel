@@ -1,3 +1,4 @@
+"""Cmeel config."""
 import os
 import sys
 from pathlib import Path
@@ -10,7 +11,10 @@ from .consts import CMEEL_PREFIX, SITELIB
 
 
 class CmeelConfig:
+    """Cmeel config."""
+
     def __init__(self):
+        """Get config variables from environment, local, and global config files."""
         config_home = os.path.expanduser("~/.config")
         config_home = Path(os.environ.get("XDG_CONFIG_HOME", config_home))
         config_path = config_home / "cmeel"
@@ -38,6 +42,7 @@ class CmeelConfig:
         install: Union[Path, str],
         configure_args: Dict[str, Any],
     ) -> [str]:
+        """Get CMake initial arguments."""
         project = conf["name"]
         ret = (
             [
@@ -56,6 +61,7 @@ class CmeelConfig:
         return ret
 
     def get_configure_env(self) -> {str: str}:
+        """Get CMake initial environment."""
         ret = self.env.copy()
         available = self._get_available_prefix()
         if available:
@@ -65,6 +71,7 @@ class CmeelConfig:
         return ret
 
     def get_test_env(self) -> {str: str}:
+        """Get test environment."""
         ret = self.env.copy()
         ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL="4")
         return ret

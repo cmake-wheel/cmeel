@@ -1,3 +1,4 @@
+"""Cmeel run."""
 import os
 from subprocess import run
 from pathlib import Path
@@ -7,6 +8,7 @@ from .consts import CMEEL_PREFIX
 
 
 def cmeel_run():
+    """Wrap an executable inside cmeel prefix."""
     prefix = Path(__file__).parent.parent / CMEEL_PREFIX  # TODO: not uniq
 
     exe = Path(sys.argv[0]).name
