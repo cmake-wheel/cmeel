@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.15.0] - 2022-09-21
+
 - documentation
 - Decrease min python version to 3.7
 
@@ -139,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.15.0]: https://github.com/cmake-wheel/cmeel/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/cmake-wheel/cmeel/compare/v0.13.3...v0.14.0
 [v0.13.3]: https://github.com/cmake-wheel/cmeel/compare/v0.13.2...v0.13.3
 [v0.13.2]: https://github.com/cmake-wheel/cmeel/compare/v0.13.1...v0.13.2
