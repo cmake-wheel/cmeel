@@ -7,6 +7,7 @@ license = "BSD-2-Clause"
 readme = "README.md"
 include = ['cmeel.pth']
 homepage = "https://github.com/cmake-wheel/cmeel"
+documentation = "https://cmeel.readthedocs.io/"
 
 [tool.poetry.dependencies]
 python = "^3.8"
