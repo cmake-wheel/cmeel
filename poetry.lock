@@ -88,6 +88,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
+typing-extensions = {version = ">=3.6.4", markers = "python_version < \"3.8\""}
 zipp = ">=0.5"
 
 [package.extras]
@@ -119,6 +120,7 @@ python-versions = ">=3.7"
 
 [package.dependencies]
 mdurl = ">=0.1,<1.0"
+typing_extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [package.extras]
 benchmarking = ["psutil", "pytest", "pytest-benchmark (>=3.2,<4.0)"]
@@ -420,8 +422,8 @@ build = ["cmake", "packaging", "wheel"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "1ea2ca2d571605ad2cec2b2b18afcc62cd4744ae750eb90ee12b60641530dd38"
+python-versions = "^3.7"
+content-hash = "2dc858b0cef53082815f8c5716eef62a03c2722790024dfa12cc7ba72be6f084"
 
 [metadata.files]
 alabaster = [
