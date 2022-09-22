@@ -29,7 +29,7 @@ class CmeelConfig:
         else:
             self.env = {p: os.environ[p] for p in ["PATH", "PYTHONPATH"]}
         self.jobs = int(self.conf.get("jobs", "4"))
-        self.test_jobs = int(self.conf.get("test-jobs", "4"))
+        self.test_jobs = self.conf.get("test-jobs", "4")
         self.temp_dir = Path(
             self.env.get(
                 "CMEEL_TEMP_DIR",
