@@ -33,4 +33,4 @@ jobs:
         run: cmeel-add 3 4
       - uses: actions/upload-artifact@v3
         with:
-          path: $HOME/wh
+          path: wh
