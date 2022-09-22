@@ -133,7 +133,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     authors_email = []
     maintainers_email = []
 
-    for author in CONF["authors"]:
+    for author in CONF.get("authors", {}):
         if "name" in author and "email" in author:
             authors_email.append(f"{author['name']} <{author['email']}>")
         elif "email" in author:
@@ -141,7 +141,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         elif "name" in author:
             authors.append(author["name"])
 
-    for maintainer in CONF["maintainers"]:
+    for maintainer in CONF.get("maintainers", {}):
         if "name" in maintainer and "email" in maintainer:
             maintainers_email.append(f"{maintainer['name']} <{maintainer['email']}>")
         elif "email" in maintainer:
