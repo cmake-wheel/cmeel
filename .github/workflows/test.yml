@@ -34,7 +34,7 @@ jobs:
       - name: debug
         run: tree wh
       - name: install example
-        run: python -m pip install $HOME/cmeel_example*.whl
+        run: python -m pip install $HOME/wh/cmeel_example*.whl
       - name: test module
         run: python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
       - name: test executable
