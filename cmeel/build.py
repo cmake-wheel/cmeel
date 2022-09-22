@@ -121,6 +121,15 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         readme = f.read()
     dependencies = ["cmeel"] + CONF.get("dependencies", [])
     requires = "\n".join([f"Requires-Dist: {dep}" for dep in dependencies])
+    urls = "\n".join(
+        [
+            f"Home-page: {val}"
+            if key == "homepage"
+            else f"Project-URL: {key.replace('-', ' ').capitalize()}, {val}"
+            for key, val in CONF["urls"].items()
+        ]
+    )
+
     with (dist_info / "METADATA").open("w") as f:
         if CONF["readme"].lower().endswith(".md"):
             content_type = "text/markdown"
@@ -135,12 +144,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     f"Name: {CONF['name']}",
                     f"Version: {CONF['version']}",
                     f"Summary: {CONF['description']}",
-                    f"Home-page: {CONF['urls']['homepage']}",
                     "Classifier: Programming Language :: Python :: 3",
                     "Classifier: License :: OSI Approved :: BSD License",
                     "Classifier: Operating System :: POSIX :: Linux",
                     f"Requires-Python: {CONF.get('requires-python', '>=3.8')}",
                     f"Description-Content-Type: {content_type}",
+                    f"{urls}",
                     f"{requires}",
                     "",
                     f"{readme}",
