@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.16.0] - 2022-09-22
+
 - more documentation
 - set project urls in metadata
 - CI: upload artifacts
@@ -148,6 +150,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.16.0]: https://github.com/cmake-wheel/cmeel/compare/v0.15.0...v0.16.0
 [v0.15.0]: https://github.com/cmake-wheel/cmeel/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/cmake-wheel/cmeel/compare/v0.13.3...v0.14.0
 [v0.13.3]: https://github.com/cmake-wheel/cmeel/compare/v0.13.2...v0.13.3
