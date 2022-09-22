@@ -11,11 +11,11 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-import cmeel  # noqa
+import cmeel  # noqa: E402
 
-project = "cmeel"
-copyright = "2022, Guilhem Saurel"
-author = "Guilhem Saurel"
+project = cmeel.__name__
+copyright = f"2022, {cmeel.__author__}"
+author = cmeel.__author__
 release = cmeel.__version__
 
 # -- General configuration ---------------------------------------------------
