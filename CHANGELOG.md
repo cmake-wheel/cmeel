@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - more documentation
 - set project urls in metadata
 - CI: upload artifacts
+- use PEP 639 (draft) for SPDX License expressions
 
 ## [v0.15.0] - 2022-09-21
 

@@ -33,6 +33,7 @@ Everything required to configure a project is in its `pyproject.toml` file, espe
     - `name`
     - `version`
     - `description`
+    - `license`
     - `requires-python` (cmeel will set `>=3.8` by default if this is omitted)
 - in `[project.urls]` section:
     - `homepage`
