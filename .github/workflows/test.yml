@@ -27,12 +27,6 @@ jobs:
         run: python -m simple503 -B file://$HOME/wh wh
       - name: build cmeel-example wheel
         run: python -m pip wheel --extra-index-url file://$HOME/wh -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
-      - name: debug
-        run: ls $HOME/wh
-      - name: debug
-        run: tree $HOME/wh
-      - name: debug
-        run: tree wh
       - name: install example
         run: python -m pip install $HOME/wh/cmeel_example*.whl
       - name: test module
@@ -40,7 +34,7 @@ jobs:
       - name: test executable
         run: cmeel-add 3 4
       - name: save artifacts
-        run: cp $HOME/wh/*.whl wh/
+        run: cp $HOME/wh/cmeel*.whl wh/
       - uses: actions/upload-artifact@v3
         with:
           path: wh
