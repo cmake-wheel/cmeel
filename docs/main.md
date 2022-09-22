@@ -121,6 +121,10 @@ Integer which acts as a tie-breaker if two wheel file names are the same. 0 by d
 List of string providing the test command and its arguments. `["cmake", "--build", "BUILD_DIR", "-t", "test"]` by
 default. `BUILD_DIR` is replaced by the current path to the build directory.
 
+#### `check-relocatable`
+
+Boolean setting to check generated `*.cmake` files for wrong absolute paths. `true` by default.
+
 ## Global config file
 
 Users can have a `cmeel/cmeel.toml` file in their `$XDG_CONFIG_HOME` directory (usually `~/.config`).

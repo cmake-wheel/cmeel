@@ -58,6 +58,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         TEST_CMD = pyproject["build-system"].get(
             "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
         )
+        CHECK_RELOCATABLE = pyproject["build-system"].get("check-relocatable", True)
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")
@@ -184,33 +185,36 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 fe.write(EXECUTABLE)
             executable.chmod(0o755)
 
-    logging.info("check generated cmake files")
-    WRONG_DIRS = [
-        "/tmp/pip-build-env",
-        "/tmp/pip-req-build",
-        "/opt/_internal",
-        str(TEMP),
-    ]
-    for fc in INSTALL.glob("**/*.cmake"):
-        with fc.open() as f:
-            cmake_file = f.read()
-            if any(wrong_dir in cmake_file for wrong_dir in WRONG_DIRS):
-                lines = cmake_file.split("\n")
-                # Get indexes of of problematic lines
-                indexes = [
-                    idx
-                    for idx, line in enumerate(lines)
-                    if any(wrong_dir in line for wrong_dir in WRONG_DIRS)
-                ]
-                # Get lines at those indexes and around them to display
-                display = [
-                    f"{i}: {l}"
-                    for i, l in enumerate(lines)
-                    if any(idx in indexes for idx in (i - 2, i - 1, i, i + 1, i + 2))
-                ]
-                raise NonRelocatableError(
-                    f"{fc} references temporary paths:\n" + "\n".join(display)
-                )
+    if CHECK_RELOCATABLE:
+        logging.info("check generated cmake files")
+        WRONG_DIRS = [
+            "/tmp/pip-build-env",
+            "/tmp/pip-req-build",
+            "/opt/_internal",
+            str(TEMP),
+        ]
+        for fc in INSTALL.glob("**/*.cmake"):
+            with fc.open() as f:
+                cmake_file = f.read()
+                if any(wrong_dir in cmake_file for wrong_dir in WRONG_DIRS):
+                    lines = cmake_file.split("\n")
+                    # Get indexes of of problematic lines
+                    indexes = [
+                        idx
+                        for idx, line in enumerate(lines)
+                        if any(wrong_dir in line for wrong_dir in WRONG_DIRS)
+                    ]
+                    # Get lines at those indexes and around them to display
+                    display = [
+                        f"{i}: {l}"
+                        for i, l in enumerate(lines)
+                        if any(
+                            idx in indexes for idx in (i - 2, i - 1, i, i + 1, i + 2)
+                        )
+                    ]
+                    raise NonRelocatableError(
+                        f"{fc} references temporary paths:\n" + "\n".join(display)
+                    )
 
     logging.info("wheel pack")
     name = check_output(
