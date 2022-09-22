@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix classifiers
+
 ## [v0.17.0] - 2022-09-22
 
 - set default min python version to 3.7
