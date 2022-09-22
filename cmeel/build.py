@@ -146,7 +146,6 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     f"Summary: {CONF['description']}",
                     f"License-Expression: {CONF['license']}",
                     "Classifier: Programming Language :: Python :: 3",
-                    "Classifier: Operating System :: POSIX :: Linux",
                     f"Requires-Python: {CONF.get('requires-python', '>=3.8')}",
                     f"Description-Content-Type: {content_type}",
                     f"{urls}",
