@@ -119,3 +119,27 @@ Integer which acts as a tie-breaker if two wheel file names are the same. 0 by d
 
 List of string providing the test command and its arguments. `["cmake", "--build", "BUILD_DIR", "-t", "test"]` by
 default. `BUILD_DIR` is replaced by the current path to the build directory.
+
+## Global config file
+
+Users can have a `cmeel/cmeel.toml` file in their `$XDG_CONFIG_HOME` directory (usually `~/.config`).
+
+In the main section of this files, one can configure some global options for cmeel.
+
+### `default-env`
+
+By default, cmeel take the caller environment as a basis for the configure, build and test steps of the packaging.
+
+If `default-env` is set to False, we only keep the `PATH` and `PYTHONPATH` variables, filtering everything else.
+
+### `jobs`
+
+Number of jobs for the build step. 4 by default.
+
+### `temp-dir`
+
+ref. "Working directories" above.
+
+### `configure-args`
+
+ref. "CMake configure step" above.
