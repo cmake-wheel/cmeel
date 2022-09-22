@@ -168,6 +168,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     for dep in ["cmeel"] + CONF.get("dependencies", []):
         metadata.append(f"Requires-Dist: {dep}")
 
+    for classifier in CONF.get("classifiers", []):
+        metadata.append(f"Classifier: {classifier}")
+
     if CONF["readme"].lower().endswith(".md"):
         content_type = "text/markdown"
     elif CONF["readme"].lower().endswith(".rst"):
