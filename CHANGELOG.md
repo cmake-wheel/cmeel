@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - set project urls in metadata
 - CI: upload artifacts
 - use PEP 639 (draft) for SPDX License expressions
+- add `test-jobs` option
 
 ## [v0.15.0] - 2022-09-21
 

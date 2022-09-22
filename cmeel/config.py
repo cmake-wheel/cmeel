@@ -29,6 +29,7 @@ class CmeelConfig:
         else:
             self.env = {p: os.environ[p] for p in ["PATH", "PYTHONPATH"]}
         self.jobs = int(self.conf.get("jobs", "4"))
+        self.test_jobs = int(self.conf.get("test-jobs", "4"))
         self.temp_dir = Path(
             self.env.get(
                 "CMEEL_TEMP_DIR",
@@ -73,7 +74,7 @@ class CmeelConfig:
     def get_test_env(self) -> {str: str}:
         """Get test environment."""
         ret = self.env.copy()
-        ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL="4")
+        ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL=self.test_jobs)
         return ret
 
     def _get_available_prefix(self) -> Optional[str]:
