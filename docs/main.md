@@ -11,7 +11,7 @@ name = "cmeel-example"
 version = "0.2.3"
 description = "This is an example project, to show how to use cmeel"
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.7"
 license = "BSD-2-Clause"
 authors = [{name = "Guilhem Saurel", email = "guilhem.saurel@laas.fr"}]
 
@@ -34,7 +34,7 @@ Everything required to configure a project is in its `pyproject.toml` file, espe
     - `version`
     - `description`
     - `license`
-    - `requires-python` (cmeel will set `>=3.8` by default if this is omitted)
+    - `requires-python` (cmeel will set `>=3.7` by default if this is omitted)
 - in `[project.urls]` section:
     - `homepage`
 

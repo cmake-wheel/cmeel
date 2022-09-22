@@ -118,44 +118,71 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     dist_info.mkdir()
 
     logging.info("create dist-info / METADATA")
+
+    metadata = [
+        "Metadata-Version: 2.1",
+        f"Name: {CONF['name']}",
+        f"Version: {CONF['version']}",
+        f"Summary: {CONF['description']}",
+        f"License-Expression: {CONF['license']}",
+        f"Requires-Python: {CONF.get('requires-python', '>=3.7')}",
+    ]
+
+    authors = []
+    maintainers = []
+    authors_email = []
+    maintainers_email = []
+
+    for author in CONF["authors"]:
+        if "name" in author and "email" in author:
+            authors_email.append(f"{author['name']} <{author['email']}>")
+        elif "email" in author:
+            authors_email.append(author["email"])
+        elif "name" in author:
+            authors.append(author["name"])
+
+    for maintainer in CONF["maintainers"]:
+        if "name" in maintainer and "email" in maintainer:
+            maintainers_email.append(f"{maintainer['name']} <{maintainer['email']}>")
+        elif "email" in maintainer:
+            maintainers_email.append(maintainer["email"])
+        elif "name" in maintainer:
+            maintainers.append(maintainer["name"])
+
+    if authors:
+        metadata.append("Author: " + ",".join(authors))
+    if authors_email:
+        metadata.append("Author-email: " + ",".join(authors_email))
+    if maintainers:
+        metadata.append("Maintainer: " + ",".join(maintainers))
+    if maintainers_email:
+        metadata.append("Maintainer-email: " + ",".join(maintainers_email))
+
+    for key, url in CONF["urls"].items():
+        if key == "homepage":
+            metadata.append(f"Home-page: {url}")
+        else:
+            name = key.replace("-", " ").capitalize()
+            metadata.append(f"Project-URL: {name}, {url}")
+
+    for dep in ["cmeel"] + CONF.get("dependencies", []):
+        metadata.append(f"Requires-Dist: {dep}")
+
+    if CONF["readme"].lower().endswith(".md"):
+        content_type = "text/markdown"
+    elif CONF["readme"].lower().endswith(".rst"):
+        content_type = "text/x-rst"
+    else:
+        content_type = "text/plain"
+    metadata.append(f"Description-Content-Type: {content_type}")
+
+    metadata.append("")
+
     with open(CONF["readme"]) as f:
-        readme = f.read()
-    dependencies = ["cmeel"] + CONF.get("dependencies", [])
-    requires = "\n".join([f"Requires-Dist: {dep}" for dep in dependencies])
-    urls = "\n".join(
-        [
-            f"Home-page: {val}"
-            if key == "homepage"
-            else f"Project-URL: {key.replace('-', ' ').capitalize()}, {val}"
-            for key, val in CONF["urls"].items()
-        ]
-    )
+        metadata.append(f.read())
 
     with (dist_info / "METADATA").open("w") as f:
-        if CONF["readme"].lower().endswith(".md"):
-            content_type = "text/markdown"
-        elif CONF["readme"].lower().endswith(".rst"):
-            content_type = "text/x-rst"
-        else:
-            content_type = "text/plain"
-        f.write(
-            "\n".join(
-                [
-                    "Metadata-Version: 2.1",
-                    f"Name: {CONF['name']}",
-                    f"Version: {CONF['version']}",
-                    f"Summary: {CONF['description']}",
-                    f"License-Expression: {CONF['license']}",
-                    "Classifier: Programming Language :: Python :: 3",
-                    f"Requires-Python: {CONF.get('requires-python', '>=3.8')}",
-                    f"Description-Content-Type: {content_type}",
-                    f"{urls}",
-                    f"{requires}",
-                    "",
-                    f"{readme}",
-                ]
-            )
-        )
+        f.write("\n".join(metadata))
 
     logging.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:

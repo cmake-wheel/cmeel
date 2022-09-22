@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- set default min python version to 3.7
+- add authors/maintainers in matadata
+
 ## [v0.16.0] - 2022-09-22
 
 - more documentation
