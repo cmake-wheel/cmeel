@@ -8,6 +8,16 @@ readme = "README.md"
 include = ['cmeel.pth']
 homepage = "https://github.com/cmake-wheel/cmeel"
 documentation = "https://cmeel.readthedocs.io/"
+classifiers = [
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: System :: Packaging",
+    "Topic :: System :: Software Distribution",
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.7"
