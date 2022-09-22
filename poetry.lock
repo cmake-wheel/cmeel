@@ -83,7 +83,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 name = "importlib-metadata"
 version = "4.12.0"
 description = "Read metadata from Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -377,7 +377,7 @@ python-versions = ">=3.7"
 name = "typing-extensions"
 version = "4.3.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -409,7 +409,7 @@ test = ["pytest (>=3.0.0)", "pytest-cov"]
 name = "zipp"
 version = "3.8.1"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -423,7 +423,7 @@ build = ["cmake", "packaging", "wheel"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "2dc858b0cef53082815f8c5716eef62a03c2722790024dfa12cc7ba72be6f084"
+content-hash = "3c3f57af5e560d239a271ec03d3d4169a7e4ad6c8715a61cd2a11dfe45ee989e"
 
 [metadata.files]
 alabaster = [
