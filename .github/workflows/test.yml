@@ -27,18 +27,14 @@ jobs:
         run: python -m simple503 -B file://$HOME/wh wh
       - name: build cmeel-example wheel
         run: python -m pip wheel --extra-index-url file://$HOME/wh -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
-      - name: update index
-        run: python -m simple503 -B file://$HOME/wh wh
       - name: debug
         run: ls $HOME/wh
       - name: debug
         run: tree $HOME/wh
       - name: debug
         run: tree wh
-      - name: debug
-        run: cat wh/index.html
       - name: install example
-        run: python -m pip install --extra-index-url file://$HOME/wh --extra-index-url file://$PWD/wh cmeel-example
+        run: python -m pip install $HOME/cmeel_example*.whl
       - name: test module
         run: python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
       - name: test executable
