@@ -17,6 +17,14 @@ Internal API
 
    internal
 
+Change Log
+-----------
+
+.. toctree::
+   :maxdepth: 2
+
+   CHANGELOG
+
 
 Indices and tables
 ------------------
