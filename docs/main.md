@@ -152,3 +152,23 @@ ref. "Working directories" above.
 ### `configure-args`
 
 ref. "CMake configure step" above.
+
+## Environment helpers
+
+Cmeel provides a python module to help dealing with `CMAKE_PREFIX_PATH`, `LD_LIBRARY_PATH` and `PKG_CONFIG_PATH`:
+```
+usage: python -m cmeel [-h] {cmake,lib,pc} ...
+
+cmeel environment helpers
+
+optional arguments:
+  -h, --help      show this help message and exit
+
+subcommands:
+  valid sub-commands
+
+  {cmake,lib,pc}  sub-command help
+    cmake         show cmeel additions to CMAKE_PREFIX_PATH
+    lib           show cmeel additions to LD_LIBRARY_PATH
+    pc            show cmeel additions to PKG_CONFIG_PATH
+```

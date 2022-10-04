@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add environment variable manipulation helpers with `python -m cmeel`
+
 ## [v0.17.1] - 2022-09-22
 
 - fix classifiers
