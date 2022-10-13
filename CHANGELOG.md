@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- consider `CMEEL_JOBS`, `CMEEL_TEST_JOBS` environment variables
+
 ## [v0.18.0] - 2022-10-04
 
 - Add environment variable manipulation helpers with `python -m cmeel`

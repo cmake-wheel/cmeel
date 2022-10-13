@@ -90,7 +90,7 @@ This configuration step is done in the environment defined by:
 This configuration step is done in the environment defined by:
 1. The environment of the calling process
 2. `CTEST_OUTPUT_ON_FAILURE=1`
-3. `CTEST_PARALLEL_LEVEL` set to `test-jobs` global configuration (default 4)
+3. `CTEST_PARALLEL_LEVEL` set to `test-jobs` global configuration, or `CMEEL_TEST_JOBS` environment variable, or 4
 
 ### Patch
 
@@ -139,11 +139,11 @@ If `default-env` is set to False, we only keep the `PATH` and `PYTHONPATH` varia
 
 ### `jobs`
 
-Number of jobs for the build step. 4 by default.
+Number of jobs for the build step. `$CMEEL_JOBS` by default, or 4.
 
 ### `test-jobs`
 
-Number of jobs for the test step. 4 by default.
+Number of jobs for the test step. `$CMEEL_TEST_JOBS` by default, or 4.
 
 ### `temp-dir`
 
