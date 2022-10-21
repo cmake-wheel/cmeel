@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- process `configure_env` before `configure_args`
+- consider `CMEEL_CMAKE_ARGS` environment variable
+- use emoji in the CHANGELOG
+
 ## [v0.19.0] - 2022-10-13
 
 - consider `CMEEL_JOBS`, `CMEEL_TEST_JOBS` environment variables
@@ -96,11 +100,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add `run-tests-after-install` parameter
 - add `Numpy` to `-DPYTHON_COMPONENTS`
 - add `temp-dir` / `CMEEL_TEMP_DIR` configuration (useful for caching builds, as default generate names)
-- :warning: BREAKING: fix wheel name (it was using distribution, which replace `-` by `_`)
-- :warning: BREAKING: rename `run_tests` into `run-tests`
-- :warning: BREAKING: rename `default_env` into `default-env`
-- :warning: BREAKING: rename `configure_args` into `configure-args`
-- :warning: BREAKING: remove `PYTHON_COMPONENTS`
+- ⚠️  BREAKING: fix wheel name (it was using distribution, which replace `-` by `_`)
+- ⚠️  BREAKING: rename `run_tests` into `run-tests`
+- ⚠️  BREAKING: rename `default_env` into `default-env`
+- ⚠️  BREAKING: rename `configure_args` into `configure-args`
+- ⚠️  BREAKING: remove `PYTHON_COMPONENTS`
 
 ## [v0.9.0] - 2022-05-31
 

@@ -46,6 +46,7 @@ class CmeelConfig:
         conf: Dict[str, Any],
         install: Union[Path, str],
         configure_args: Dict[str, Any],
+        configure_env: {str: str},
     ) -> [str]:
         """Get CMake initial arguments."""
         project = conf["name"]
@@ -63,6 +64,8 @@ class CmeelConfig:
         )
         if project in self.conf:
             ret += self.conf[project].get("configure-args", [])
+        if "CMEEL_CMAKE_ARGS" in configure_env and configure_env["CMEEL_CMAKE_ARGS"]:
+            ret += configure_env["CMEEL_CMAKE_ARGS"].split()
         return ret
 
     def get_configure_env(self) -> {str: str}:

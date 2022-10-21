@@ -81,8 +81,10 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     # Configure
 
     logging.info("configure")
-    configure_args = cmeel_config.get_configure_args(CONF, INSTALL, CONFIGURE_ARGS)
     configure_env = cmeel_config.get_configure_env()
+    configure_args = cmeel_config.get_configure_args(
+        CONF, INSTALL, CONFIGURE_ARGS, configure_env
+    )
     check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 
     logging.info("build")
