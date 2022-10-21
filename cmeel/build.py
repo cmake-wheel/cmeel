@@ -49,7 +49,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         pyproject = tomli.load(f)
         CONF = pyproject["project"]
         SOURCE = pyproject["build-system"].get("source", ".")
-        RUN_TESTS = pyproject["build-system"].get("run-tests", True)
+        RUN_TESTS = (
+            os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
+            not in ("0", "NO", "OFF", "FALSE")
+            if "CMEEL_RUN_TESTS" in os.environ
+            else pyproject["build-system"].get("run-tests", True)
+        )
         RUN_TESTS_AFTER_INSTALL = pyproject["build-system"].get(
             "run-tests-after-install", False
         )
@@ -83,7 +88,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     logging.info("configure")
     configure_env = cmeel_config.get_configure_env()
     configure_args = cmeel_config.get_configure_args(
-        CONF, INSTALL, CONFIGURE_ARGS, configure_env
+        CONF, INSTALL, CONFIGURE_ARGS, configure_env, RUN_TESTS
     )
     check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 

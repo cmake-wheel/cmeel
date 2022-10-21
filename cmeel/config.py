@@ -47,9 +47,11 @@ class CmeelConfig:
         install: Union[Path, str],
         configure_args: Dict[str, Any],
         configure_env: {str: str},
+        run_tests: bool,
     ) -> [str]:
         """Get CMake initial arguments."""
         project = conf["name"]
+        build_testing = [] if run_tests else ["-DBUILD_TESTING=OFF"]
         ret = (
             [
                 "-DBoost_NO_WARN_NEW_VERSIONS=ON",
@@ -59,6 +61,7 @@ class CmeelConfig:
                 f"-DPYTHON_SITELIB={SITELIB}",
                 f"-DPython3_EXECUTABLE={sys.executable}",
             ]
+            + build_testing
             + configure_args
             + self.conf.get("configure-args", [])
         )

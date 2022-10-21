@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- consider `CMEEL_RUN_TESTS` environment variable
+- add `-DBUILD_TESTING=OFF` when `run-tests` is off
+
 ## [v0.20.0] - 2022-10-21
 
 - process `configure_env` before `configure_args`
