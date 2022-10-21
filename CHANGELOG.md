@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.20.0] - 2022-10-21
+
 - process `configure_env` before `configure_args`
 - consider `CMEEL_CMAKE_ARGS` environment variable
 - use emoji in the CHANGELOG
@@ -172,6 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.20.0]: https://github.com/cmake-wheel/cmeel/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/cmake-wheel/cmeel/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/cmake-wheel/cmeel/compare/v0.17.1...v0.18.0
 [v0.17.1]: https://github.com/cmake-wheel/cmeel/compare/v0.17.0...v0.17.1
