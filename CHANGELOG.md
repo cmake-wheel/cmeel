@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.21.0] - 2022-10-21
+
 - consider `CMEEL_RUN_TESTS` environment variable
 - add `-DBUILD_TESTING=OFF` when `run-tests` is off
 
@@ -177,6 +179,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.21.0]: https://github.com/cmake-wheel/cmeel/compare/v0.20.0...v0.21.0
 [v0.20.0]: https://github.com/cmake-wheel/cmeel/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/cmake-wheel/cmeel/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/cmake-wheel/cmeel/compare/v0.17.1...v0.18.0
