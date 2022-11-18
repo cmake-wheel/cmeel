@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- detect if `cmeel.patch` was already applied, and don't complain about it
+- update README
+
 ## [v0.21.0] - 2022-10-21
 
 - consider `CMEEL_RUN_TESTS` environment variable

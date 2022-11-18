@@ -97,6 +97,7 @@ This configuration step is done in the environment defined by:
 ### Patch
 
 Cmeel will automatically apply a `cmeel.patch` provided at the root of the project if it exists.
+If cmeel try to apply this patch, and detect that it was already applied, it shouldn't complain about it.
 
 ### Other options in `[build-system]` section of `pyproject.toml`
 

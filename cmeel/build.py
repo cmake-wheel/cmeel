@@ -1,6 +1,6 @@
 """Cmeel build."""
 from pathlib import Path
-from subprocess import check_call, check_output
+from subprocess import check_call, check_output, run, PIPE, CalledProcessError
 import logging
 import os
 import sys
@@ -72,7 +72,18 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     if Path("cmeel.patch").exists():
         logging.info("patching")
-        check_call(["patch", "-p0", "-i", "cmeel.patch"])
+        cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
+        ret = run(cmd, stdout=PIPE)
+        if ret.returncode != 0:
+            # If this patch was already applied, it's okay.
+            output = ret.stdout.decode()
+            for line in output.split("\n"):
+                if line.endswith("Skipping patch.") or "ignored --" in line or not line:
+                    continue
+                raise CalledProcessError(
+                    returncode=ret.returncode, cmd=cmd, output=output
+                )
+            logging.info("this patch was already applied")
 
     # Set env
 
