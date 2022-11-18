@@ -23,7 +23,7 @@ https://matrix.to/#/#cmake-wheel:matrix.org
 
 Glue between PEP 517 `build_wheel` function and modern CMake standard project configuration / build / test / install
 
-This Install in `${PYTHON_SITELIB}/cmeel.prefix/`
+This Install in `${PYTHON_SITELIB}/cmeel.prefix/`:
 - As there is a dot, it is not a valid python module name, so no risk of importing anything there by mistake
 - Play well with others, as everything is confined to `${PYTHON_SITELIB}/cmeel.prefix`
 - `${PYTHON_SITELIB}/cmeel.pth` automatically load `${PYTHON_SITELIB}/cmeel.prefix/${PYTHON_SITELIB}`, so python
