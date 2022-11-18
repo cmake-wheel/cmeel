@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.22.0] - 2022-11-18
+
 - detect if `cmeel.patch` was already applied, and don't complain about it
 - update README
 
@@ -182,6 +184,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.22.0]: https://github.com/cmake-wheel/cmeel/compare/v0.21.0...v0.22.0
 [v0.21.0]: https://github.com/cmake-wheel/cmeel/compare/v0.20.0...v0.21.0
 [v0.20.0]: https://github.com/cmake-wheel/cmeel/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/cmake-wheel/cmeel/compare/v0.18.0...v0.19.0
