@@ -1,9 +1,10 @@
 """Cmeel build."""
-from pathlib import Path
-from subprocess import check_call, check_output, run, PIPE, CalledProcessError
 import logging
 import os
 import sys
+import warnings
+from pathlib import Path
+from subprocess import PIPE, CalledProcessError, check_call, check_output, run
 
 try:
     from packaging.tags import sys_tags
@@ -13,9 +14,9 @@ except ImportError as e:
     raise ImportError(err) from e
 import tomli
 
-from .consts import CMEEL_PREFIX, SITELIB
-from .config import cmeel_config
 from . import __version__
+from .config import cmeel_config
+from .consts import CMEEL_PREFIX, SITELIB
 
 EXECUTABLE = """#!python
 from cmeel.run import cmeel_run
@@ -27,6 +28,23 @@ class NonRelocatableError(Exception):
     """Exception raised when absolute paths are in the final package."""
 
     pass
+
+
+def deprecate_build_system(pyproject, key, default):
+    """cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
+
+    This function helps to deprecate that and move to "tool.cmeel"."""
+    if key in pyproject["build-system"]:
+        default = pyproject["build-system"][key]
+        warnings.warn(
+            'Using the "build-system" section of pyproject.toml for cmeel '
+            "configuration is deprecated since cmeel v0.23 and will be removed in v1.\n"
+            f'Please move your "{key} = {default}" to the "tool.cmeel" section.',
+            DeprecationWarning,
+        )
+    if "tool.cmeel" in pyproject:
+        return pyproject["tool.cmeel"].get(key, default)
+    return default
 
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
@@ -48,22 +66,22 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     with open("pyproject.toml", "rb") as f:
         pyproject = tomli.load(f)
         CONF = pyproject["project"]
-        SOURCE = pyproject["build-system"].get("source", ".")
+        SOURCE = deprecate_build_system(pyproject, "source", ".")
         RUN_TESTS = (
             os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
             not in ("0", "NO", "OFF", "FALSE")
             if "CMEEL_RUN_TESTS" in os.environ
-            else pyproject["build-system"].get("run-tests", True)
+            else deprecate_build_system(pyproject, "run-tests", True)
         )
-        RUN_TESTS_AFTER_INSTALL = pyproject["build-system"].get(
-            "run-tests-after-install", False
+        RUN_TESTS_AFTER_INSTALL = deprecate_build_system(
+            pyproject, "run-tests-after-install", False
         )
-        BUILD_NUMBER = pyproject["build-system"].get("build-number", 0)
-        CONFIGURE_ARGS = pyproject["build-system"].get("configure-args", [])
-        TEST_CMD = pyproject["build-system"].get(
-            "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
+        BUILD_NUMBER = deprecate_build_system(pyproject, "build-number", 0)
+        CONFIGURE_ARGS = deprecate_build_system(pyproject, "configure-args", [])
+        TEST_CMD = deprecate_build_system(
+            pyproject, "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
         )
-        CHECK_RELOCATABLE = pyproject["build-system"].get("check-relocatable", True)
+        CHECK_RELOCATABLE = deprecate_build_system(pyproject, "check-relocatable", True)
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     logging.info("build wheel")

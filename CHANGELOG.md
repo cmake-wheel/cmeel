@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ⚠️ deprecate use of the "build-system" section of pyproject.toml for cmeel configuration
+  in favor of the "tool.cmeel" section ⚠️
+
 ## [v0.22.0] - 2022-11-18
 
 - detect if `cmeel.patch` was already applied, and don't complain about it
