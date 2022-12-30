@@ -42,8 +42,8 @@ def deprecate_build_system(pyproject, key, default):
             f'Please move your "{key} = {default}" to the "tool.cmeel" section.',
             DeprecationWarning,
         )
-    if "tool.cmeel" in pyproject:
-        return pyproject["tool.cmeel"].get(key, default)
+    if "tool" in pyproject and "cmeel" in pyproject["tool"]:
+        return pyproject["tool"]["cmeel"].get(key, default)
     return default
 
 
