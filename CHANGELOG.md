@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.23.1] - 2022-12-30
+
+- fix use of tool.cmeel section
+
 ## [v0.23.0] - 2022-12-10
 
 - ⚠️ deprecate use of the "build-system" section of pyproject.toml for cmeel configuration
@@ -189,6 +193,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.23.1]: https://github.com/cmake-wheel/cmeel/compare/v0.23.0...v0.23.1
 [v0.23.0]: https://github.com/cmake-wheel/cmeel/compare/v0.22.0...v0.23.0
 [v0.22.0]: https://github.com/cmake-wheel/cmeel/compare/v0.21.0...v0.22.0
 [v0.21.0]: https://github.com/cmake-wheel/cmeel/compare/v0.20.0...v0.21.0
