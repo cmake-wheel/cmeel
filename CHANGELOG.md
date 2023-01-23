@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- load cmeel prefixes in all sys.path
+
 ## [v0.23.2] - 2022-12-30
 
 ## [v0.23.1] - 2022-12-30
