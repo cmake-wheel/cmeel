@@ -22,7 +22,12 @@ EXECUTABLE = """#!python
 from cmeel.run import cmeel_run
 cmeel_run()
 """
-PATCH_IGNORE = ["ignored --", "Skipping patch.", "The next patch would delete"]
+PATCH_IGNORE = [
+    "hunk ignored",
+    "hunks ignored",
+    "Skipping patch.",
+    "The next patch would delete",
+]
 
 
 class NonRelocatableError(Exception):
