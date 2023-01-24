@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add CHANGELOG url
+
 ## [v0.25.0] - 2023-01-24
 
 - add tests for python 3.11

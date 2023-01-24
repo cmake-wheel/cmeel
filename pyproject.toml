@@ -18,6 +18,8 @@ classifiers = [
     "Topic :: System :: Software Distribution",
 ]
 
+[tool.poetry.urls]
+changelog = "https://github.com/cmake-wheel/cmeel/blob/main/CHANGELOG.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
