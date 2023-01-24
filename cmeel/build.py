@@ -4,7 +4,7 @@ import os
 import sys
 import warnings
 from pathlib import Path
-from subprocess import PIPE, CalledProcessError, check_call, check_output, run
+from subprocess import CalledProcessError, check_call, check_output, run
 
 try:
     from packaging.tags import sys_tags
@@ -28,6 +28,20 @@ class NonRelocatableError(Exception):
     """Exception raised when absolute paths are in the final package."""
 
     pass
+
+
+class PatchError(CalledProcessError):
+    """Exception raised when patch operation failed."""
+
+    def __str__(self):
+        if self.returncode and self.returncode < 0:
+            return super().__str__()
+        else:
+            return (
+                f"Command '{self.cmd}' exit status {self.returncode}\n"
+                f"with output:\n{self.output}\n"
+                f"and stderr:\n{self.stderr}\n"
+            )
 
 
 def deprecate_build_system(pyproject, key, default):
@@ -91,15 +105,17 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     if Path("cmeel.patch").exists():
         logging.info("patching")
         cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
-        ret = run(cmd, stdout=PIPE)
+        ret = run(cmd, capture_output=True, text=True)
         if ret.returncode != 0:
             # If this patch was already applied, it's okay.
-            output = ret.stdout.decode()
-            for line in output.split("\n"):
+            for line in ret.stdout.split("\n"):
                 if line.endswith("Skipping patch.") or "ignored --" in line or not line:
                     continue
-                raise CalledProcessError(
-                    returncode=ret.returncode, cmd=cmd, output=output
+                raise PatchError(
+                    returncode=ret.returncode,
+                    cmd=cmd,
+                    output=ret.stdout,
+                    stderr=ret.stderr,
                 )
             logging.info("this patch was already applied")
 
