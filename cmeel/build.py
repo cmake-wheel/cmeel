@@ -109,7 +109,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         if ret.returncode != 0:
             # If this patch was already applied, it's okay.
             for line in ret.stdout.split("\n"):
-                if line.endswith("Skipping patch.") or "ignored --" in line or not line:
+                if (
+                    not line
+                    or "ignored --" in line
+                    or line.endswith("Skipping patch.")
+                    or line.startswith("The next patch would delete the file")
+                ):
                     continue
                 raise PatchError(
                     returncode=ret.returncode,

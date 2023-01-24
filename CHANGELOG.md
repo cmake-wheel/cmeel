@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - add CHANGELOG url
+- patch ignore lines which would delete a non-existent file
 
 ## [v0.25.0] - 2023-01-24
 
