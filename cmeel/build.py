@@ -22,6 +22,7 @@ EXECUTABLE = """#!python
 from cmeel.run import cmeel_run
 cmeel_run()
 """
+PATCH_IGNORE = ["ignored --", "Skipping patch.", "The next patch would delete"]
 
 
 class NonRelocatableError(Exception):
@@ -109,18 +110,13 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         if ret.returncode != 0:
             # If this patch was already applied, it's okay.
             for line in ret.stdout.split("\n"):
-                if (
-                    not line
-                    or "ignored --" in line
-                    or line.endswith("Skipping patch.")
-                    or line.startswith("The next patch would delete the file")
-                ):
+                if not line or any(val in line for val in PATCH_IGNORE):
                     continue
                 raise PatchError(
                     returncode=ret.returncode,
                     cmd=cmd,
                     output=ret.stdout,
-                    stderr=ret.stderr,
+                    stderr=ret.stderr + f"\nwrong line: {line}\n",
                 )
             logging.info("this patch was already applied")
 
