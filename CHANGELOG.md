@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.27.0] - 2023-01-24
+
 - be more verbose on raising PatchError
 
 ## [v0.26.0] - 2023-01-24
@@ -219,6 +221,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.27.0]: https://github.com/cmake-wheel/cmeel/compare/v0.26.0...v0.27.0
 [v0.26.0]: https://github.com/cmake-wheel/cmeel/compare/v0.25.0...v0.26.0
 [v0.25.0]: https://github.com/cmake-wheel/cmeel/compare/v0.24.2...v0.25.0
 [v0.24.2]: https://github.com/cmake-wheel/cmeel/compare/v0.24.1...v0.24.2
