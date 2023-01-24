@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.24.1] - 2023-01-24
+
+- load current prefix even if it doesn't exist yet
+
 ## [v0.24.0] - 2023-01-23
 
 - load cmeel prefixes in all sys.path
@@ -199,6 +203,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.24.1]: https://github.com/cmake-wheel/cmeel/compare/v0.24.0...v0.24.1
 [v0.24.0]: https://github.com/cmake-wheel/cmeel/compare/v0.23.2...v0.24.0
 [v0.23.2]: https://github.com/cmake-wheel/cmeel/compare/v0.23.1...v0.23.2
 [v0.23.1]: https://github.com/cmake-wheel/cmeel/compare/v0.23.0...v0.23.1
