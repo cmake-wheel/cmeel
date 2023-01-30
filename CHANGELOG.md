@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix architecture for OSX arm64 systems in python 3.8
+
 ## [v0.28.0] - 2023-01-24
 
 - fix patch ignore validation

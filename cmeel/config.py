@@ -1,9 +1,10 @@
 """Cmeel config."""
 import os
+import platform
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, Union, Optional
+from typing import Any, Dict, Optional, Union
 
 import tomli
 
@@ -52,6 +53,9 @@ class CmeelConfig:
         """Get CMake initial arguments."""
         project = conf["name"]
         build_testing = [] if run_tests else ["-DBUILD_TESTING=OFF"]
+        osx_arm = (
+            ["-DCMAKE_OSX_ARCHITECTURES=arm64"] if platform.machine() == "arm64" else []
+        )
         ret = (
             [
                 "-DBoost_NO_WARN_NEW_VERSIONS=ON",
@@ -61,6 +65,7 @@ class CmeelConfig:
                 f"-DPYTHON_SITELIB={SITELIB}",
                 f"-DPython3_EXECUTABLE={sys.executable}",
             ]
+            + osx_arm
             + build_testing
             + configure_args
             + self.conf.get("configure-args", [])
