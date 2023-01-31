@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- on Apple Silicon, explicitely build for arm64
+
 ## [v0.29.0] - 2023-01-30
 
 - fix architecture for OSX arm64 systems in python 3.8
