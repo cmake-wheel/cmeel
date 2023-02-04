@@ -40,6 +40,9 @@ class CmeelConfig:
                 ),
             )
         )
+        self.log_level = self.conf.get(
+            "log-level", self.env.get("CMEEL_LOG_LEVEL", "WARNING")
+        )
 
     def get_configure_args(
         self,

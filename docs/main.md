@@ -156,6 +156,10 @@ ref. "Working directories" above.
 
 ref. "CMake configure step" above.
 
+### `log-level`
+
+[Logging level](ttps://docs.python.org/3/library/logging.html#levels). `$CMEEL_LOG_LEVEL` by default, or `WARNING`.
+
 ## Environment helpers
 
 Cmeel provides a python module to help dealing with `CMAKE_PREFIX_PATH`, `LD_LIBRARY_PATH` and `PKG_CONFIG_PATH`:

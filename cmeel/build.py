@@ -18,6 +18,7 @@ from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 
+LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
 from cmeel.run import cmeel_run
 cmeel_run()
@@ -69,7 +70,8 @@ def deprecate_build_system(pyproject, key, default):
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     """Main entry point for PEP 517."""
-    logging.info("CMake Wheel")
+    logging.basicConfig(level=cmeel_config.log_level)
+    LOG.info("CMake Wheel")
 
     TEMP = cmeel_config.temp_dir
     BUILD = TEMP / "bld"
@@ -82,7 +84,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
         TAG = "-".join(TAG.split("-")[:-1] + [plat])
 
-    logging.info("load conf from pyproject.toml")
+    LOG.info("load conf from pyproject.toml")
     with open("pyproject.toml", "rb") as f:
         pyproject = tomli.load(f)
         CONF = pyproject["project"]
@@ -104,12 +106,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         CHECK_RELOCATABLE = deprecate_build_system(pyproject, "check-relocatable", True)
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
-    logging.info("build wheel")
+    LOG.info("build wheel")
 
     # Patch
 
     if Path("cmeel.patch").exists():
-        logging.info("patching")
+        LOG.info("patching")
         cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
         ret = run(cmd, capture_output=True, text=True)
         if ret.returncode != 0:
@@ -123,7 +125,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     output=ret.stdout,
                     stderr=ret.stderr + f"\nwrong line: {line}\n",
                 )
-            logging.info("this patch was already applied")
+            LOG.info("this patch was already applied")
 
     # Set env
 
@@ -136,18 +138,18 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     # Configure
 
-    logging.info("configure")
+    LOG.info("configure")
     configure_env = cmeel_config.get_configure_env()
     configure_args = cmeel_config.get_configure_args(
         CONF, INSTALL, CONFIGURE_ARGS, configure_env, RUN_TESTS
     )
     check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
 
-    logging.info("build")
+    LOG.info("build")
     check_call(["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"])
 
     def run_tests():
-        logging.info("test")
+        LOG.info("test")
         test_env = cmeel_config.get_test_env()
         test_cmd = [i.replace("BUILD_DIR", str(BUILD)) for i in TEST_CMD]
         check_call(test_cmd, env=test_env, shell=True)
@@ -155,13 +157,13 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
         run_tests()
 
-    logging.info("install")
+    LOG.info("install")
     check_call(["cmake", "--build", BUILD, "-t", "install"])
 
     if RUN_TESTS and RUN_TESTS_AFTER_INSTALL:
         run_tests()
 
-    logging.info("fix relocatablization")
+    LOG.info("fix relocatablization")
     # Replace absolute install path in generated .cmake files, if any.
     for f in INSTALL.rglob("*.cmake"):
         ff = INSTALL / f"{f.stem}.fix"
@@ -170,12 +172,12 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         f.unlink()
         ff.rename(f)
 
-    logging.info("create dist-info")
+    LOG.info("create dist-info")
 
     dist_info = PREFIX / f"{DISTRIBUTION}-{CONF['version']}.dist-info"
     dist_info.mkdir()
 
-    logging.info("create dist-info / METADATA")
+    LOG.info("create dist-info / METADATA")
 
     metadata = [
         "Metadata-Version: 2.1",
@@ -245,11 +247,11 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     with (dist_info / "METADATA").open("w") as f:
         f.write("\n".join(metadata))
 
-    logging.info("create dist-info / top level")
+    LOG.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
         f.write("")
 
-    logging.info("create dist-info / WHEEL")
+    LOG.info("create dist-info / WHEEL")
     with (dist_info / "WHEEL").open("w") as f:
         f.write(
             "\n".join(
@@ -264,7 +266,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     BIN = INSTALL / "bin"
     if BIN.is_dir():
-        logging.info("adding executables")
+        LOG.info("adding executables")
         scripts = PREFIX / f"{DISTRIBUTION}-{CONF['version']}.data" / "scripts"
         scripts.mkdir(parents=True)
         for fn in BIN.glob("*"):
@@ -274,7 +276,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             executable.chmod(0o755)
 
     if CHECK_RELOCATABLE:
-        logging.info("check generated cmake files")
+        LOG.info("check generated cmake files")
         WRONG_DIRS = [
             "/tmp/pip-build-env",
             "/tmp/pip-req-build",
@@ -304,7 +306,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                         f"{fc} references temporary paths:\n" + "\n".join(display)
                     )
 
-    logging.info("wheel pack")
+    LOG.info("wheel pack")
     name = check_output(
         [
             sys.executable,
@@ -320,5 +322,5 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     ).decode()
     name = name.split("/")[-1][:-6]
 
-    logging.info("done")
+    LOG.info("done")
     return name
