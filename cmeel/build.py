@@ -70,8 +70,14 @@ def deprecate_build_system(pyproject, key, default):
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     """Main entry point for PEP 517."""
-    logging.basicConfig(level=cmeel_config.log_level)
+    logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel")
+
+    if LOG.getEffectiveLevel() <= logging.DEBUG:
+        LOG.debug("pip freeze:")
+        deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
+        for dep in deps.strip().split("\n"):
+            LOG.debug(f"  {dep}")
 
     TEMP = cmeel_config.temp_dir
     BUILD = TEMP / "bld"

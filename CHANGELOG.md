@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - configure logging through `log-level` / `CMEEL_LOG_LEVEL`
+- DEBUG mode: show pip freeze
 
 ## [v0.30.0] - 2023-01-31
 
