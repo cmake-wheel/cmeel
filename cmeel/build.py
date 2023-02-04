@@ -149,22 +149,31 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     configure_args = cmeel_config.get_configure_args(
         CONF, INSTALL, CONFIGURE_ARGS, configure_env, RUN_TESTS
     )
-    check_call(["cmake", "-S", SOURCE, "-B", BUILD] + configure_args, env=configure_env)
+    configure_cmd = ["cmake", "-S", SOURCE, "-B", BUILD] + configure_args
+    LOG.debug(f"configure environment: {configure_env}")
+    LOG.debug(f"configure command: {configure_cmd}")
+    check_call(configure_cmd, env=configure_env)
 
     LOG.info("build")
-    check_call(["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"])
+    build_cmd = ["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"]
+    LOG.debug(f"build command: {build_cmd}")
+    check_call(build_cmd)
 
     def run_tests():
         LOG.info("test")
         test_env = cmeel_config.get_test_env()
         test_cmd = [i.replace("BUILD_DIR", str(BUILD)) for i in TEST_CMD]
-        check_call(test_cmd, env=test_env, shell=True)
+        LOG.debug(f"test environment: {test_env}")
+        LOG.debug(f"test command: {test_cmd}")
+        check_call(test_cmd, env=test_env)
 
     if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
         run_tests()
 
     LOG.info("install")
-    check_call(["cmake", "--build", BUILD, "-t", "install"])
+    install_cmd = ["cmake", "--build", BUILD, "-t", "install"]
+    LOG.debug(f"install command: {install_cmd}")
+    check_call(install_cmd)
 
     if RUN_TESTS and RUN_TESTS_AFTER_INSTALL:
         run_tests()
