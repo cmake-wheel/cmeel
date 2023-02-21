@@ -33,6 +33,9 @@ wheel = { version = "^0.37.1", optional = true }
 [tool.poetry.extras]
 build = ["cmake", "packaging", "wheel"]
 
+[tool.poetry.group.dev]
+optional = true
+
 [tool.poetry.group.dev.dependencies]
 Sphinx = "^5.1.1"
 myst-parser = "^0.18.0"
