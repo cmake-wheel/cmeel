@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.32.0] - 2023-02-25
+
 - don't require pip on DEBUG mode
 - DEBUG: show wheel name
 
@@ -241,6 +243,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.32.0]: https://github.com/cmake-wheel/cmeel/compare/v0.31.0...v0.32.0
 [v0.31.0]: https://github.com/cmake-wheel/cmeel/compare/v0.30.0...v0.31.0
 [v0.30.0]: https://github.com/cmake-wheel/cmeel/compare/v0.29.0...v0.30.0
 [v0.29.0]: https://github.com/cmake-wheel/cmeel/compare/v0.28.0...v0.29.0
