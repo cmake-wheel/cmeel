@@ -343,4 +343,5 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     name = name.split("/")[-1][:-6]
 
     LOG.info("done")
+    LOG.debug(f"returning '{name}'")
     return name

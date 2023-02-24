@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - don't require pip on DEBUG mode
+- DEBUG: show wheel name
 
 ## [v0.31.0] - 2023-02-04
 
