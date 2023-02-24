@@ -74,10 +74,15 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     LOG.info("CMake Wheel")
 
     if LOG.getEffectiveLevel() <= logging.DEBUG:
-        LOG.debug("pip freeze:")
-        deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
-        for dep in deps.strip().split("\n"):
-            LOG.debug(f"  {dep}")
+        try:
+            import pip  # noqa: F401
+
+            LOG.debug("pip freeze:")
+            deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
+            for dep in deps.strip().split("\n"):
+                LOG.debug(f"  {dep}")
+        except ModuleNotFoundError:
+            LOG.debug("pip is not available")
 
     TEMP = cmeel_config.temp_dir
     BUILD = TEMP / "bld"

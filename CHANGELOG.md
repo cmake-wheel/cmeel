@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- don't require pip on DEBUG mode
+
 ## [v0.31.0] - 2023-02-04
 
 - configure logging through `log-level` / `CMEEL_LOG_LEVEL`
