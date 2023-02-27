@@ -1,6 +1,7 @@
 """Cmeel build."""
 import logging
 import os
+import re
 import sys
 import warnings
 from pathlib import Path
@@ -327,7 +328,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     )
 
     LOG.info("wheel pack")
-    name = check_output(
+    pack = check_output(
         [
             sys.executable,
             "-m",
@@ -340,8 +341,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
-    name = name.split(os.path.sep)[-1][:-6]
+    LOG.debug("wheel pack output: {pack}")
+    name = Path(re.search("Repacking wheel as (.*\\.whl)\\.\\.\\.", pack).group(1)).name
+    LOG.debug(f"returning '{name}'")
 
     LOG.info("done")
-    LOG.debug(f"returning '{name}'")
     return name

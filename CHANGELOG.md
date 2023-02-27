@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- parse wheel pack output with a regex
+
 ## [v0.32.1] - 2023-02-27
 
 - fix path separator on windows
