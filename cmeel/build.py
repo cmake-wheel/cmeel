@@ -83,6 +83,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                 LOG.debug(f"  {dep}")
         except ModuleNotFoundError:
             LOG.debug("pip is not available")
+    LOG.debug(f"Using cmeel version: {__version__}")
 
     TEMP = cmeel_config.temp_dir
     BUILD = TEMP / "bld"
@@ -340,6 +341,10 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
+    LOG.debug(f"name: {name}")
+    if "adding" in name:
+        name = name.split("...")[0]
+    LOG.debug(f"name: {name}")
     name = name.split(os.path.sep)[-1][:-6]
 
     LOG.info("done")
