@@ -5,6 +5,7 @@ import sys
 import warnings
 from pathlib import Path
 from subprocess import CalledProcessError, check_call, check_output, run
+import re
 
 try:
     from packaging.tags import sys_tags
@@ -342,8 +343,9 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         ]
     ).decode()
     LOG.debug(f"name: {name}")
-    if "adding" in name:
-        name = name.split("...")[0]
+    txt = f"{os.path.sep}*{os.path.sep}*{os.path.sep}*{os.path.sep}*{os.path.sep}*.whl"
+    name = re.findall(name, txt)
+    LOG.debug(f"txt: {txt}")
     LOG.debug(f"name: {name}")
     name = name.split(os.path.sep)[-1][:-6]
 
