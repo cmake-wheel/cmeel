@@ -340,7 +340,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             PREFIX,
         ]
     ).decode()
-    name = name.split("/")[-1][:-6]
+    name = name.split(os.path.sep)[-1][:-6]
 
     LOG.info("done")
     LOG.debug(f"returning '{name}'")
