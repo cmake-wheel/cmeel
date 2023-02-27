@@ -343,7 +343,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         ]
     ).decode()
     LOG.debug(f"name: {name}")
-    txt = f"{os.path.sep}*{os.path.sep}*{os.path.sep}*{os.path.sep}*{os.path.sep}*.whl"
+    txt = f"{os.path.sep}*.whl'"
     name = re.findall(name, txt)
     LOG.debug(f"txt: {txt}")
     LOG.debug(f"name: {name}")

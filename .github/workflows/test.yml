@@ -29,6 +29,9 @@ jobs:
       - name: install cmeel
         run: python -m pip install $HOME/wh/cmeel*.whl
       - name: build cmeel-example wheel
+        env:
+          CMEEL_JOBS: 1
+          CMEEL_LOG_LEVEL: Debug
         run: python -m pip wheel -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
       - name: install cmeel-example
         run: python -m pip install $HOME/wh/cmeel_example*.whl
