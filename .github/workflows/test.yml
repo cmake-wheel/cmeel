@@ -2,6 +2,9 @@ name: Test with example
 
 on: ["push", "pull_request"]
 
+env:
+  CMEEL_LOG_LEVEL: DEBUG
+
 jobs:
   test-unix:
     name: Test ${{ matrix.python-version }} on ${{ matrix.os }}
