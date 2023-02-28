@@ -155,13 +155,13 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     configure_args = cmeel_config.get_configure_args(
         CONF, INSTALL, CONFIGURE_ARGS, configure_env, RUN_TESTS
     )
-    configure_cmd = ["cmake", "-S", SOURCE, "-B", BUILD] + configure_args
+    configure_cmd = ["cmake", "-S", SOURCE, "-B", str(BUILD)] + configure_args
     LOG.debug(f"configure environment: {configure_env}")
     LOG.debug(f"configure command: {configure_cmd}")
     check_call(configure_cmd, env=configure_env)
 
     LOG.info("build")
-    build_cmd = ["cmake", "--build", BUILD, f"-j{cmeel_config.jobs}"]
+    build_cmd = ["cmake", "--build", str(BUILD), f"-j{cmeel_config.jobs}"]
     LOG.debug(f"build command: {build_cmd}")
     check_call(build_cmd)
 
@@ -177,7 +177,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         run_tests()
 
     LOG.info("install")
-    install_cmd = ["cmake", "--build", BUILD, "-t", "install"]
+    install_cmd = ["cmake", "--build", str(BUILD), "-t", "install"]
     LOG.debug(f"install command: {install_cmd}")
     check_call(install_cmd)
 
@@ -338,7 +338,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             str(BUILD_NUMBER),
             "-d",
             wheel_directory,
-            PREFIX,
+            str(PREFIX),
         ]
     ).decode()
     LOG.debug("wheel pack output: {pack}")
