@@ -51,6 +51,8 @@ jobs:
       matrix:
         os: ["windows-latest"]
         python-version: ["3.7","3.8","3.9","3.10", "3.11"]
+    env:
+      CMEEL_CMAKE_ARGS: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
     steps:
       - uses: actions/checkout@v3
         with:
