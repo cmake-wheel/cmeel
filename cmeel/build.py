@@ -341,7 +341,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             str(PREFIX),
         ]
     ).decode()
-    LOG.debug("wheel pack output: {pack}")
+    LOG.debug(f"wheel pack output: {pack}")
     name = Path(re.search("Repacking wheel as (.*\\.whl)\\.\\.\\.", pack).group(1)).name
     LOG.debug(f"returning '{name}'")
 
