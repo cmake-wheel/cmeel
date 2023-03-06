@@ -129,6 +129,11 @@ default. `BUILD_DIR` is replaced by the current path to the build directory.
 Boolean setting to build a wheel for `py3-none-any`. A package with this setting shouldn't provide any binary library
 or executable. `false` by default.
 
+#### `pyver-any`
+
+Boolean setting to build a wheel for `py3x-none-any` where x is the current python 3 minor version. A package with this
+setting shouldn't provide any binary library or executable. `false` by default.
+
 #### `check-relocatable`
 
 Boolean setting to check generated `*.cmake` files for wrong absolute paths. `true` by default.
