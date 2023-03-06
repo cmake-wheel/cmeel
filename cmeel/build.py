@@ -281,6 +281,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     f"Generator: cmeel {__version__}",
                     "Root-Is-Purelib: false",
                     f"Tag: {TAG}",
+                    "",
                 ]
             )
         )
