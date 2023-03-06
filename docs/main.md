@@ -127,7 +127,7 @@ default. `BUILD_DIR` is replaced by the current path to the build directory.
 #### `any`
 
 Boolean setting to build a wheel for `py3-none-any`. A package with this setting shouldn't provide any binary library
-or executable. `false` by default.
+or executable, nor anything in a python sitelib. `false` by default.
 
 #### `pyver-any`
 
