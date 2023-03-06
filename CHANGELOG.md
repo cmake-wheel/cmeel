@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- allow building "py3-none-any" wheels with `any = true` in pyproject.toml
+
 ## [v0.32.3] - 2023-02-28
 
 - stringfy paths in `check_output`s, to fix build on windows

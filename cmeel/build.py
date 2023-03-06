@@ -116,6 +116,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             pyproject, "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
         )
         CHECK_RELOCATABLE = deprecate_build_system(pyproject, "check-relocatable", True)
+        if deprecate_build_system(pyproject, "any", False):
+            TAG = "py3-none-any"
     DISTRIBUTION = CONF["name"].replace("-", "_")
 
     LOG.info("build wheel")

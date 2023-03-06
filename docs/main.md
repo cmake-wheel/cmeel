@@ -124,6 +124,11 @@ Integer which acts as a tie-breaker if two wheel file names are the same. 0 by d
 List of string providing the test command and its arguments. `["cmake", "--build", "BUILD_DIR", "-t", "test"]` by
 default. `BUILD_DIR` is replaced by the current path to the build directory.
 
+#### `any`
+
+Boolean setting to build a wheel for `py3-none-any`. A package with this setting shouldn't provide any binary library
+or executable. `false` by default.
+
 #### `check-relocatable`
 
 Boolean setting to check generated `*.cmake` files for wrong absolute paths. `true` by default.
