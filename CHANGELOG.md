@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.35.0] - 2023-03-07
+
 - add `build_editable` following [PEP 660](https://peps.python.org/pep-0660/)
 - update tooling, lints & ci, notably: isort, pydocstyle, mypy & safety
 
@@ -268,6 +270,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.35.0]: https://github.com/cmake-wheel/cmeel/compare/v0.34.1...v0.35.0
 [v0.34.1]: https://github.com/cmake-wheel/cmeel/compare/v0.33.0...v0.34.1
 [v0.33.0]: https://github.com/cmake-wheel/cmeel/compare/v0.32.3...v0.33.0
 [v0.32.3]: https://github.com/cmake-wheel/cmeel/compare/v0.32.2...v0.32.3
