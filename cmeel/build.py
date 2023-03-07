@@ -69,11 +69,21 @@ def deprecate_build_system(pyproject, key, default):
     return default
 
 
+def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
+    """Main entry point for PEP 660."""
+    os.environ["CMAKE_INSTALL_MODE"] = "ABS_SYMLINK"
+    return build(wheel_directory, editable=True)
+
+
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     """Main entry point for PEP 517."""
-    logging.basicConfig(level=cmeel_config.log_level.upper())
-    LOG.info("CMake Wheel")
+    return build(wheel_directory, editable=False)
 
+
+def build(wheel_directory, editable=False):
+    """Run CMake configure / build / test / install steps, and pack the wheel."""
+    logging.basicConfig(level=cmeel_config.log_level.upper())
+    LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
     if LOG.getEffectiveLevel() <= logging.DEBUG:
         try:
             import pip  # noqa: F401
@@ -85,10 +95,10 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
         except ModuleNotFoundError:
             LOG.debug("pip is not available")
 
-    TEMP = cmeel_config.temp_dir
-    BUILD = TEMP / "bld"
-    PREFIX = TEMP / "pfx"
-    INSTALL = PREFIX / CMEEL_PREFIX
+    PREFIX = Path(".") / "build-editable" if editable else cmeel_config.temp_dir
+    BUILD = PREFIX / "bld"
+    WHEEL_DIR = PREFIX / "whl"
+    INSTALL = (PREFIX if editable else WHEEL_DIR) / CMEEL_PREFIX
     TAG = str(next(sys_tags()))
     # handle cross compilation on macOS with cibuildwheel
     # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
@@ -120,7 +130,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             TAG = "py3-none-any"
         if deprecate_build_system(pyproject, "pyver-any", False):
             TAG = f"py3{sys.version_info.minor}-none-any"
-    DISTRIBUTION = CONF["name"].replace("-", "_")
+    DISTRIBUTION = f"{CONF['name'].replace('-', '_')}-{CONF['version']}"
 
     LOG.info("build wheel")
 
@@ -199,8 +209,8 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
 
     LOG.info("create dist-info")
 
-    dist_info = PREFIX / f"{DISTRIBUTION}-{CONF['version']}.dist-info"
-    dist_info.mkdir()
+    dist_info = WHEEL_DIR / f"{DISTRIBUTION}.dist-info"
+    dist_info.mkdir(parents=True)
 
     LOG.info("create dist-info / METADATA")
 
@@ -293,7 +303,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     BIN = INSTALL / "bin"
     if BIN.is_dir():
         LOG.info("adding executables")
-        scripts = PREFIX / f"{DISTRIBUTION}-{CONF['version']}.data" / "scripts"
+        scripts = WHEEL_DIR / f"{DISTRIBUTION}.data" / "scripts"
         scripts.mkdir(parents=True)
         for fn in BIN.glob("*"):
             executable = scripts / fn.name
@@ -307,7 +317,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             "/tmp/pip-build-env",
             "/tmp/pip-req-build",
             "/opt/_internal",
-            str(TEMP),
+            str(PREFIX),
         ]
         for fc in INSTALL.glob("**/*.cmake"):
             with fc.open() as f:
@@ -331,6 +341,10 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
                     raise NonRelocatableError(
                         f"{fc} references temporary paths:\n" + "\n".join(display)
                     )
+    if editable:
+        LOG.info("Add .pth in wheel")
+        with (WHEEL_DIR / f"{DISTRIBUTION}.pth").open("w") as f:
+            f.write(str((INSTALL / SITELIB).absolute()))
 
     LOG.info("wheel pack")
     pack = check_output(
@@ -343,7 +357,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
             str(BUILD_NUMBER),
             "-d",
             wheel_directory,
-            str(PREFIX),
+            str(WHEEL_DIR),
         ]
     ).decode()
     LOG.debug(f"wheel pack output: {pack}")

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add `build_editable` following [PEP 660](https://peps.python.org/pep-0660/)
+
 ## [v0.34.1] - 2023-03-06
 
 - allow building "py3x-none-any" wheels with `pyver-any = true` in pyproject.toml

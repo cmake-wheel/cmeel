@@ -189,3 +189,10 @@ subcommands:
     lib           show cmeel additions to LD_LIBRARY_PATH
     pc            show cmeel additions to PKG_CONFIG_PATH
 ```
+
+## Editable builds
+
+Cmeel implement [PEP 660](https://peps.python.org/pep-0660/), and `python -m pip install --editable` option by:
+- build in a `build-editable` directory in the source
+- add a `.pth` file to that directoly in the wheel
+- set [`CMAKE_INSTALL_MODE`](https://cmake.org/cmake/help/latest/envvar/CMAKE_INSTALL_MODE.html) to `ABS_SYMLINK`.
