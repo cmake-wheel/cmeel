@@ -1,9 +1,9 @@
 """Tools to help environment management."""
 
 import argparse
-import pathlib
 import os
 import sys
+from pathlib import Path
 
 from .consts import CMEEL_PREFIX
 
@@ -18,9 +18,9 @@ def get_parser() -> argparse.ArgumentParser:
     """Check what the user want."""
 
     # Get current interpreter
-    python = pathlib.Path(sys.executable)
+    python = Path(sys.executable)
     if str(python.parent) in os.environ.get("PATH", "").split(os.pathsep):
-        python = python.name  # its path is in PATH: no need for absolute path
+        python = Path(python.name)  # its path is in PATH: no need for absolute path
 
     parser = argparse.ArgumentParser(
         prog=f"{python} -m cmeel", description="cmeel environment helpers"
@@ -39,21 +39,21 @@ def get_parser() -> argparse.ArgumentParser:
 
 def get_paths(cmd: str, prepend=False) -> str:
     """Get the paths needed by the user."""
-    prefixes = [pathlib.Path(path) / CMEEL_PREFIX for path in sys.path]
+    prefixes = [Path(path) / CMEEL_PREFIX for path in sys.path]
     if cmd == "lib":
         prefixes = [p / "lib" for p in prefixes]
     elif cmd == "pc":
         prefixes = [p / sub / "pkgconfig" for p in prefixes for sub in ["lib", "share"]]
 
-    prefixes = [str(p) for p in prefixes if p.exists()]
+    available = [str(p) for p in prefixes if p.exists()]
     if prepend:
         ret = []
-        for prefix in prefixes + os.environ.get(PATHS[cmd], "").split(os.pathsep):
+        for prefix in available + os.environ.get(PATHS[cmd], "").split(os.pathsep):
             if prefix and prefix not in ret:
                 ret.append(prefix)
         return os.pathsep.join(ret)
     else:
-        return os.pathsep.join(prefixes)
+        return os.pathsep.join(available)
 
 
 if __name__ == "__main__":

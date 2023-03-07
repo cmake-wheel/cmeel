@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - add `build_editable` following [PEP 660](https://peps.python.org/pep-0660/)
+- update tooling, lints & ci, notably: isort, pydocstyle & mypy
 
 ## [v0.34.1] - 2023-03-06
 

@@ -1,8 +1,8 @@
 """Cmeel run."""
 import os
-from subprocess import run
-from pathlib import Path
 import sys
+from pathlib import Path
+from subprocess import run
 
 from .consts import CMEEL_PREFIX
 

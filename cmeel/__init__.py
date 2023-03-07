@@ -3,7 +3,7 @@
 try:
     from importlib.metadata import metadata
 except ImportError:  # Python < 3.8
-    from importlib_metadata import metadata
+    from importlib_metadata import metadata  # type: ignore
 
 __metadata__ = metadata("cmeel")
 __name__ = __metadata__["name"]

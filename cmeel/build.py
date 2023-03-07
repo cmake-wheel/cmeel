@@ -42,6 +42,7 @@ class PatchError(CalledProcessError):
     """Exception raised when patch operation failed."""
 
     def __str__(self):
+        """Render this error as a string."""
         if self.returncode and self.returncode < 0:
             return super().__str__()
         else:
@@ -53,9 +54,10 @@ class PatchError(CalledProcessError):
 
 
 def deprecate_build_system(pyproject, key, default):
-    """cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
+    """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
 
-    This function helps to deprecate that and move to "tool.cmeel"."""
+    This function helps to deprecate that and move to "tool.cmeel".
+    """
     if key in pyproject["build-system"]:
         default = pyproject["build-system"][key]
         warnings.warn(
@@ -70,13 +72,13 @@ def deprecate_build_system(pyproject, key, default):
 
 
 def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
-    """Main entry point for PEP 660."""
+    """Build an editable wheel: main entry point for PEP 660."""
     os.environ["CMAKE_INSTALL_MODE"] = "ABS_SYMLINK"
     return build(wheel_directory, editable=True)
 
 
 def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
-    """Main entry point for PEP 517."""
+    """Build a binary wheel: main entry point for PEP 517."""
     return build(wheel_directory, editable=False)
 
 
