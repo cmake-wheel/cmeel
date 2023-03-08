@@ -1,5 +1,4 @@
-"""
-Configuration file for the Sphinx documentation builder.
+"""Configuration file for the Sphinx documentation builder.
 
 For the full list of built-in configuration values, see the documentation:
 https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -11,7 +10,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 import cmeel
 
 project = cmeel.__name__
-copyright = f"2022, {cmeel.__author__}"
+copyright = f"2022-2023, {cmeel.__author__}"  # noqa: A001
 author = cmeel.__author__
 release = cmeel.__version__
 

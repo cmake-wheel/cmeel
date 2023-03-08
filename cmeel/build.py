@@ -45,12 +45,11 @@ class PatchError(CalledProcessError):
         """Render this error as a string."""
         if self.returncode and self.returncode < 0:
             return super().__str__()
-        else:
-            return (
-                f"Command '{self.cmd}' exit status {self.returncode}\n"
-                f"with output:\n{self.output}\n"
-                f"and stderr:\n{self.stderr}\n"
-            )
+        return (
+            f"Command '{self.cmd}' exit status {self.returncode}\n"
+            f"with output:\n{self.output}\n"
+            f"and stderr:\n{self.stderr}\n"
+        )
 
 
 def deprecate_build_system(pyproject, key, default):
@@ -88,7 +87,7 @@ def build(wheel_directory, editable=False):
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
     if LOG.getEffectiveLevel() <= logging.DEBUG:
         try:
-            import pip  # noqa: F401
+            import pip
 
             LOG.debug("pip freeze:")
             deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
@@ -97,42 +96,46 @@ def build(wheel_directory, editable=False):
         except ModuleNotFoundError:
             LOG.debug("pip is not available")
 
-    PREFIX = Path(".") / "build-editable" if editable else cmeel_config.temp_dir
-    BUILD = PREFIX / "bld"
-    WHEEL_DIR = PREFIX / "whl"
-    INSTALL = (PREFIX if editable else WHEEL_DIR) / CMEEL_PREFIX
-    TAG = str(next(sys_tags()))
+    prefix = Path(".") / "build-editable" if editable else cmeel_config.temp_dir
+    build = prefix / "bld"
+    wheel_dir = prefix / "whl"
+    install = (prefix if editable else wheel_dir) / CMEEL_PREFIX
+    tag = str(next(sys_tags()))
     # handle cross compilation on macOS with cibuildwheel
     # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
     if "_PYTHON_HOST_PLATFORM" in os.environ:
         plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
-        TAG = "-".join(TAG.split("-")[:-1] + [plat])
+        tag = "-".join(tag.split("-")[:-1] + [plat])
 
     LOG.info("load conf from pyproject.toml")
-    with open("pyproject.toml", "rb") as f:
+    with Path("pyproject.toml").open("rb") as f:
         pyproject = tomli.load(f)
-        CONF = pyproject["project"]
-        SOURCE = deprecate_build_system(pyproject, "source", ".")
-        RUN_TESTS = (
+        conf = pyproject["project"]
+        source = deprecate_build_system(pyproject, "source", ".")
+        run_tests = (
             os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
             not in ("0", "NO", "OFF", "FALSE")
             if "CMEEL_RUN_TESTS" in os.environ
             else deprecate_build_system(pyproject, "run-tests", True)
         )
-        RUN_TESTS_AFTER_INSTALL = deprecate_build_system(
-            pyproject, "run-tests-after-install", False
+        run_tests_after_install = deprecate_build_system(
+            pyproject,
+            "run-tests-after-install",
+            False,
         )
-        BUILD_NUMBER = deprecate_build_system(pyproject, "build-number", 0)
-        CONFIGURE_ARGS = deprecate_build_system(pyproject, "configure-args", [])
-        TEST_CMD = deprecate_build_system(
-            pyproject, "test-cmd", ["cmake", "--build", "BUILD_DIR", "-t", "test"]
+        build_number = deprecate_build_system(pyproject, "build-number", 0)
+        configure_args = deprecate_build_system(pyproject, "configure-args", [])
+        test_cmd = deprecate_build_system(
+            pyproject,
+            "test-cmd",
+            ["cmake", "--build", "BUILD_DIR", "-t", "test"],
         )
-        CHECK_RELOCATABLE = deprecate_build_system(pyproject, "check-relocatable", True)
+        check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
         if deprecate_build_system(pyproject, "any", False):
-            TAG = "py3-none-any"
+            tag = "py3-none-any"
         if deprecate_build_system(pyproject, "pyver-any", False):
-            TAG = f"py3{sys.version_info.minor}-none-any"
-    DISTRIBUTION = f"{CONF['name'].replace('-', '_')}-{CONF['version']}"
+            tag = f"py3{sys.version_info.minor}-none-any"
+    distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 
     LOG.info("build wheel")
 
@@ -157,8 +160,8 @@ def build(wheel_directory, editable=False):
 
     # Set env
 
-    if RUN_TESTS_AFTER_INSTALL:
-        path = f"{INSTALL / SITELIB}"
+    if run_tests_after_install:
+        path = f"{install / SITELIB}"
         old = os.environ.get("PYTHONPATH", "")
         if old:
             path += f"{os.pathsep}{old}"
@@ -169,60 +172,64 @@ def build(wheel_directory, editable=False):
     LOG.info("configure")
     configure_env = cmeel_config.get_configure_env()
     configure_args = cmeel_config.get_configure_args(
-        CONF, INSTALL, CONFIGURE_ARGS, configure_env, RUN_TESTS
+        conf,
+        install,
+        configure_args,
+        configure_env,
+        run_tests,
     )
-    configure_cmd = ["cmake", "-S", SOURCE, "-B", str(BUILD)] + configure_args
+    configure_cmd = ["cmake", "-S", source, "-B", str(build), *configure_args]
     LOG.debug(f"configure environment: {configure_env}")
     LOG.debug(f"configure command: {configure_cmd}")
     check_call(configure_cmd, env=configure_env)
 
     LOG.info("build")
-    build_cmd = ["cmake", "--build", str(BUILD), f"-j{cmeel_config.jobs}"]
+    build_cmd = ["cmake", "--build", str(build), f"-j{cmeel_config.jobs}"]
     LOG.debug(f"build command: {build_cmd}")
     check_call(build_cmd)
 
-    def run_tests():
+    def launch_tests():
         LOG.info("test")
         test_env = cmeel_config.get_test_env()
-        test_cmd = [i.replace("BUILD_DIR", str(BUILD)) for i in TEST_CMD]
+        test_cmd = [i.replace("BUILD_DIR", str(build)) for i in test_cmd]
         LOG.debug(f"test environment: {test_env}")
         LOG.debug(f"test command: {test_cmd}")
         check_call(test_cmd, env=test_env)
 
-    if RUN_TESTS and not RUN_TESTS_AFTER_INSTALL:
-        run_tests()
+    if run_tests and not run_tests_after_install:
+        launch_tests()
 
     LOG.info("install")
-    install_cmd = ["cmake", "--build", str(BUILD), "-t", "install"]
+    install_cmd = ["cmake", "--build", str(build), "-t", "install"]
     LOG.debug(f"install command: {install_cmd}")
     check_call(install_cmd)
 
-    if RUN_TESTS and RUN_TESTS_AFTER_INSTALL:
-        run_tests()
+    if run_tests and run_tests_after_install:
+        launch_tests()
 
     LOG.info("fix relocatablization")
     # Replace absolute install path in generated .cmake files, if any.
-    for f in INSTALL.rglob("*.cmake"):
-        ff = INSTALL / f"{f.stem}.fix"
+    for f in install.rglob("*.cmake"):
+        ff = install / f"{f.stem}.fix"
         with f.open("r") as fr, ff.open("w") as fw:
-            fw.write(fr.read().replace(str(INSTALL), "${PACKAGE_PREFIX_DIR}"))
+            fw.write(fr.read().replace(str(install), "${PACKAGE_PREFIX_DIR}"))
         f.unlink()
         ff.rename(f)
 
     LOG.info("create dist-info")
 
-    dist_info = WHEEL_DIR / f"{DISTRIBUTION}.dist-info"
+    dist_info = wheel_dir / f"{distribution}.dist-info"
     dist_info.mkdir(parents=True)
 
     LOG.info("create dist-info / METADATA")
 
     metadata = [
         "Metadata-Version: 2.1",
-        f"Name: {CONF['name']}",
-        f"Version: {CONF['version']}",
-        f"Summary: {CONF['description']}",
-        f"License-Expression: {CONF['license']}",
-        f"Requires-Python: {CONF.get('requires-python', '>=3.7')}",
+        f"Name: {conf['name']}",
+        f"Version: {conf['version']}",
+        f"Summary: {conf['description']}",
+        f"License-Expression: {conf['license']}",
+        f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
     ]
 
     authors = []
@@ -230,7 +237,7 @@ def build(wheel_directory, editable=False):
     authors_email = []
     maintainers_email = []
 
-    for author in CONF.get("authors", {}):
+    for author in conf.get("authors", {}):
         if "name" in author and "email" in author:
             authors_email.append(f"{author['name']} <{author['email']}>")
         elif "email" in author:
@@ -238,7 +245,7 @@ def build(wheel_directory, editable=False):
         elif "name" in author:
             authors.append(author["name"])
 
-    for maintainer in CONF.get("maintainers", {}):
+    for maintainer in conf.get("maintainers", {}):
         if "name" in maintainer and "email" in maintainer:
             maintainers_email.append(f"{maintainer['name']} <{maintainer['email']}>")
         elif "email" in maintainer:
@@ -255,22 +262,22 @@ def build(wheel_directory, editable=False):
     if maintainers_email:
         metadata.append("Maintainer-email: " + ",".join(maintainers_email))
 
-    for key, url in CONF["urls"].items():
+    for key, url in conf["urls"].items():
         if key == "homepage":
             metadata.append(f"Home-page: {url}")
         else:
             name = key.replace("-", " ").capitalize()
             metadata.append(f"Project-URL: {name}, {url}")
 
-    for dep in ["cmeel"] + CONF.get("dependencies", []):
+    for dep in ["cmeel", *conf.get("dependencies", [])]:
         metadata.append(f"Requires-Dist: {dep}")
 
-    for classifier in CONF.get("classifiers", []):
+    for classifier in conf.get("classifiers", []):
         metadata.append(f"Classifier: {classifier}")
 
-    if CONF["readme"].lower().endswith(".md"):
+    if conf["readme"].lower().endswith(".md"):
         content_type = "text/markdown"
-    elif CONF["readme"].lower().endswith(".rst"):
+    elif conf["readme"].lower().endswith(".rst"):
         content_type = "text/x-rst"
     else:
         content_type = "text/plain"
@@ -278,7 +285,7 @@ def build(wheel_directory, editable=False):
 
     metadata.append("")
 
-    with open(CONF["readme"]) as f:
+    with Path(conf["readme"]).open() as f:
         metadata.append(f.read())
 
     with (dist_info / "METADATA").open("w") as f:
@@ -296,57 +303,57 @@ def build(wheel_directory, editable=False):
                     "Wheel-Version: 1.0",
                     f"Generator: cmeel {__version__}",
                     "Root-Is-Purelib: false",
-                    f"Tag: {TAG}",
+                    f"Tag: {tag}",
                     "",
-                ]
-            )
+                ],
+            ),
         )
 
-    BIN = INSTALL / "bin"
-    if BIN.is_dir():
+    bin_dir = install / "bin"
+    if bin_dir.is_dir():
         LOG.info("adding executables")
-        scripts = WHEEL_DIR / f"{DISTRIBUTION}.data" / "scripts"
+        scripts = wheel_dir / f"{distribution}.data" / "scripts"
         scripts.mkdir(parents=True)
-        for fn in BIN.glob("*"):
+        for fn in bin_dir.glob("*"):
             executable = scripts / fn.name
             with executable.open("w") as fe:
                 fe.write(EXECUTABLE)
             executable.chmod(0o755)
 
-    if CHECK_RELOCATABLE:
+    if check_relocatable:
         LOG.info("check generated cmake files")
-        WRONG_DIRS = [
+        wrong_dirs = [
             "/tmp/pip-build-env",
             "/tmp/pip-req-build",
             "/opt/_internal",
-            str(PREFIX),
+            str(prefix),
         ]
-        for fc in INSTALL.glob("**/*.cmake"):
+        for fc in install.glob("**/*.cmake"):
             with fc.open() as f:
                 cmake_file = f.read()
-                if any(wrong_dir in cmake_file for wrong_dir in WRONG_DIRS):
+                if any(wrong_dir in cmake_file for wrong_dir in wrong_dirs):
                     lines = cmake_file.split("\n")
                     # Get indexes of of problematic lines
                     indexes = [
                         idx
                         for idx, line in enumerate(lines)
-                        if any(wrong_dir in line for wrong_dir in WRONG_DIRS)
+                        if any(wrong_dir in line for wrong_dir in wrong_dirs)
                     ]
                     # Get lines at those indexes and around them to display
                     display = [
-                        f"{i}: {l}"
-                        for i, l in enumerate(lines)
+                        f"{i}: {line}"
+                        for i, line in enumerate(lines)
                         if any(
                             idx in indexes for idx in (i - 2, i - 1, i, i + 1, i + 2)
                         )
                     ]
                     raise NonRelocatableError(
-                        f"{fc} references temporary paths:\n" + "\n".join(display)
+                        f"{fc} references temporary paths:\n" + "\n".join(display),
                     )
     if editable:
         LOG.info("Add .pth in wheel")
-        with (WHEEL_DIR / f"{DISTRIBUTION}.pth").open("w") as f:
-            f.write(str((INSTALL / SITELIB).absolute()))
+        with (wheel_dir / f"{distribution}.pth").open("w") as f:
+            f.write(str((install / SITELIB).absolute()))
 
     LOG.info("wheel pack")
     pack = check_output(
@@ -356,11 +363,11 @@ def build(wheel_directory, editable=False):
             "wheel",
             "pack",
             "--build-number",
-            str(BUILD_NUMBER),
+            str(build_number),
             "-d",
             wheel_directory,
-            str(WHEEL_DIR),
-        ]
+            str(wheel_dir),
+        ],
     ).decode()
     LOG.debug(f"wheel pack output: {pack}")
     name = Path(re.search("Repacking wheel as (.*\\.whl)\\.\\.\\.", pack).group(1)).name

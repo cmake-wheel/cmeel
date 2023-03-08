@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- tools: flake8, pydocstyle, pyupgrade → ruff
+
 ## [v0.35.0] - 2023-03-07
 
 - add `build_editable` following [PEP 660](https://peps.python.org/pep-0660/)

@@ -16,17 +16,19 @@ PATHS = {
 
 def get_parser() -> argparse.ArgumentParser:
     """Check what the user want."""
-
     # Get current interpreter
     python = Path(sys.executable)
     if str(python.parent) in os.environ.get("PATH", "").split(os.pathsep):
         python = Path(python.name)  # its path is in PATH: no need for absolute path
 
     parser = argparse.ArgumentParser(
-        prog=f"{python} -m cmeel", description="cmeel environment helpers"
+        prog=f"{python} -m cmeel",
+        description="cmeel environment helpers",
     )
     subparsers = parser.add_subparsers(
-        title="subcommands", description="valid sub-commands", help="sub-command help"
+        title="subcommands",
+        description="valid sub-commands",
+        help="sub-command help",
     )
 
     for cmd, path in PATHS.items():
@@ -37,7 +39,7 @@ def get_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def get_paths(cmd: str, prepend=False) -> str:
+def get_paths(cmd: str, prepend: bool = False) -> str:
     """Get the paths needed by the user."""
     prefixes = [Path(path) / CMEEL_PREFIX for path in sys.path]
     if cmd == "lib":
@@ -52,8 +54,7 @@ def get_paths(cmd: str, prepend=False) -> str:
             if prefix and prefix not in ret:
                 ret.append(prefix)
         return os.pathsep.join(ret)
-    else:
-        return os.pathsep.join(available)
+    return os.pathsep.join(available)
 
 
 if __name__ == "__main__":
