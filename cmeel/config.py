@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any
+from typing import Any, Dict, List, Optional, Union
 
 import tomli
 
@@ -49,15 +49,15 @@ class CmeelConfig:
 
     def get_configure_args(
         self,
-        conf: dict[str, Any],
-        install: Path | str,
-        configure_args: list[str],
-        configure_env: dict[str, str],
+        conf: Dict[str, Any],
+        install: Union[Path, str],
+        configure_args: List[str],
+        configure_env: Dict[str, str],
         run_tests: bool,
-    ) -> list[str]:
+    ) -> List[str]:
         """Get CMake initial arguments."""
         project = conf["name"]
-        build_testing: list[str] = [] if run_tests else ["-DBUILD_TESTING=OFF"]
+        build_testing: List[str] = [] if run_tests else ["-DBUILD_TESTING=OFF"]
         ret = [
             "-DBoost_NO_WARN_NEW_VERSIONS=ON",
             "-DCMAKE_BUILD_TYPE=Release",
@@ -76,7 +76,7 @@ class CmeelConfig:
             ret += configure_env["CMEEL_CMAKE_ARGS"].split()
         return ret
 
-    def get_configure_env(self) -> dict[str, str]:
+    def get_configure_env(self) -> Dict[str, str]:
         """Get CMake initial environment."""
         ret = self.env.copy()
         available = self._get_available_prefix()
@@ -86,13 +86,13 @@ class CmeelConfig:
                 ret["CMAKE_PREFIX_PATH"] = f"{available}:{cpp}".strip(":")
         return ret
 
-    def get_test_env(self) -> dict[str, str]:
+    def get_test_env(self) -> Dict[str, str]:
         """Get test environment."""
         ret = self.env.copy()
         ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL=self.test_jobs)
         return ret
 
-    def _get_available_prefix(self) -> str | None:
+    def _get_available_prefix(self) -> Optional[str]:
         for path in sys.path:
             if CMEEL_PREFIX in path:
                 return str(Path(path).parent.parent.parent)
