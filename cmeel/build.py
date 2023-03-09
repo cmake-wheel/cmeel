@@ -191,10 +191,10 @@ def build(wheel_directory, editable=False):
     def launch_tests():
         LOG.info("test")
         test_env = cmeel_config.get_test_env()
-        test_cmd = [i.replace("BUILD_DIR", str(build)) for i in test_cmd]
+        cmd = [i.replace("BUILD_DIR", str(build)) for i in test_cmd]
         LOG.debug(f"test environment: {test_env}")
-        LOG.debug(f"test command: {test_cmd}")
-        check_call(test_cmd, env=test_env)
+        LOG.debug(f"test command: {cmd}")
+        check_call(cmd, env=test_env)
 
     if run_tests and not run_tests_after_install:
         launch_tests()
