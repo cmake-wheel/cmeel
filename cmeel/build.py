@@ -4,6 +4,7 @@ import os
 import re
 import sys
 import warnings
+from importlib.util import find_spec
 from pathlib import Path
 from subprocess import CalledProcessError, check_call, check_output, run
 
@@ -87,15 +88,11 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
     if LOG.getEffectiveLevel() <= logging.DEBUG:
-        try:
-            import pip
-
+        if find_spec("pip") is not None:
             LOG.debug("pip freeze:")
             deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
             for dep in deps.strip().split("\n"):
                 LOG.debug(f"  {dep}")
-        except ModuleNotFoundError:
-            LOG.debug("pip is not available")
 
     prefix = Path(".") / "build-editable" if editable else cmeel_config.temp_dir
     build = prefix / "bld"
