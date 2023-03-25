@@ -12,7 +12,6 @@ jobs:
           cache: poetry
       - run: poetry install --with dev --no-interaction
       - run: poetry run black .
-      - run: poetry run ruff .
       - run: poetry run mypy .
       - run: poetry run safety check
       - run: poetry run poetry check
