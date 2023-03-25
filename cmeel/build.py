@@ -64,6 +64,7 @@ def deprecate_build_system(pyproject, key, default):
             "configuration is deprecated since cmeel v0.23 and will be removed in v1.\n"
             f'Please move your "{key} = {default}" to the "tool.cmeel" section.',
             DeprecationWarning,
+            stacklevel=2,
         )
     if "tool" in pyproject and "cmeel" in pyproject["tool"]:
         return pyproject["tool"]["cmeel"].get(key, default)
@@ -81,7 +82,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     return build(wheel_directory, editable=False)
 
 
-def build(wheel_directory, editable=False):
+def build(wheel_directory, editable=False):  # noqa: C901 TODO
     """Run CMake configure / build / test / install steps, and pack the wheel."""
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
