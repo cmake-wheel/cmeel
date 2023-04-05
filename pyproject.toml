@@ -23,7 +23,7 @@ include = ['cmeel.pth']
 license = "BSD-2-Clause"
 name = "cmeel"
 readme = "README.md"
-version = "0.35.0"
+version = "0.36.0"
 
 [tool.poetry.dependencies]
 cmake = {optional = true, version = "^3.22.3"}
