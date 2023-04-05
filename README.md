@@ -33,3 +33,27 @@ This Install in `${PYTHON_SITELIB}/cmeel.prefix/`:
 - Existing `${PYTHON_SITELIB}/cmeel.prefix` are automatically added to `$CMAKE_PREFIX_PATH`, so we can build CMake
   packages whose dependencies are provided by other CMake packages installed with cmeel
 - Stuff in `${PYTHON_SITELIB}/cmeel.prefix/bin` is exposed via `cmeel.run:cmeel_run`
+
+## Basic pyproject.toml example
+
+extract from  https://github.com/cmake-wheel/cmeel-example/blob/main/pyproject.toml:
+
+```toml
+[project]
+name = "cmeel-example"
+version = "0.4.12"
+description = "This is an example project, to show how to use cmeel"
+readme = "README.md"
+requires-python = ">= 3.7"
+license = "BSD-2-Clause"
+authors = [{name = "Guilhem Saurel", email = "guilhem.saurel@laas.fr"}]
+
+[project.urls]
+homepage = "https://github.com/cmake-wheel/cmeel-example"
+repository = "https://github.com/cmake-wheel/cmeel-example.git"
+changelog = "https://github.com/cmake-wheel/cmeel-example/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["cmeel[build]"]
+build-backend = "cmeel.build"
+```
