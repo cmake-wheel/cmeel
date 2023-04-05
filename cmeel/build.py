@@ -260,12 +260,13 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
     if maintainers_email:
         metadata.append("Maintainer-email: " + ",".join(maintainers_email))
 
-    for key, url in conf["urls"].items():
-        if key == "homepage":
-            metadata.append(f"Home-page: {url}")
-        else:
-            name = key.replace("-", " ").capitalize()
-            metadata.append(f"Project-URL: {name}, {url}")
+    if "urls" in conf:
+        for key, url in conf["urls"].items():
+            if key == "homepage":
+                metadata.append(f"Home-page: {url}")
+            else:
+                name = key.replace("-", " ").capitalize()
+                metadata.append(f"Project-URL: {name}, {url}")
 
     dependencies = ["cmeel", *conf.get("dependencies", [])]
     for dep in dependencies:
