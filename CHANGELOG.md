@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- autodetect `README{.md, .rst, .txt, }`
+- `readme` is no longer required
+
 ## [v0.36.0] - 2023-04-05
 
 - forward build dependencies as "build" extra

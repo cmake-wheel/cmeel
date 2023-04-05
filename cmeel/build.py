@@ -285,18 +285,25 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
     for classifier in conf.get("classifiers", []):
         metadata.append(f"Classifier: {classifier}")
 
-    if conf["readme"].lower().endswith(".md"):
-        content_type = "text/markdown"
-    elif conf["readme"].lower().endswith(".rst"):
-        content_type = "text/x-rst"
-    else:
-        content_type = "text/plain"
-    metadata.append(f"Description-Content-Type: {content_type}")
+    if "readme" not in conf:
+        for ext in [".md", ".rst", ".txt", ""]:
+            readme = f"README{ext}"
+            if Path(readme).exists():
+                conf["readme"] = readme
+                break
+    if "readme" in conf:
+        if conf["readme"].lower().endswith(".md"):
+            content_type = "text/markdown"
+        elif conf["readme"].lower().endswith(".rst"):
+            content_type = "text/x-rst"
+        else:
+            content_type = "text/plain"
+        metadata.append(f"Description-Content-Type: {content_type}")
 
-    metadata.append("")
+        metadata.append("")
 
-    with Path(conf["readme"]).open() as f:
-        metadata.append(f.read())
+        with Path(conf["readme"]).open() as f:
+            metadata.append(f.read())
 
     with (dist_info / "METADATA").open("w") as f:
         f.write("\n".join(metadata))
