@@ -267,8 +267,19 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
             name = key.replace("-", " ").capitalize()
             metadata.append(f"Project-URL: {name}, {url}")
 
-    for dep in ["cmeel", *conf.get("dependencies", [])]:
+    dependencies = ["cmeel", *conf.get("dependencies", [])]
+    for dep in dependencies:
         metadata.append(f"Requires-Dist: {dep}")
+
+    build_dependencies = [
+        build_dep
+        for build_dep in pyproject["build-system"]["requires"]
+        if build_dep != "cmeel[build]" and build_dep not in dependencies
+    ]
+    if build_dependencies:
+        metadata.append("Provides-Extra: build")
+        for build_dep in build_dependencies:
+            metadata.append(f'Requires-Dist: {build_dep} ; extra == "build"')
 
     for classifier in conf.get("classifiers", []):
         metadata.append(f"Classifier: {classifier}")

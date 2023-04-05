@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- forward build dependencies as "build" extra
 - tools: flake8, pydocstyle, pyupgrade → ruff
 
 ## [v0.35.0] - 2023-03-07
