@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add `fix-pkg-config` option, default to `true`
+
 ## [v0.37.0] - 2023-04-05
 
 - autodetect `README{.md, .rst, .txt, }`

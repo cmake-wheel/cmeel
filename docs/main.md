@@ -138,6 +138,10 @@ setting shouldn't provide any binary library or executable. `false` by default.
 
 Boolean setting to check generated `*.cmake` files for wrong absolute paths. `true` by default.
 
+#### `fix-pkg-config`
+
+Boolean setting to fix generated `*.pc` files with wrong absolute paths. `true` by default.
+
 ## Global config file
 
 Users can have a `cmeel/cmeel.toml` file in their `$XDG_CONFIG_HOME` directory (usually `~/.config`).

@@ -92,7 +92,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
             LOG.debug("pip freeze:")
             deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
             for dep in deps.strip().split("\n"):
-                LOG.debug(f"  {dep}")
+                LOG.debug("  %s", dep)
 
     prefix = Path(".") / "build-editable" if editable else cmeel_config.temp_dir
     build = prefix / "bld"
@@ -129,6 +129,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
             ["cmake", "--build", "BUILD_DIR", "-t", "test"],
         )
         check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
+        fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
         if deprecate_build_system(pyproject, "any", False):
             tag = "py3-none-any"
         if deprecate_build_system(pyproject, "pyver-any", False):
@@ -177,21 +178,21 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         run_tests,
     )
     configure_cmd = ["cmake", "-S", source, "-B", str(build), *configure_args]
-    LOG.debug(f"configure environment: {configure_env}")
-    LOG.debug(f"configure command: {configure_cmd}")
+    LOG.debug("configure environment: %s", configure_env)
+    LOG.debug("configure command: %s", configure_cmd)
     check_call(configure_cmd, env=configure_env)
 
     LOG.info("build")
     build_cmd = ["cmake", "--build", str(build), f"-j{cmeel_config.jobs}"]
-    LOG.debug(f"build command: {build_cmd}")
+    LOG.debug("build command: %s", build_cmd)
     check_call(build_cmd)
 
     def launch_tests():
         LOG.info("test")
         test_env = cmeel_config.get_test_env()
         cmd = [i.replace("BUILD_DIR", str(build)) for i in test_cmd]
-        LOG.debug(f"test environment: {test_env}")
-        LOG.debug(f"test command: {cmd}")
+        LOG.debug("test environment: %s", test_env)
+        LOG.debug("test command: %s", cmd)
         check_call(cmd, env=test_env)
 
     if run_tests and not run_tests_after_install:
@@ -199,7 +200,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
 
     LOG.info("install")
     install_cmd = ["cmake", "--build", str(build), "-t", "install"]
-    LOG.debug(f"install command: {install_cmd}")
+    LOG.debug("install command: %s", install_cmd)
     check_call(install_cmd)
 
     if run_tests and run_tests_after_install:
@@ -367,6 +368,17 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
                     raise NonRelocatableError(
                         f"{fc} references temporary paths:\n" + "\n".join(display),
                     )
+    if fix_pkg_config and not editable:
+        LOG.info("fix pkg-config files")
+        for fc in install.glob("**/*.pc"):
+            with fc.open() as f:
+                pc_file = f.read()
+            if str(install) in pc_file:
+                rel = str(fc.parent.relative_to(install))
+                fix = "/".join(["${pcfiledir}"] + [".." for _ in rel.split("/")])
+                LOG.warning("fix pkg-config %s: replace %s by %s", fc, install, fix)
+                with fc.open("w") as f:
+                    f.write(pc_file.replace(str(install), fix))
     if editable:
         LOG.info("Add .pth in wheel")
         with (wheel_dir / f"{distribution}.pth").open("w") as f:
@@ -386,9 +398,9 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
             str(wheel_dir),
         ],
     ).decode()
-    LOG.debug(f"wheel pack output: {pack}")
+    LOG.debug("wheel pack output: %s", pack)
     name = Path(re.search("Repacking wheel as (.*\\.whl)\\.\\.\\.", pack).group(1)).name
-    LOG.debug(f"returning '{name}'")
+    LOG.debug("returning '%s'", name)
 
     LOG.info("done")
     return name
