@@ -43,7 +43,6 @@ extract from  https://github.com/cmake-wheel/cmeel-example/blob/main/pyproject.t
 name = "cmeel-example"
 version = "0.4.12"
 description = "This is an example project, to show how to use cmeel"
-readme = "README.md"
 requires-python = ">= 3.7"
 license = "BSD-2-Clause"
 authors = [{name = "Guilhem Saurel", email = "guilhem.saurel@laas.fr"}]
