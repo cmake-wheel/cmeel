@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.39.0] - 2023-04-21
+
 - allow building "py3-none-{platform}" wheels with `py3-none = true` in pyproject.toml
 
 ## [v0.38.0] - 2023-04-18
@@ -287,6 +289,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.39.0]: https://github.com/cmake-wheel/cmeel/compare/v0.38.0...v0.39.0
 [v0.38.0]: https://github.com/cmake-wheel/cmeel/compare/v0.37.0...v0.38.0
 [v0.37.0]: https://github.com/cmake-wheel/cmeel/compare/v0.36.0...v0.37.0
 [v0.36.0]: https://github.com/cmake-wheel/cmeel/compare/v0.35.0...v0.36.0
