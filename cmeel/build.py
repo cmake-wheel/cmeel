@@ -130,9 +130,11 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         )
         check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
         fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
-        if deprecate_build_system(pyproject, "any", False):
+        if deprecate_build_system(pyproject, "py3-none", False):
+            tag = "-".join(["py3", "none", tag.split("-")[-1]])
+        elif deprecate_build_system(pyproject, "any", False):
             tag = "py3-none-any"
-        if deprecate_build_system(pyproject, "pyver-any", False):
+        elif deprecate_build_system(pyproject, "pyver-any", False):
             tag = f"py3{sys.version_info.minor}-none-any"
     distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 

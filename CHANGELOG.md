@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- allow building "py3-none-{platform}" wheels with `py3-none = true` in pyproject.toml
+
 ## [v0.38.0] - 2023-04-18
 
 - add `fix-pkg-config` option, default to `true`
