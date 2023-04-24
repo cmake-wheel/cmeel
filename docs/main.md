@@ -179,7 +179,7 @@ ref. "CMake configure step" above.
 
 ### `log-level`
 
-[Logging level](ttps://docs.python.org/3/library/logging.html#levels). `$CMEEL_LOG_LEVEL` by default, or `WARNING`.
+[Logging level](https://docs.python.org/3/library/logging.html#levels). `$CMEEL_LOG_LEVEL` by default, or `WARNING`.
 
 ## Environment helpers
 
