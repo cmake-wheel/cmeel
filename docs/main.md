@@ -59,6 +59,8 @@ Built wheels will ship the README file in their metadata. The provided content-t
 - reStructuredText if it ends with `.rst` (also case insensitive),
 - plain text otherwise.
 
+If this field is not present, Cmeel will try to find a `README.md`, `README.rst`, `README.txt` or a `README`.
+
 ## Cmeel specific Configuration
 
 Cmeel configuration can be provided by:
