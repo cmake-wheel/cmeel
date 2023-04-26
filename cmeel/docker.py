@@ -59,14 +59,14 @@ def docker_build(
     volumes = ["-v", ".:/src"]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
-    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-t", "--name", "cmeel"]
+    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-t", image]
     build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
     if upgrade:
         pip = [python, "-m", "pip", "install", "-U", "pip"]
         pip_cmd = " ".join(pip)
         build_cmd = " ".join(build)
-        cmd = [*docker, image, "bash", "-c", f"{pip_cmd} && {build_cmd}"]
+        cmd = [*docker, "bash", "-c", f"{pip_cmd} && {build_cmd}"]
     else:
-        cmd = [*docker, image, *build]
+        cmd = [*docker, *build]
     LOG.info("running '%s'", cmd)
     check_call(cmd)
