@@ -1,4 +1,4 @@
-name: check helpers
+name: Check helpers
 
 on: ["push", "pull_request"]
 
