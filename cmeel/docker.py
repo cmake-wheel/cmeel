@@ -59,7 +59,7 @@ def docker_build(
     volumes = ["-v", ".:/src"]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
-    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-it", image]
+    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-t", image]
     build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
     if upgrade:
         pip = [python, "-m", "pip", "install", "-U", "pip"]
