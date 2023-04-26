@@ -5,6 +5,7 @@ import os
 import sys
 from pathlib import Path
 
+from .docker import add_docker_arguments, docker_build
 from .helpers import add_paths_arguments, get_paths
 
 
@@ -26,6 +27,7 @@ def get_parser() -> argparse.ArgumentParser:
     )
 
     add_paths_arguments(subparsers)
+    add_docker_arguments(subparsers)
 
     return parser
 
@@ -34,6 +36,9 @@ if __name__ == "__main__":
     parser = get_parser()
     args = parser.parse_args()
     if "cmd" in args:
-        print(get_paths(**vars(args)))
+        if args.cmd == "docker":
+            docker_build(**vars(args))
+        else:
+            print(get_paths(**vars(args)))
     else:
         parser.print_help()
