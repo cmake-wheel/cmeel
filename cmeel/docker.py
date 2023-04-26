@@ -28,6 +28,12 @@ def add_docker_arguments(subparsers):
         help="update docker image",
     )
     sub.add_argument(
+        "-U",
+        "--upgrade",
+        action="store_true",
+        help="upgrade pip first",
+    )
+    sub.add_argument(
         "-c",
         "--cache",
         action="store_true",
@@ -36,7 +42,14 @@ def add_docker_arguments(subparsers):
     sub.set_defaults(cmd="docker")
 
 
-def docker_build(image: str, python: str, update: bool, cache: bool, **kwargs):
+def docker_build(
+    image: str,
+    python: str,
+    update: bool,
+    cache: bool,
+    upgrade: bool,
+    **kwargs,
+):
     """Build a project with cmeel in a container."""
     if update:
         pull = ["docker", "pull", image]
@@ -47,9 +60,13 @@ def docker_build(image: str, python: str, update: bool, cache: bool, **kwargs):
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
     docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-it", image]
-    # upgrade = [python, "-m", "pip", "install", "-U", "pip"]
     build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
-    # cmd = [*docker, "bash", "-c", "'", *upgrade, "&&", *build, "'"]
-    cmd = [*docker, *build]
+    if upgrade:
+        pip = [python, "-m", "pip", "install", "-U", "pip"]
+        pip_cmd = " ".join(pip)
+        build_cmd = " ".join(build)
+        cmd = [*docker, "bash", "-c", f"{pip_cmd} && {build_cmd}"]
+    else:
+        cmd = [*docker, *build]
     LOG.info("running '%s'", cmd)
     check_call(cmd)
