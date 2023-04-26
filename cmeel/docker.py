@@ -1,6 +1,7 @@
 """Build a project with cmeel in a container."""
 
 import logging
+import pathlib
 from subprocess import check_call
 
 LOG = logging.getLogger("cmeel.docker")
@@ -31,13 +32,19 @@ def add_docker_arguments(subparsers):
         "-U",
         "--upgrade",
         action="store_true",
-        help="upgrade pip first",
+        help="upgrade pip",
     )
     sub.add_argument(
         "-c",
         "--cache",
         action="store_true",
         help="binds /root/.cache/pip",
+    )
+    sub.add_argument(
+        "-C",
+        "--cwd",
+        default=str(pathlib.Path.cwd()),
+        help="build the project in this directory",
     )
     sub.set_defaults(cmd="docker")
 
@@ -48,6 +55,7 @@ def docker_build(
     update: bool,
     cache: bool,
     upgrade: bool,
+    cwd: str,
     **kwargs,
 ):
     """Build a project with cmeel in a container."""
@@ -56,10 +64,10 @@ def docker_build(
         LOG.info("running '%s'", pull)
         check_call(pull)
 
-    volumes = ["-v", ".:/src"]
+    volumes = ["-v", f"{cwd}/:/src"]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
-    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-it", image]
+    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-t", image]
     build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
     if upgrade:
         pip = [python, "-m", "pip", "install", "-U", "pip"]
