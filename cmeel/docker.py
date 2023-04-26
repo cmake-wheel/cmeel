@@ -56,7 +56,7 @@ def docker_build(
         LOG.info("running '%s'", pull)
         check_call(pull)
 
-    volumes = ["-v", ".:/src"]
+    volumes = ["-v", "./:/src"]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
     docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-t", image]
