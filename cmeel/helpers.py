@@ -13,6 +13,14 @@ PATHS = {
 }
 
 
+def add_paths_arguments(subparsers):
+    """Append paths commands for argparse."""
+    for cmd, path in PATHS.items():
+        sub = subparsers.add_parser(cmd, help=f"show cmeel additions to {path}")
+        sub.add_argument("--prepend", action="store_true", help=f"show full {path}")
+        sub.set_defaults(cmd=cmd)
+
+
 def get_paths(cmd: str, prepend: bool = False) -> str:
     """Get the paths needed by the user."""
     prefixes = [pathlib.Path(path) / CMEEL_PREFIX for path in sys.path]
@@ -29,11 +37,3 @@ def get_paths(cmd: str, prepend: bool = False) -> str:
                 ret.append(prefix)
         return os.pathsep.join(ret)
     return os.pathsep.join(available)
-
-
-def add_paths_arguments(subparsers):
-    """Append paths commands for argparse."""
-    for cmd, path in PATHS.items():
-        sub = subparsers.add_parser(cmd, help=f"show cmeel additions to {path}")
-        sub.add_argument("--prepend", action="store_true", help=f"show full {path}")
-        sub.set_defaults(cmd=cmd)
