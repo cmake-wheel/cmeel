@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add tests running helpers
+
 ## [v0.39.0] - 2023-04-21
 
 - allow building "py3-none-{platform}" wheels with `py3-none = true` in pyproject.toml
