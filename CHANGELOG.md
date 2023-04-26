@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.40.0] - 2023-04-26
+
 - add `docker` subcommand
 - add tests running helpers
 
@@ -292,6 +294,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.40.0]: https://github.com/cmake-wheel/cmeel/compare/v0.39.0...v0.40.0
 [v0.39.0]: https://github.com/cmake-wheel/cmeel/compare/v0.38.0...v0.39.0
 [v0.38.0]: https://github.com/cmake-wheel/cmeel/compare/v0.37.0...v0.38.0
 [v0.37.0]: https://github.com/cmake-wheel/cmeel/compare/v0.36.0...v0.37.0
