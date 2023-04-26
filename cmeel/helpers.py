@@ -21,7 +21,7 @@ def add_paths_arguments(subparsers):
         sub.set_defaults(cmd=cmd)
 
 
-def get_paths(cmd: str, prepend: bool = False) -> str:
+def get_paths(cmd: str, prepend: bool = False, **kwargs) -> str:
     """Get the paths needed by the user."""
     prefixes = [pathlib.Path(path) / CMEEL_PREFIX for path in sys.path]
     if cmd == "lib":

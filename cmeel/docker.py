@@ -1,6 +1,9 @@
 """Build a project with cmeel in a container."""
 
+import logging
 from subprocess import check_call
+
+LOG = logging.getLogger("cmeel.docker")
 
 
 def add_docker_arguments(subparsers):
@@ -18,16 +21,35 @@ def add_docker_arguments(subparsers):
         default="python3.10",
         help="python interpreter inside that image",
     )
+    sub.add_argument(
+        "-u",
+        "--update",
+        action="store_true",
+        help="update docker image",
+    )
+    sub.add_argument(
+        "-c",
+        "--cache",
+        action="store_true",
+        help="binds /root/.cache/pip",
+    )
     sub.set_defaults(cmd="docker")
 
 
-def docker_build(image: str, python: str, **kwargs):
+def docker_build(image: str, python: str, update: bool, cache: bool, **kwargs):
     """Build a project with cmeel in a container."""
-    pull = ["docker", "pull", image]
-    check_call(pull)
-    docker = ["docker", "run", "--rm", "-v", ".:/src", "-w", "/src", "-it", image]
-    # update = [python, "-m", "pip", "install", "-U", "pip"]
+    if update:
+        pull = ["docker", "pull", image]
+        LOG.info("running '%s'", pull)
+        check_call(pull)
+
+    volumes = ["-v", ".:/src"]
+    if cache:
+        volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
+    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-it", image]
+    # upgrade = [python, "-m", "pip", "install", "-U", "pip"]
     build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
-    # cmd = [*docker, "bash", "-c", "'", *update, "&&", *build, "'"]
+    # cmd = [*docker, "bash", "-c", "'", *upgrade, "&&", *build, "'"]
     cmd = [*docker, *build]
+    LOG.info("running '%s'", cmd)
     check_call(cmd)
