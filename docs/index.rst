@@ -8,6 +8,7 @@ User documentation
    :maxdepth: 2
 
    main
+   module
 
 Internal API
 ------------

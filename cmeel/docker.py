@@ -31,7 +31,7 @@ def add_docker_arguments(subparsers):
         "-U",
         "--upgrade",
         action="store_true",
-        help="upgrade pip first",
+        help="upgrade pip",
     )
     sub.add_argument(
         "-c",
