@@ -23,7 +23,9 @@ jobs:
       - name: clone cmeel-example
         run: git clone --recursive -j2 https://github.com/cmake-wheel/cmeel-example
       - name: build a manylinux wheel for cmeel-example
-        run: python -m cmeel -vvv docker -UC $PWD/cmeel-example -i "quay.io/pypa/${{ matrix.image }}_${{ matrix.arch }}"
+        run: >
+          python -m cmeel -vvv docker -UC $PWD/cmeel-example -p python3.10
+          -i "quay.io/pypa/${{ matrix.image }}_${{ matrix.arch }}"
       - name: install and test it
         if: matrix.image == 'manylinux2014'
         run: |
