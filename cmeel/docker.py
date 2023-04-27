@@ -19,7 +19,7 @@ def add_docker_arguments(subparsers):
     sub.add_argument(
         "-p",
         "--python",
-        default="python3.10",
+        default="python3.11",
         help="python interpreter inside that image",
     )
     sub.add_argument(
