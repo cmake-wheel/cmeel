@@ -26,7 +26,8 @@ subcommands:
 
 Cmeel provides a python module to build a project in a container, eg. [manylinux](https://github.com/pypa/manylinux):
 ```
-usage: python -m cmeel docker [-h] [-i IMAGE] [-p PYTHON] [-u] [-U] [-c] [-C CWD] [-e ENV]
+usage: python -m cmeel docker [-h] [-i IMAGE] [-p PYTHON] [-u] [-U]
+                              [-c] [-C CWD] [-e ENV]
 
 options:
   -h, --help            show this help message and exit
