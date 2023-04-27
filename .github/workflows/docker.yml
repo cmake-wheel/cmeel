@@ -24,7 +24,14 @@ jobs:
         run: git clone --recursive -j2 https://github.com/cmake-wheel/cmeel-example
       - name: build a manylinux wheel for cmeel-example
         run: python -m cmeel -vvv docker -UC $PWD/cmeel-example -i "quay.io/pypa/${{ matrix.image }}_${{ matrix.arch }}"
-      - name: install it
-        run: python -m pip install cmeel-example/wh/cmeel_example*.whl
-      - name: test module
-        run: python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
+      - name: install and test it
+        if: matrix.image == 'manylinux2014'
+        run: |
+          python -m pip install cmeel-example/wh/cmeel_example*.whl
+          python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
+      - name: install and test it
+        if: matrix.image == 'musllinux_1_1'
+        run: >
+          docker run --rm -v "$PWD/cmeel-example/wh:/wh" -t alpine:3.17 sh -c
+           'python -m pip install /wh/cmeel_example*.whl &&
+            python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"'
