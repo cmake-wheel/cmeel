@@ -4,11 +4,12 @@ on: ["push", "pull_request"]
 
 jobs:
   docker:
-    name: Test docker builds
+    name: "Test docker on ${{ matrix.image }}_${{ matrix.arch }}"
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        image: ["quay.io/pypa/manylinux2014_x86_64", "quay.io/pypa/musllinux_1_1_x86_64"]
+        image: ["manylinux2014", "musllinux_1_1"]
+        arch: ["x86_64"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -22,7 +23,7 @@ jobs:
       - name: clone cmeel-example
         run: git clone --recursive -j2 https://github.com/cmake-wheel/cmeel-example
       - name: build a manylinux wheel for cmeel-example
-        run: python -m cmeel -vvv docker -UC $PWD/cmeel-example -i "${{ matrix.image }}"
+        run: python -m cmeel -vvv docker -UC $PWD/cmeel-example -i "quay.io/pypa/${{ matrix.image }}_${{ matrix.arch }}"
       - name: install it
         run: python -m pip install cmeel-example/wh/cmeel_example*.whl
       - name: test module
