@@ -3,6 +3,7 @@
 import logging
 import pathlib
 from subprocess import check_call
+from typing import List
 
 LOG = logging.getLogger("cmeel.docker")
 
@@ -46,6 +47,12 @@ def add_docker_arguments(subparsers):
         default=str(pathlib.Path.cwd()),
         help="build the project in this directory",
     )
+    sub.add_argument(
+        "-e",
+        "--env",
+        action="append",
+        help="pass environment variables to docker run",
+    )
     sub.set_defaults(cmd="docker")
 
 
@@ -56,6 +63,7 @@ def docker_build(
     cache: bool,
     upgrade: bool,
     cwd: str,
+    env: List[str],
     **kwargs,
 ):
     """Build a project with cmeel in a container."""
@@ -65,9 +73,12 @@ def docker_build(
         check_call(pull)
 
     volumes = ["-v", f"{cwd}/:/src"]
+    envs: List[str] = []
+    for e in env:
+        envs = [*envs, "-e", e]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
-    docker = ["docker", "run", "--rm", *volumes, "-w", "/src", "-t", image]
+    docker = ["docker", "run", "--rm", *envs, *volumes, "-w", "/src", "-t", image]
     build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
     if upgrade:
         pip = [python, "-m", "pip", "install", "-U", "pip"]
