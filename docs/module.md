@@ -44,6 +44,6 @@ options:
 Environment variables can be forwarded or defined, and so multilple times, eg.:
 
 ```
-export CMEEL_RUN_TEST=OFF
-python -m cmeel -vvv docker -c -e CMEEL_RUN_TEST -e CMEEL_JOBS=8
+export CMEEL_RUN_TESTS=OFF
+python -m cmeel -vvv docker -c -e CMEEL_RUN_TESTS -e CMEEL_JOBS=8
 ```
