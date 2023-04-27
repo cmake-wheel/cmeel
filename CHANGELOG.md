@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix docker environment
+
 ## [v0.41.0] - 2023-04-27
 
 - docker: add environment

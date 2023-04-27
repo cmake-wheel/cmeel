@@ -3,7 +3,7 @@
 import logging
 import pathlib
 from subprocess import check_call
-from typing import List
+from typing import List, Optional
 
 LOG = logging.getLogger("cmeel.docker")
 
@@ -63,7 +63,7 @@ def docker_build(
     cache: bool,
     upgrade: bool,
     cwd: str,
-    env: List[str],
+    env: Optional[List[str]],
     **kwargs,
 ):
     """Build a project with cmeel in a container."""
@@ -74,8 +74,9 @@ def docker_build(
 
     volumes = ["-v", f"{cwd}/:/src"]
     envs: List[str] = []
-    for e in env:
-        envs = [*envs, "-e", e]
+    if env:
+        for e in env:
+            envs = [*envs, "-e", e]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
     docker = ["docker", "run", "--rm", *envs, *volumes, "-w", "/src", "-t", image]
