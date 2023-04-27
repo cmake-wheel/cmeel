@@ -33,5 +33,6 @@ jobs:
         if: matrix.image == 'musllinux_1_1'
         run: >
           docker run --rm -v "$PWD/cmeel-example/wh:/wh" -t alpine:3.17 sh -c
-          'python -m pip install /wh/cmeel_example*.whl &&
-           python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"'
+          'apk add py3-pip &&
+          python -m pip install /wh/cmeel_example*.whl &&
+          python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"'
