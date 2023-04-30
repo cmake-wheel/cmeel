@@ -224,12 +224,29 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
 
     LOG.info("create dist-info / METADATA")
 
+    lic_expr, lic_file = None, None
+    if isinstance(conf["license"], str):
+        lic_expr = conf["license"]
+    elif isinstance(conf["license"], dict):
+        if "text" in conf["license"] and "file" not in conf["license"]:
+            lic_expr = conf["license"]["text"]
+        elif "text" not in conf["license"] and "file" in conf["license"]:
+            lic_file = conf["license"]["file"]
+        else:
+            e = "'license' table must containe either a 'file' or a 'text'"
+            raise KeyError(e)
+    else:
+        e = "'license' accepts either a string or a table."
+        raise TypeError(e)
+
+    lic = f"License-Expression: {lic_expr}" if lic_expr else f"License-File: {lic_file}"
+
     metadata = [
         "Metadata-Version: 2.1",
         f"Name: {conf['name']}",
         f"Version: {conf['version']}",
         f"Summary: {conf['description']}",
-        f"License-Expression: {conf['license']}",
+        lic,
         f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
     ]
 
