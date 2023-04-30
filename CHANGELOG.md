@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- PEP 621: accept readme table with 'content-type' and ('file' or 'text')
+
 ## [v0.41.1] - 2023-04-27
 
 - fix docker environment

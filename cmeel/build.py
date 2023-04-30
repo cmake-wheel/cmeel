@@ -288,25 +288,46 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
     for classifier in conf.get("classifiers", []):
         metadata.append(f"Classifier: {classifier}")
 
+    readme_file, readme_content, readme_type = None, None, None
     if "readme" not in conf:
         for ext in [".md", ".rst", ".txt", ""]:
-            readme = f"README{ext}"
-            if Path(readme).exists():
-                conf["readme"] = readme
+            if Path(f"README{ext}").exists():
+                conf["readme"] = f"README{ext}"
                 break
     if "readme" in conf:
-        if conf["readme"].lower().endswith(".md"):
-            content_type = "text/markdown"
-        elif conf["readme"].lower().endswith(".rst"):
-            content_type = "text/x-rst"
+        if isinstance(conf["readme"], str):
+            readme_file = conf["readme"]
+            if readme_file.lower().endswith(".md"):
+                readme_type = "text/markdown"
+            elif readme_file.lower().endswith(".rst"):
+                readme_type = "text/x-rst"
+            else:
+                readme_type = "text/plain"
+        elif isinstance(conf["readme"], dict):
+            if "content-type" in conf["readme"]:
+                readme_type = conf["readme"]["content-type"]
+            else:
+                e = "if 'readme' is a table, it must contain a 'content-type' key"
+                raise KeyError(e)
+            if "file" in conf["readme"]:
+                readme_file = conf["readme"]["file"]
+            elif "text" in conf["readme"]:
+                readme_content = conf["readme"]["text"]
+            else:
+                e = "if 'readme' is a table, it must contain a 'file' or a 'text' key"
+                raise KeyError(e)
         else:
-            content_type = "text/plain"
-        metadata.append(f"Description-Content-Type: {content_type}")
+            e = "'readme' accepts either a string or a table."
+            raise TypeError(e)
+        metadata.append(f"Description-Content-Type: {readme_type}")
 
         metadata.append("")
 
-        with Path(conf["readme"]).open() as f:
-            metadata.append(f.read())
+        if readme_content:
+            metadata.append(readme_content)
+        else:
+            with Path(readme_file).open() as f:
+                metadata.append(f.read())
 
     with (dist_info / "METADATA").open("w") as f:
         f.write("\n".join(metadata))
