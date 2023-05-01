@@ -1,5 +1,4 @@
 """Cmeel build."""
-import glob
 import logging
 import os
 import re
@@ -20,6 +19,7 @@ import tomli
 from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
+from .metadata import get_deps, get_license, get_people, get_readme, get_urls
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -32,7 +32,6 @@ PATCH_IGNORE = [
     "Skipping patch.",
     "The next patch would delete",
 ]
-LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
 class NonRelocatableError(Exception):
@@ -232,165 +231,14 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         f"Version: {conf['version']}",
         f"Summary: {conf['description']}",
         f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
+        *get_license(conf, dist_info),
+        *get_people(conf, "author"),
+        *get_people(conf, "maintainer"),
+        *get_urls(conf),
+        *get_deps(conf, pyproject["build-system"]["requires"]),
+        *[f"Classifier: {classifier}" for classifier in conf.get("classifiers", [])],
+        *get_readme(conf),
     ]
-
-    lic_expr, lic_files = "", []
-    if "license" in conf:
-        if isinstance(conf["license"], str):
-            lic_expr = conf["license"]
-        elif isinstance(conf["license"], dict):
-            warnings.warn(
-                "'license' table is deprecated.\n"
-                "Please use a 'license' string and/or the 'license-files' key.\n"
-                f"The default setting globs {LICENSE_GLOBS}, as per PEP 639",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            if "text" in conf["license"] and "file" not in conf["license"]:
-                lic_expr = conf["license"]["text"]
-            elif "text" not in conf["license"] and "file" in conf["license"]:
-                lic_files.append(conf["license"]["file"])
-            else:
-                e = "'license' table must containe either a 'file' or a 'text'"
-                raise KeyError(e)
-        else:
-            e = "'license' accepts either a string or a table."
-            raise TypeError(e)
-    if "license-files" in conf:
-        license_files = conf["license-files"]
-        if isinstance(license_files, str):
-            lic_files.append(license_files)
-        elif isinstance(license_files, list):
-            for lic_file in license_files:
-                lic_files.append(lic_file)
-        elif isinstance(license_files, dict):
-            if "paths" in license_files and "globs" not in license_files:
-                for lic_file in license_files["paths"]:
-                    lic_files.append(lic_file)
-            elif "paths" not in license_files and "globs" in license_files:
-                for glob_expr in license_files["globs"]:
-                    for lic_file in glob.glob(glob_expr):
-                        lic_files.append(lic_file)
-            else:
-                e = "'license-files' table must containe either a 'paths' or a 'globs'"
-                raise KeyError(e)
-        else:
-            e = "'license-files' accepts either a string, a list, or a table."
-            raise TypeError(e)
-    elif not lic_files:
-        for glob_expr in LICENSE_GLOBS:
-            for lic_file in glob.glob(glob_expr):
-                lic_files.append(lic_file)
-
-    if not lic_expr and not lic_files:
-        e = "'license' or 'license-files' is required"
-        raise KeyError(e)
-
-    if lic_expr:
-        metadata.append(f"License-Expression: {lic_expr}")
-    for lic_file in lic_files:
-        metadata.append(f"License-File: {lic_file}")
-        path_src = Path(lic_file)
-        path_dst = dist_info / "license" / path_src
-        path_dst.parent.mkdir(parents=True, exist_ok=True)
-        with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
-            f_dst.write(f_src.read())
-
-    authors = []
-    maintainers = []
-    authors_email = []
-    maintainers_email = []
-
-    for author in conf.get("authors", {}):
-        if "name" in author and "email" in author:
-            authors_email.append(f"{author['name']} <{author['email']}>")
-        elif "email" in author:
-            authors_email.append(author["email"])
-        elif "name" in author:
-            authors.append(author["name"])
-
-    for maintainer in conf.get("maintainers", {}):
-        if "name" in maintainer and "email" in maintainer:
-            maintainers_email.append(f"{maintainer['name']} <{maintainer['email']}>")
-        elif "email" in maintainer:
-            maintainers_email.append(maintainer["email"])
-        elif "name" in maintainer:
-            maintainers.append(maintainer["name"])
-
-    if authors:
-        metadata.append("Author: " + ",".join(authors))
-    if authors_email:
-        metadata.append("Author-email: " + ",".join(authors_email))
-    if maintainers:
-        metadata.append("Maintainer: " + ",".join(maintainers))
-    if maintainers_email:
-        metadata.append("Maintainer-email: " + ",".join(maintainers_email))
-
-    if "urls" in conf:
-        for key, url in conf["urls"].items():
-            if key == "homepage":
-                metadata.append(f"Home-page: {url}")
-            else:
-                name = key.replace("-", " ").capitalize()
-                metadata.append(f"Project-URL: {name}, {url}")
-
-    dependencies = ["cmeel", *conf.get("dependencies", [])]
-    for dep in dependencies:
-        metadata.append(f"Requires-Dist: {dep}")
-
-    build_dependencies = [
-        build_dep
-        for build_dep in pyproject["build-system"]["requires"]
-        if build_dep != "cmeel[build]" and build_dep not in dependencies
-    ]
-    if build_dependencies:
-        metadata.append("Provides-Extra: build")
-        for build_dep in build_dependencies:
-            metadata.append(f'Requires-Dist: {build_dep} ; extra == "build"')
-
-    for classifier in conf.get("classifiers", []):
-        metadata.append(f"Classifier: {classifier}")
-
-    readme_file, readme_content, readme_type = None, None, None
-    if "readme" not in conf:
-        for ext in [".md", ".rst", ".txt", ""]:
-            if Path(f"README{ext}").exists():
-                conf["readme"] = f"README{ext}"
-                break
-    if "readme" in conf:
-        if isinstance(conf["readme"], str):
-            readme_file = conf["readme"]
-            if readme_file.lower().endswith(".md"):
-                readme_type = "text/markdown"
-            elif readme_file.lower().endswith(".rst"):
-                readme_type = "text/x-rst"
-            else:
-                readme_type = "text/plain"
-        elif isinstance(conf["readme"], dict):
-            if "content-type" in conf["readme"]:
-                readme_type = conf["readme"]["content-type"]
-            else:
-                e = "if 'readme' is a table, it must contain a 'content-type' key"
-                raise KeyError(e)
-            if "file" in conf["readme"]:
-                readme_file = conf["readme"]["file"]
-            elif "text" in conf["readme"]:
-                readme_content = conf["readme"]["text"]
-            else:
-                e = "if 'readme' is a table, it must contain a 'file' or a 'text' key"
-                raise KeyError(e)
-        else:
-            e = "'readme' accepts either a string or a table."
-            raise TypeError(e)
-        metadata.append(f"Description-Content-Type: {readme_type}")
-
-        metadata.append("")
-
-        if readme_content:
-            metadata.append(readme_content)
-        else:
-            with Path(readme_file).open() as f:
-                metadata.append(f.read())
 
     with (dist_info / "METADATA").open("w") as f:
         f.write("\n".join(metadata))

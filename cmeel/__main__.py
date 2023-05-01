@@ -22,7 +22,7 @@ def parse_args() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser(
         prog=f"{python} -m cmeel",
-        description="cmeel environment helpers",
+        description="cmeel helpers",
     )
     parser.add_argument(
         "-v",

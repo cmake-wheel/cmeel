@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - accept `license-files` as a string, list of strings, or table with `paths` or `globs`
     - default `license-files` globs to `["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]``
 - rename `cmeel/{helpers -> env}.py`
+- add `cmeel/metadata.py` to move pyproject parsing out of the way and help with C901
 
 ## [v0.41.1] - 2023-04-27
 
