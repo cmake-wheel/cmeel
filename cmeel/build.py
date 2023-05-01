@@ -1,4 +1,5 @@
 """Cmeel build."""
+import glob
 import logging
 import os
 import re
@@ -31,6 +32,7 @@ PATCH_IGNORE = [
     "Skipping patch.",
     "The next patch would delete",
 ]
+LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
 class NonRelocatableError(Exception):
@@ -229,6 +231,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         f"Name: {conf['name']}",
         f"Version: {conf['version']}",
         f"Summary: {conf['description']}",
+        f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
     ]
 
     lic_expr, lic_files = "", []
@@ -236,6 +239,13 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         if isinstance(conf["license"], str):
             lic_expr = conf["license"]
         elif isinstance(conf["license"], dict):
+            warnings.warn(
+                "'license' table is deprecated.\n"
+                "Please use a 'license' string and/or the 'license-files' key.\n"
+                f"The default setting globs {LICENSE_GLOBS}, as per PEP 639",
+                DeprecationWarning,
+                stacklevel=2,
+            )
             if "text" in conf["license"] and "file" not in conf["license"]:
                 lic_expr = conf["license"]["text"]
             elif "text" not in conf["license"] and "file" in conf["license"]:
@@ -246,26 +256,45 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         else:
             e = "'license' accepts either a string or a table."
             raise TypeError(e)
-    if "license-file" in conf:
-        if isinstance(conf["license-file"], str):
-            lic_files.append(conf["license-file"])
-        elif isinstance(conf["license-file"], list):
-            for lic_file in conf["license-file"]:
+    if "license-files" in conf:
+        license_files = conf["license-files"]
+        if isinstance(license_files, str):
+            lic_files.append(license_files)
+        elif isinstance(license_files, list):
+            for lic_file in license_files:
                 lic_files.append(lic_file)
+        elif isinstance(license_files, dict):
+            if "paths" in license_files and "globs" not in license_files:
+                for lic_file in license_files["paths"]:
+                    lic_files.append(lic_file)
+            elif "paths" not in license_files and "globs" in license_files:
+                for glob_expr in license_files["globs"]:
+                    for lic_file in glob.glob(glob_expr):
+                        lic_files.append(lic_file)
+            else:
+                e = "'license-files' table must containe either a 'paths' or a 'globs'"
+                raise KeyError(e)
         else:
-            e = "'license-file' accepts either a string or a list."
+            e = "'license-files' accepts either a string, a list, or a table."
             raise TypeError(e)
+    elif not lic_files:
+        for glob_expr in LICENSE_GLOBS:
+            for lic_file in glob.glob(glob_expr):
+                lic_files.append(lic_file)
 
     if not lic_expr and not lic_files:
-        e = "'license' or 'license-file' is required"
+        e = "'license' or 'license-files' is required"
         raise KeyError(e)
 
     if lic_expr:
         metadata.append(f"License-Expression: {lic_expr}")
     for lic_file in lic_files:
         metadata.append(f"License-File: {lic_file}")
-
-    metadata.append(f"Requires-Python: {conf.get('requires-python', '>=3.7')}")
+        path_src = Path(lic_file)
+        path_dst = dist_info / "license" / path_src
+        path_dst.parent.mkdir(parents=True, exist_ok=True)
+        with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
+            f_dst.write(f_src.read())
 
     authors = []
     maintainers = []
