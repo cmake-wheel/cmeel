@@ -7,7 +7,7 @@ import pathlib
 import sys
 
 from .docker import add_docker_arguments, docker_build
-from .helpers import add_paths_arguments, get_paths
+from .env import add_paths_arguments, get_paths
 
 LOG = logging.getLogger("cmeel")
 
