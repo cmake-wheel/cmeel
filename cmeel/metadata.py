@@ -127,7 +127,7 @@ def get_urls(conf: Dict[str, Any]) -> List[str]:
     return metadata
 
 
-def get_deps(conf: Dict[str, Any], build_deps) -> List[str]:
+def get_deps(conf: Dict[str, Any], build_deps: List[str]) -> List[str]:
     """Parse 'dependencies' keys."""
     metadata = []
 
