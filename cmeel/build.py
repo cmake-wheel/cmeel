@@ -14,7 +14,10 @@ except ImportError as e:
     err = "You need the 'build' extra option to use this build module.\n"
     err += "For this you can install the 'cmeel[build]' package."
     raise ImportError(err) from e
-import tomli
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 from . import __version__
 from .config import cmeel_config
@@ -116,7 +119,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
 
     LOG.info("load conf from pyproject.toml")
     with Path("pyproject.toml").open("rb") as f:
-        pyproject = tomli.load(f)
+        pyproject = tomllib.load(f)
         conf = pyproject["project"]
         conf["name"] = normalize(conf["name"])
         source = deprecate_build_system(pyproject, "source", ".")

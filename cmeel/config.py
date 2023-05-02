@@ -5,7 +5,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Dict, List, Optional, Union
 
-import tomli
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 from .consts import CMEEL_PREFIX, SITELIB
 
@@ -23,7 +26,7 @@ class CmeelConfig:
         self.conf = {}
         if config_file.exists():
             with config_file.open("rb") as f:
-                self.conf = tomli.load(f)
+                self.conf = tomllib.load(f)
         if self.conf.get("default-env", True):
             self.env = os.environ.copy()
         else:
