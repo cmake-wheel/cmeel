@@ -7,6 +7,7 @@ User documentation
 ------------------
 
 .. toctree::
+   :caption: User documentation
    :maxdepth: 2
 
    main
