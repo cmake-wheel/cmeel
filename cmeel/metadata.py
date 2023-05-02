@@ -103,7 +103,7 @@ def _license(conf) -> Tuple[str, List[str]]:
     return lic_expr, lic_files
 
 
-def get_people(conf: dict[str, Any], key: str) -> List[str]:
+def get_people(conf: Dict[str, Any], key: str) -> List[str]:
     """Parse 'authors' and 'maintainers' keys."""
     metadata = []
 
