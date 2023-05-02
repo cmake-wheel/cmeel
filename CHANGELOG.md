@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.42.1] - 2023-05-03
+
 - `[project]` section of `pyproject.toml`:
     - normalize `name`
     - accept `keyword` key
@@ -322,6 +324,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.42.1]: https://github.com/cmake-wheel/cmeel/compare/v0.42.0...v0.42.1
 [v0.42.0]: https://github.com/cmake-wheel/cmeel/compare/v0.41.1...v0.42.0
 [v0.41.1]: https://github.com/cmake-wheel/cmeel/compare/v0.41.0...v0.41.1
 [v0.41.0]: https://github.com/cmake-wheel/cmeel/compare/v0.40.0...v0.41.0
