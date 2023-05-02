@@ -3,7 +3,7 @@
 import glob
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
@@ -38,7 +38,7 @@ def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:
     return metadata
 
 
-def _license_files(license_files) -> List[str]:
+def _license_files(license_files: Union[str, List[str], Dict[str, str]]) -> List[str]:
     """Parse 'license-files' key."""
     lic_files = []
     if isinstance(license_files, str):
