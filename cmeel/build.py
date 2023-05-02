@@ -15,7 +15,7 @@ except ImportError as e:
     err += "For this you can install the 'cmeel[build]' package."
     raise ImportError(err) from e
 try:
-    import tomllib
+    import tomllib  # type: ignore
 except ModuleNotFoundError:
     import tomli as tomllib
 
