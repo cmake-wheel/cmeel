@@ -7,20 +7,14 @@ import warnings
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
-def get_license(conf, dist_info):  # noqa: C901
+def get_license(conf, dist_info):
     """Parse 'license' and 'license-files' keys."""
     metadata = []
-    lic_expr, lic_files = "", []
-    if "license" in conf:
-        if isinstance(conf["license"], str):
-            lic_expr = conf["license"]
-        elif isinstance(conf["license"], dict):
-            lic_expr, lic_files = get_license_dict(conf)
-        else:
-            e = "'license' accepts either a string or a table."
-            raise TypeError(e)
+
+    lic_expr, lic_files = _license(conf)
+
     if "license-files" in conf:
-        lic_files = [*lic_files, *get_license_files(conf["license-files"])]
+        lic_files = [*lic_files, *_license_files(conf["license-files"])]
     elif not lic_files:
         for glob_expr in LICENSE_GLOBS:
             for lic_file in glob.glob(glob_expr):
@@ -43,7 +37,7 @@ def get_license(conf, dist_info):  # noqa: C901
     return metadata
 
 
-def get_license_files(license_files):
+def _license_files(license_files):
     """Parse 'license-files' key."""
     lic_files = []
     if isinstance(license_files, str):
@@ -69,25 +63,30 @@ def get_license_files(license_files):
     return lic_files
 
 
-def get_license_dict(conf):
-    """Parse 'license' key when it is a table."""
+def _license(conf):
+    """Parse 'license' key."""
     lic_expr, lic_files = "", []
-
-    warnings.warn(
-        "'license' table is deprecated.\n"
-        "Please use a 'license' string and/or the 'license-files' key.\n"
-        f"The default setting globs {LICENSE_GLOBS}, as per PEP 639",
-        DeprecationWarning,
-        stacklevel=2,
-    )
-    if "text" in conf["license"] and "file" not in conf["license"]:
-        lic_expr = conf["license"]["text"]
-    elif "text" not in conf["license"] and "file" in conf["license"]:
-        lic_files.append(conf["license"]["file"])
-    else:
-        e = "'license' table must containe either a 'file' or a 'text'"
-        raise KeyError(e)
-
+    if "license" in conf:
+        if isinstance(conf["license"], str):
+            lic_expr = conf["license"]
+        elif isinstance(conf["license"], dict):
+            warnings.warn(
+                "'license' table is deprecated.\n"
+                "Please use a 'license' string and/or the 'license-files' key.\n"
+                f"The default setting globs {LICENSE_GLOBS}, as per PEP 639",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            if "text" in conf["license"] and "file" not in conf["license"]:
+                lic_expr = conf["license"]["text"]
+            elif "text" not in conf["license"] and "file" in conf["license"]:
+                lic_files.append(conf["license"]["file"])
+            else:
+                e = "'license' table must containe either a 'file' or a 'text'"
+                raise KeyError(e)
+        else:
+            e = "'license' accepts either a string or a table."
+            raise TypeError(e)
     return lic_expr, lic_files
 
 
@@ -169,7 +168,7 @@ def get_readme(conf):
             else:
                 readme_type = "text/plain"
         elif isinstance(conf["readme"], dict):
-            metadata += get_readme_dict(conf)
+            metadata += _readme_dict(conf)
         else:
             e = "'readme' accepts either a string or a table."
             raise TypeError(e)
@@ -186,7 +185,7 @@ def get_readme(conf):
     return metadata
 
 
-def get_readme_dict(conf):
+def _readme_dict(conf):
     """Parse 'readme' key when it is a table."""
     metadata = []
 
