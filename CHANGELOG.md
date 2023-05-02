@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- normalize name
+- `[project]` section of `pyproject.toml`:
+    - normalize `name`
+    - accept `keyword` key
 
 ## [v0.42.0] - 2023-05-01
 

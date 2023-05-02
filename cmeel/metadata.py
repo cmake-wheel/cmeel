@@ -219,3 +219,12 @@ def _ext_type(filename: str) -> str:
     if filename.lower().endswith(".rst"):
         return "text/x-rst"
     return "text/plain"
+
+
+def get_keywords(conf: Dict[str, Any]) -> List[str]:
+    """Parse 'keyword' key."""
+    metadata = []
+    if "keywords" in conf:
+        keywords = ",".join(conf["keywords"])
+        metadata.append(f"Keywords: {keywords}")
+    return metadata

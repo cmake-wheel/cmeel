@@ -19,7 +19,15 @@ import tomli
 from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
-from .metadata import get_deps, get_license, get_people, get_readme, get_urls, normalize
+from .metadata import (
+    get_deps,
+    get_keywords,
+    get_license,
+    get_people,
+    get_readme,
+    get_urls,
+    normalize,
+)
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -235,6 +243,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
         *get_license(conf, dist_info),
         *get_people(conf, "author"),
         *get_people(conf, "maintainer"),
+        *get_keywords(conf),
         *get_urls(conf),
         *get_deps(conf, pyproject["build-system"]["requires"]),
         *[f"Classifier: {classifier}" for classifier in conf.get("classifiers", [])],
