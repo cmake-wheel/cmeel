@@ -17,8 +17,8 @@ Internal
 --------
 
 .. toctree::
-   :maxdepth: 2
    :caption: Internal
+   :maxdepth: 2
 
    internal
 
@@ -26,9 +26,6 @@ Internal
    :maxdepth: 1
 
    CHANGELOG
-
-Links
------
 
 .. toctree::
    :caption: Project Links
@@ -38,7 +35,6 @@ Links
     Issue Tracker <https://github.com/cmake-wheel/cmeel/issues>
     Changelog <https://github.com/cmake-wheel/cmeel/blob/main/CHANGELOG.md>
     Documentation <https://cmeel.readthedocs.io>
-
 
 
 Indices and tables

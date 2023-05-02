@@ -1,4 +1,7 @@
-"""Cmeel config."""
+"""Cmeel configuration.
+
+Parse various configuration files and environment variables.
+"""
 import os
 import sys
 from pathlib import Path

@@ -1,4 +1,7 @@
-"""Cmeel build."""
+"""Cmeel build.
+
+Functions to generate package archives.
+"""
 import logging
 import os
 import re
