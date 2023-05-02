@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - accept `optional-dependencies` key
 - switch to tomllib for python >= 3.11
 - switch sphinx theme to furo for dark theme
+- improve docs
 
 ## [v0.42.0] - 2023-05-01
 

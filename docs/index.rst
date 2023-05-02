@@ -8,6 +8,9 @@ User documentation
 
 .. toctree::
    :caption: User documentation
+   :hidden:
+
+.. toctree::
    :maxdepth: 2
 
    main
@@ -18,6 +21,9 @@ Internal
 
 .. toctree::
    :caption: Internal
+   :hidden:
+
+.. toctree::
    :maxdepth: 2
 
    internal
