@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 from typing import Any, Dict, List, Optional, Union
 
 try:
-    import tomllib  # type: ignore
+    import tomllib
 except ModuleNotFoundError:
     import tomli as tomllib
 
