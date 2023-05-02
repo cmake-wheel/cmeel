@@ -31,7 +31,7 @@ This Install in `${PYTHON_SITELIB}/cmeel.prefix/`:
 - `${PYTHON_SITELIB}/cmeel.pth` automatically load `${PYTHON_SITELIB}/cmeel.prefix/${PYTHON_SITELIB}`, so python
   packages work out of the box
 - Existing `${PYTHON_SITELIB}/cmeel.prefix` are automatically added to `$CMAKE_PREFIX_PATH`, so we can build CMake
-  packages whose dependencies are provided by other CMake packages installed with cmeel
+  packages whose dependencies are provided by other packages installed with cmeel
 - Stuff in `${PYTHON_SITELIB}/cmeel.prefix/bin` is exposed via `cmeel.run:cmeel_run`
 
 ## Basic pyproject.toml example
