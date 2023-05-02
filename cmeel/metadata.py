@@ -1,13 +1,14 @@
 """Metadata generation from pyproject conf."""
 
 import glob
-import pathlib
 import warnings
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
 
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
-def get_license(conf, dist_info):
+def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:
     """Parse 'license' and 'license-files' keys."""
     metadata = []
 
@@ -28,7 +29,7 @@ def get_license(conf, dist_info):
         metadata.append(f"License-Expression: {lic_expr}")
     for lic_file in lic_files:
         metadata.append(f"License-File: {lic_file}")
-        path_src = pathlib.Path(lic_file)
+        path_src = Path(lic_file)
         path_dst = dist_info / "license" / path_src
         path_dst.parent.mkdir(parents=True, exist_ok=True)
         with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
@@ -37,14 +38,13 @@ def get_license(conf, dist_info):
     return metadata
 
 
-def _license_files(license_files):
+def _license_files(license_files) -> List[str]:
     """Parse 'license-files' key."""
     lic_files = []
     if isinstance(license_files, str):
         lic_files.append(license_files)
     elif isinstance(license_files, list):
-        for lic_file in license_files:
-            lic_files.append(lic_file)
+        lic_files += license_files
     elif isinstance(license_files, dict):
         if "paths" in license_files and "globs" not in license_files:
             for lic_file in license_files["paths"]:
@@ -63,7 +63,7 @@ def _license_files(license_files):
     return lic_files
 
 
-def _license(conf):
+def _license(conf) -> Tuple[str, List[str]]:
     """Parse 'license' key."""
     lic_expr, lic_files = "", []
     if "license" in conf:
@@ -90,7 +90,7 @@ def _license(conf):
     return lic_expr, lic_files
 
 
-def get_people(conf, key):
+def get_people(conf: dict[str, Any], key: str) -> List[str]:
     """Parse 'authors' and 'maintainers' keys."""
     metadata = []
 
@@ -112,7 +112,7 @@ def get_people(conf, key):
     return metadata
 
 
-def get_urls(conf):
+def get_urls(conf: Dict[str, Any]) -> List[str]:
     """Parse 'urls' keys."""
     metadata = []
 
@@ -127,7 +127,7 @@ def get_urls(conf):
     return metadata
 
 
-def get_deps(conf, build_deps):
+def get_deps(conf: Dict[str, Any], build_deps) -> List[str]:
     """Parse 'dependencies' keys."""
     metadata = []
 
@@ -148,27 +148,21 @@ def get_deps(conf, build_deps):
     return metadata
 
 
-def get_readme(conf):
+def get_readme(conf: Dict[str, Any]) -> List[str]:
     """Parse 'readme' key."""
     metadata = []
 
-    readme_file, readme_content, readme_type = None, None, None
+    readme_file, readme_content, readme_type = "", "", ""
     if "readme" not in conf:
         for ext in [".md", ".rst", ".txt", ""]:
-            if pathlib.Path(f"README{ext}").exists():
+            if Path(f"README{ext}").exists():
                 conf["readme"] = f"README{ext}"
                 break
     if "readme" in conf:
         if isinstance(conf["readme"], str):
-            readme_file = conf["readme"]
-            if readme_file.lower().endswith(".md"):
-                readme_type = "text/markdown"
-            elif readme_file.lower().endswith(".rst"):
-                readme_type = "text/x-rst"
-            else:
-                readme_type = "text/plain"
+            readme_type = _ext_type(conf["readme"])
         elif isinstance(conf["readme"], dict):
-            metadata += _readme_dict(conf)
+            readme_file, readme_content, readme_type = _readme_dict(conf)
         else:
             e = "'readme' accepts either a string or a table."
             raise TypeError(e)
@@ -178,28 +172,37 @@ def get_readme(conf):
 
         if readme_content:
             metadata.append(readme_content)
-        else:
-            with pathlib.Path(readme_file).open() as f:
+        elif readme_file:
+            with Path(readme_file).open() as f:
                 metadata.append(f.read())
 
     return metadata
 
 
-def _readme_dict(conf):
+def _readme_dict(conf: Dict[str, Any]) -> Tuple[str, str, str]:
     """Parse 'readme' key when it is a table."""
-    metadata = []
+    readme_file, readme_content, readme_type = "", "", ""
 
     if "content-type" in conf["readme"]:
-        conf["readme"]["content-type"]
+        readme_type = conf["readme"]["content-type"]
     else:
         e = "if 'readme' is a table, it must contain a 'content-type' key"
         raise KeyError(e)
-    if "file" in conf["readme"]:
-        conf["readme"]["file"]
-    elif "text" in conf["readme"]:
-        conf["readme"]["text"]
+    if "file" in conf["readme"] and "text" not in conf["readme"]:
+        readme_file = conf["readme"]["file"]
+    elif "file" not in conf["readme"] and "text" in conf["readme"]:
+        readme_content = conf["readme"]["text"]
     else:
-        e = "if 'readme' is a table, it must contain a 'file' or a 'text' key"
+        e = "'readme' table accepts either a 'file' or a 'text' key"
         raise KeyError(e)
 
-    return metadata
+    return readme_file, readme_content, readme_type
+
+
+def _ext_type(filename: str) -> str:
+    """Guess a content type based on extension."""
+    if filename.lower().endswith(".md"):
+        return "text/markdown"
+    if filename.lower().endswith(".rst"):
+        return "text/x-rst"
+    return "text/plain"
