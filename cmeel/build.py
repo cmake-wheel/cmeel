@@ -102,6 +102,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
     """Run CMake configure / build / test / install steps, and pack the wheel."""
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
+    LOG.info("cmeel version %s" % __version__)
     if LOG.getEffectiveLevel() <= logging.DEBUG:
         if find_spec("pip") is not None:
             LOG.debug("pip freeze:")

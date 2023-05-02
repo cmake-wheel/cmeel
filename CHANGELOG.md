@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - normalize `name`
     - accept `keyword` key
     - accept `optional-dependencies` key
+    - fix `readme` str key
 - switch to tomllib for python >= 3.11
 - switch sphinx theme to furo for dark theme
 - improve docs
+- log current version
 
 ## [v0.42.0] - 2023-05-01
 

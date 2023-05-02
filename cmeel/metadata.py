@@ -181,6 +181,7 @@ def get_readme(conf: Dict[str, Any]) -> List[str]:
                 break
     if "readme" in conf:
         if isinstance(conf["readme"], str):
+            readme_file = conf["readme"]
             readme_type = _ext_type(conf["readme"])
         elif isinstance(conf["readme"], dict):
             readme_file, readme_content, readme_type = _readme_dict(conf)
