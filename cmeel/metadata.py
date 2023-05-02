@@ -1,11 +1,24 @@
-"""Metadata generation from pyproject conf."""
+"""Metadata generation from pyproject conf.
+
+ref. PEP 621, superseeded by
+https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+"""
 
 import glob
+import re
 import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
 
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
+
+
+def normalize(name: str) -> str:
+    """Normalize name.
+
+    ref. https://packaging.python.org/en/latest/specifications/name-normalization
+    """
+    return re.sub(r"[-_.]+", "-", name).lower()
 
 
 def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:

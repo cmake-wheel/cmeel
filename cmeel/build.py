@@ -19,7 +19,7 @@ import tomli
 from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
-from .metadata import get_deps, get_license, get_people, get_readme, get_urls
+from .metadata import get_deps, get_license, get_people, get_readme, get_urls, normalize
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -110,6 +110,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
     with Path("pyproject.toml").open("rb") as f:
         pyproject = tomli.load(f)
         conf = pyproject["project"]
+        conf["name"] = normalize(conf["name"])
         source = deprecate_build_system(pyproject, "source", ".")
         run_tests = (
             os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
