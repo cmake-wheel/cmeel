@@ -22,6 +22,8 @@ subcommands:
     pc                  show cmeel additions to PKG_CONFIG_PATH
 ```
 
+For those 3 sub-commands, a `--prepend` option as available to obtain directly the full variable.
+
 ## Docker builds
 
 Cmeel provides a python module to build a project in a container, eg. [manylinux](https://github.com/pypa/manylinux):

@@ -128,8 +128,8 @@ default. `BUILD_DIR` is replaced by the current path to the build directory.
 
 #### `py3-none`
 
-Boolean setting to build a wheel for `py3-none-{platform}`. A package with this setting shouldn't provide any python
-binary module. `false` by default.
+Boolean setting to build a wheel for `py3-none-{platform}`. A package with this setting shouldn't provide anything in a
+python sitelib. `false` by default.
 
 #### `any`
 
@@ -184,6 +184,6 @@ ref. "CMake configure step" above.
 ## Editable builds
 
 Cmeel implement [PEP 660](https://peps.python.org/pep-0660/), and `python -m pip install --editable` option by:
-- build in a `build-editable` directory in the source
-- add a `.pth` file to that directoly in the wheel
-- set [`CMAKE_INSTALL_MODE`](https://cmake.org/cmake/help/latest/envvar/CMAKE_INSTALL_MODE.html) to `ABS_SYMLINK`.
+1. building in a `build-editable` directory in the source
+2. adding a `.pth` file to that directoly in the wheel
+3. setting [`CMAKE_INSTALL_MODE`](https://cmake.org/cmake/help/latest/envvar/CMAKE_INSTALL_MODE.html) to `ABS_SYMLINK`.
