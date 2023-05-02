@@ -56,3 +56,6 @@ changelog = "https://github.com/cmake-wheel/cmeel-example/blob/main/CHANGELOG.md
 requires = ["cmeel[build]"]
 build-backend = "cmeel.build"
 ```
+
+Complete specification is available at:
+https://packaging.python.org/en/latest/specifications/declaring-project-metadata
