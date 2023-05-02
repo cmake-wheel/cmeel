@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional, Union
 try:
     import tomllib  # type: ignore
 except ModuleNotFoundError:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore
 
 from .consts import CMEEL_PREFIX, SITELIB
 

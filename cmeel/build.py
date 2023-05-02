@@ -17,7 +17,7 @@ except ImportError as e:
 try:
     import tomllib  # type: ignore
 except ModuleNotFoundError:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore
 
 from . import __version__
 from .config import cmeel_config
