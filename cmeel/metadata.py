@@ -158,6 +158,14 @@ def get_deps(conf: Dict[str, Any], build_deps: List[str]) -> List[str]:
         for build_dep in build_dependencies:
             metadata.append(f'Requires-Dist: {build_dep} ; extra == "build"')
 
+    for extra, deps in conf.get("optional-dependencies", []):
+        if extra == "build":
+            e = "the 'build' extra is reserved by cmeel."
+            raise ValueError(e)
+        metadata.append(f"Provides-Extra: {extra}")
+        for dep in deps:
+            metadata.append(f'Requires-Dist: {dep} ; extra == "{extra}"')
+
     return metadata
 
 
