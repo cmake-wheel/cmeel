@@ -1,6 +1,7 @@
 """Build a project with cmeel in a container."""
 
 import logging
+import os
 import pathlib
 from subprocess import check_call
 from typing import List, Optional
@@ -53,6 +54,12 @@ def add_docker_arguments(subparsers):
         action="append",
         help="pass environment variables to docker run",
     )
+    sub.add_argument(
+        "-E",
+        "--cmeel-env",
+        action="store_true",
+        help="forward 'CMEEL_*' environment variables to docker run",
+    )
     sub.set_defaults(cmd="docker")
 
 
@@ -64,6 +71,7 @@ def docker_build(
     upgrade: bool,
     cwd: str,
     env: Optional[List[str]],
+    cmeel_env: bool,
     **kwargs,
 ):
     """Build a project with cmeel in a container."""
@@ -77,6 +85,10 @@ def docker_build(
     if env:
         for e in env:
             envs = [*envs, "-e", e]
+    if cmeel_env:
+        for e in os.environ:
+            if e.startswith("CMEEL_"):
+                envs = [*envs, "-e", e]
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
     docker = ["docker", "run", "--rm", *envs, *volumes, "-w", "/src", "-t", image]
