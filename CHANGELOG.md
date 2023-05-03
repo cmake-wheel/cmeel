@@ -8,12 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - add `--cmeel-env` option to `docker` subcommand to forward `CMEEL_*` environment variables
+- improve docs
 
 ## [v0.42.1] - 2023-05-03
 
 - `[project]` section of `pyproject.toml`:
     - normalize `name`
-    - accept `keyword` key
+    - accept `keywords` key
     - accept `optional-dependencies` key
     - fix `readme` str key
 - switch to tomllib for python >= 3.11

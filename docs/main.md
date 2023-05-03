@@ -33,7 +33,9 @@ Everything required to configure a project is in its `pyproject.toml` file, espe
     - `name`
     - `version`
     - `description`
+    - `keywords`
     - `license`
+    - `license-files` (`["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]` are found by default)
     - `requires-python` (cmeel will set `>=3.7` by default if this is omitted)
 - in `[project.urls]` section:
     - `homepage`
@@ -51,6 +53,8 @@ Cmeel packages can have dependencies on other python packages, cmeel or not. The
 
 `cmeel` is automatically added.
 
+Cmeel also accepts an `optional-dependencies` table for extras.
+
 ### Readme
 
 Built wheels will ship the README file in their metadata. The provided content-type for this file will be detected as:
@@ -60,6 +64,8 @@ Built wheels will ship the README file in their metadata. The provided content-t
 - plain text otherwise.
 
 If this field is not present, Cmeel will try to find a `README.md`, `README.rst`, `README.txt` or a `README`.
+
+Content-type can also be specified manually with eg. `readme = {content-type = "something", file = "readme.sth"}`
 
 ## Cmeel specific Configuration
 
