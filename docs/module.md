@@ -29,7 +29,7 @@ For those 3 sub-commands, a `--prepend` option as available to obtain directly t
 Cmeel provides a python module to build a project in a container, eg. [manylinux](https://github.com/pypa/manylinux):
 ```
 usage: python -m cmeel docker [-h] [-i IMAGE] [-p PYTHON] [-u] [-U]
-                              [-c] [-C CWD] [-e ENV] [-E]
+                              [-c] [-C CWD] [-e ENV] [--cmeel-env | --no-cmeel-env]
 
 options:
   -h, --help            show this help message and exit
@@ -42,7 +42,9 @@ options:
   -c, --cache           binds /root/.cache/pip
   -C CWD, --cwd CWD     build the project in this directory
   -e ENV, --env ENV     pass environment variables to docker run
-  -E, --cmeel-env       forward 'CMEEL_*' environment variables to docker run
+  --cmeel-env, --no-cmeel-env
+                        forward 'CMEEL_*' environment variables to docker run (default: True)
+
 ```
 
 Environment variables can be forwarded or defined, and so multilple times, eg.:

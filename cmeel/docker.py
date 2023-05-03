@@ -6,6 +6,8 @@ import pathlib
 from subprocess import check_call
 from typing import List, Optional
 
+from .backports import BooleanOptionalAction
+
 LOG = logging.getLogger("cmeel.docker")
 
 
@@ -55,9 +57,9 @@ def add_docker_arguments(subparsers):
         help="pass environment variables to docker run",
     )
     sub.add_argument(
-        "-E",
         "--cmeel-env",
-        action="store_true",
+        action=BooleanOptionalAction,
+        default=True,
         help="forward 'CMEEL_*' environment variables to docker run",
     )
     sub.set_defaults(cmd="docker")

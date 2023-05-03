@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- `--cmeel-env` is now a default deactivable with `--no-cmeel-env`
+
 ## [v0.43.0] - 2023-05-03
 
 - add `--cmeel-env` option to `docker` subcommand to forward `CMEEL_*` environment variables
