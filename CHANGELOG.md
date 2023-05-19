@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- prepend cmeel stuff to `LD_LIBRARY_PATH` when running tests
+
 ## [v0.43.1] - 2023-05-03
 
 - `--cmeel-env` is now a default deactivable with `--no-cmeel-env`
