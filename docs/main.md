@@ -106,7 +106,6 @@ This configuration step is done in the environment defined by:
 1. The environment of the calling process
 2. `CTEST_OUTPUT_ON_FAILURE=1`
 3. `CTEST_PARALLEL_LEVEL` set to `test-jobs` global configuration, or `CMEEL_TEST_JOBS` environment variable, or 4
-4. `LD_LIBRARY_PATH` prepended with found cmeel paths
 
 ### Other options in `[tool.cmeel]` section of `pyproject.toml`
 
