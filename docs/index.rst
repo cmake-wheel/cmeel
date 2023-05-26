@@ -10,7 +10,8 @@ User documentation
    :caption: User documentation
    :maxdepth: 2
 
-   main
+   packaging-guide
+   user-guide
    module
 
 Internal

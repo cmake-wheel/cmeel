@@ -1,4 +1,4 @@
-# CMake Wheel
+# CMake Wheel: cmeel
 
 [![PyPI version](https://badge.fury.io/py/cmeel.svg)](https://pypi.org/project/cmeel)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/cmake-wheel/cmeel/main.svg)](https://results.pre-commit.ci/latest/github/cmake-wheel/cmeel/main)
