@@ -58,9 +58,14 @@ def parse_args() -> argparse.Namespace:
     sys.exit(0)
 
 
-if __name__ == "__main__":
+def main():
+    """Run helpers."""
     args = parse_args()
     if args.cmd == "docker":
         docker_build(**vars(args))
     else:
         print(get_paths(**vars(args)))
+
+
+if __name__ == "__main__":
+    main()

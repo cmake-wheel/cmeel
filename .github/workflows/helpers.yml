@@ -21,3 +21,9 @@ jobs:
         run: python -m cmeel lib
       - name: pc
         run: python -m cmeel pc
+      - name: CMake script
+        run: cmeel cmake
+      - name: lib script
+        run: cmeel lib
+      - name: pc script
+        run: cmeel pc

@@ -54,3 +54,7 @@ export CMEEL_RUN_TESTS=OFF
 export CTEST_PARALLEL_LEVEL=8
 python -m cmeel -vvv docker -c -e CTEST_PARALLEL_LEVEL -e CTEST_OUTPUT_ON_FAILURE=ON -E
 ```
+
+## Script
+
+A `cmeel` script is also provided as a shortcut to `python -m cmeel`

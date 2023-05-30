@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add `cmeel` script as shortcut to `python -m cmeel`
+
 ## [v0.44.1] - 2023-05-20
 
 - revert "prepend cmeel stuff to `LD_LIBRARY_PATH` when running tests"
