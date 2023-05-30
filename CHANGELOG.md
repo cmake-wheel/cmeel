@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.45.0] - 2023-05-30
+
 - Add `cmeel` script as shortcut to `python -m cmeel`
 
 ## [v0.44.1] - 2023-05-20
@@ -343,6 +345,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.45.0]: https://github.com/cmake-wheel/cmeel/compare/v0.44.1...v0.45.0
 [v0.44.1]: https://github.com/cmake-wheel/cmeel/compare/v0.44.0...v0.44.1
 [v0.44.0]: https://github.com/cmake-wheel/cmeel/compare/v0.43.1...v0.44.0
 [v0.43.1]: https://github.com/cmake-wheel/cmeel/compare/v0.43.0...v0.43.1
