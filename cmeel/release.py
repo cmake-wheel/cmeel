@@ -25,7 +25,7 @@ def release(**kwargs):
 
     version = pyproject["project"]["version"]
     build = pyproject.get("tool", {}).get("cmeel", {}).get("build-number", 0)
-    tag = f"{version}.c{build}"
+    tag = f"v{version}.c{build}"
     release = f"Cmeel Release {tag}"
 
     LOG.info("Releasing vesion '%s'", tag)
