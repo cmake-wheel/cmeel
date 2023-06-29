@@ -23,6 +23,12 @@ python -m pip install git+https://github.com/your-fork/cmeel-example@some-branch
 python -m pip install ./cmeel-example
 ```
 
+### Install binary packages from a wheel over HTTP
+
+```
+python -m pip install https://hostname.tld/path/package-version-python-abi-platform.whl
+```
+
 ## Use installed cmeel packages to compile something else
 
 For other CMake packages, you just need to tell CMake where to find cmeel dependencies, eg.:

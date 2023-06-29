@@ -59,3 +59,11 @@ build-backend = "cmeel.build"
 
 Complete specification is available at:
 https://packaging.python.org/en/latest/specifications/declaring-project-metadata
+
+## Install
+
+If you want to use the helpers provided by cmeel, to *eg*. test building a project in a manylinux container with
+`cmeel docker`, the best way to install cmeel is to use pipx: `pipx install cmeel`
+
+Otherwise, if you just want to use the build backend, there is no need to install anything: your frontent (*eg.* `pip`)
+should do this for you
