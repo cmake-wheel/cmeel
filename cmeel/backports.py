@@ -1,7 +1,7 @@
 # ruff: noqa
 
 try:
-    from argparse import BooleanOptionalAction
+    from argparse import BooleanOptionalAction  # type: ignore
 except ImportError:
     # Python < 3.9
     # https://github.com/python/cpython/blob/3.11/Lib/argparse.py#L885

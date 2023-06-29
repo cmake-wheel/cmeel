@@ -8,6 +8,7 @@ import sys
 
 from .docker import add_docker_arguments, docker_build
 from .env import add_paths_arguments, get_paths
+from .release import add_release_arguments, release
 
 LOG = logging.getLogger("cmeel")
 
@@ -39,6 +40,7 @@ def parse_args() -> argparse.Namespace:
 
     add_paths_arguments(subparsers)
     add_docker_arguments(subparsers)
+    add_release_arguments(subparsers)
 
     args = parser.parse_args()
 
@@ -63,6 +65,8 @@ def main():
     args = parse_args()
     if args.cmd == "docker":
         docker_build(**vars(args))
+    if args.cmd == "release":
+        release(**vars(args))
     else:
         print(get_paths(**vars(args)))
 
