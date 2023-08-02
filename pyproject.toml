@@ -31,7 +31,7 @@ importlib-metadata = {python = "<3.8", version = "^6.0.0"}
 packaging = {optional = true, version = "^23.0"}
 python = "^3.7"
 tomli = {python = "< 3.11", version = "^2.0.1"}
-wheel = {optional = true, version = ">=0.38.4,<0.41.0"}
+wheel = {optional = true, version = ">=0.38.4,<0.42.0"}
 
 [tool.poetry.extras]
 build = ["cmake", "packaging", "wheel"]
