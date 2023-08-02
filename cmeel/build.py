@@ -110,7 +110,7 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
             for dep in deps.strip().split("\n"):
                 LOG.debug("  %s", dep)
 
-    prefix = Path(".") / "build-editable" if editable else cmeel_config.temp_dir
+    prefix = Path() / "build-editable" if editable else cmeel_config.temp_dir
     build = prefix / "bld"
     wheel_dir = prefix / "whl"
     install = (prefix if editable else wheel_dir) / CMEEL_PREFIX
