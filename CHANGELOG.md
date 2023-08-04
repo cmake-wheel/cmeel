@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add sdist CI
 - Add PKG-INFO in sdist
 - Don't raise import errors until required
+- Expose entrypoints in __init__.py
 
 ## [v0.47.1] - 2023-08-04
 
