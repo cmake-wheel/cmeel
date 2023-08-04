@@ -48,6 +48,8 @@ def build_impl(wheel_directory, editable=False) -> str:
 
     conf = pyproject["project"]
     conf["name"] = normalize(conf["name"])
+    distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
+
     source = deprecate_build_system(pyproject, "source", ".")
     run_tests = (
         os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
@@ -65,7 +67,6 @@ def build_impl(wheel_directory, editable=False) -> str:
 
     check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
     fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
-    distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 
     LOG.info("build wheel")
 
