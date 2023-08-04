@@ -26,13 +26,13 @@ readme = "README.md"
 version = "0.46.0"
 
 [tool.poetry.dependencies]
-cmake = {optional = true, version = "^3.22.3"}
+cmake = {optional = true, version = "^3.27.0"}
 git-archive-all = {git = "https://github.com/nim65s/git-archive-all", optional = true}
-importlib-metadata = {python = "<3.8", version = "^6.0.0"}
-packaging = {optional = true, version = "^23.0"}
+importlib-metadata = {python = "<3.8", version = "^6.8.0"}
+packaging = {optional = true, version = "^23.1"}
 python = "^3.8"
 tomli = {python = "< 3.11", version = "^2.0.1"}
-wheel = {optional = true, version = ">=0.38.4,<0.42.0"}
+wheel = {optional = true, version = "^0.41.0"}
 
 [tool.poetry.extras]
 build = ["cmake", "git-archive-all", "packaging", "wheel"]
@@ -41,15 +41,15 @@ build = ["cmake", "git-archive-all", "packaging", "wheel"]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.1.0"
-furo = "^2023.3.27"
+black = "^23.7.0"
+furo = "^2023.7.26"
 isort = {python = "^3.8", version = "^5.12.0"}
-mypy = "^1.1.1"
-myst-parser = ">=0.18.1,<1.1.0"
-requests = "^2.29.0"
-ruff = ">=0.0.264,<0.0.283"
-safety = {allow-prereleases = true, version = "^2.4.0b1"}
-sphinx = "^5.3.0"
+mypy = "^1.4.1"
+myst-parser = "^2.0.0"
+requests = "^2.31.0"
+ruff = "^0.0.282"
+# safety = {allow-prereleases = true, version = "^2.4.0b1"} TODO: bump when they fix packaging support
+sphinx = "^7.1.2"
 
 [tool.poetry.scripts]
 cmeel = "cmeel.__main__:main"
