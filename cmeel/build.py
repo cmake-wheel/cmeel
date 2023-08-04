@@ -49,7 +49,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
     LOG.info("cmeel version %s" % __version__)
-    log_pip(LOG)
+    log_pip()
 
     prefix = Path() / "build-editable" if editable else cmeel_config.temp_dir
     build = prefix / "bld"
