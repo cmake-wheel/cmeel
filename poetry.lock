@@ -947,4 +947,4 @@ build = ["cmake", "git-archive-all", "packaging", "wheel"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "d1a66057de62177c45c2627e01a781d936955bbc885e309091f26a55ac54ca2e"
+content-hash = "bbc04206a2c16575a8231bcc1e391c272239519ad6f3e738f75e9fe81e7a23f8"
