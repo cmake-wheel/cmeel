@@ -6,6 +6,7 @@ import os
 import pathlib
 import sys
 
+from . import __version__
 from .docker import add_docker_arguments, docker_build
 from .env import add_paths_arguments, get_paths
 from .release import add_release_arguments, release
@@ -42,6 +43,9 @@ def parse_args() -> argparse.Namespace:
     add_docker_arguments(subparsers)
     add_release_arguments(subparsers)
 
+    ver = subparsers.add_parser("version", help="print current cmeel version.")
+    ver.set_defaults(cmd="version")
+
     args = parser.parse_args()
 
     if args.verbose == 0:
@@ -65,8 +69,10 @@ def main():
     args = parse_args()
     if args.cmd == "docker":
         docker_build(**vars(args))
-    if args.cmd == "release":
+    elif args.cmd == "release":
         release(**vars(args))
+    elif args.cmd == "version":
+        print(f"This is cmeel version {__version__}")
     else:
         print(get_paths(**vars(args)))
 

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Split `cmeel.build.build` into multiple utils functions
 - Move `cmeel.build.build` to `cmeel.impl.build_impl`
 - ⚠️  Update minimal python version to 3.8
+- Add `version` subcommand for cmeel
 
 ## [v0.46.0] - 2023-06-29
 
