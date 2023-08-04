@@ -30,7 +30,7 @@ from .utils import (
 LOG = logging.getLogger("cmeel.impl")
 
 
-def build_impl(wheel_directory, editable=False) -> Path:
+def build_impl(wheel_directory, editable=False) -> str:
     """Run CMake configure / build / test / install steps, and pack the wheel."""
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
@@ -114,12 +114,12 @@ def build_impl(wheel_directory, editable=False) -> Path:
 
     LOG.info("fix relocatablization")
     # Replace absolute install path in generated .cmake files, if any.
-    for f in install.rglob("*.cmake"):
-        ff = install / f"{f.stem}.fix"
-        with f.open("r") as fr, ff.open("w") as fw:
+    for cmake_file in install.rglob("*.cmake"):
+        ff = install / f"{cmake_file.stem}.fix"
+        with cmake_file.open("r") as fr, ff.open("w") as fw:
             fw.write(fr.read().replace(str(install), "${PACKAGE_PREFIX_DIR}"))
-        f.unlink()
-        ff.rename(f)
+        cmake_file.unlink()
+        ff.rename(cmake_file)
 
     LOG.info("create dist-info")
 
@@ -185,7 +185,14 @@ def build_impl(wheel_directory, editable=False) -> Path:
         ],
     ).decode()
     LOG.debug("wheel pack output: %s", pack)
-    name = Path(re.search("Repacking wheel as (.*\\.whl)\\.\\.\\.", pack).group(1)).name
+    parse_pack = re.search("Repacking wheel as (.*\\.whl)\\.\\.\\.", pack)
+    if parse_pack is None:
+        err = (
+            "'wheel pack' command did not provide the .whl name, "
+            "or the parser must be updated. Please report the following output: \n"
+        )
+        raise FileNotFoundError(err + pack)
+    name = Path(parse_pack.group(1)).name
     LOG.debug("returning '%s'", name)
 
     LOG.info("done")
