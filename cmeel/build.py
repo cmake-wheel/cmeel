@@ -23,6 +23,7 @@ from .utils import (
     ensure_relocatable,
     expose_bin,
     get_tag,
+    launch_tests,
     log_pip,
     normalize,
     patch,
@@ -42,7 +43,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     return build(wheel_directory, editable=False)
 
 
-def build(wheel_directory, editable=False):  # noqa: C901
+def build(wheel_directory, editable=False):
     """Run CMake configure / build / test / install steps, and pack the wheel."""
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
@@ -74,11 +75,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
     )
     build_number = deprecate_build_system(pyproject, "build-number", 0)
     configure_args = deprecate_build_system(pyproject, "configure-args", [])
-    test_cmd = deprecate_build_system(
-        pyproject,
-        "test-cmd",
-        ["cmake", "--build", "BUILD_DIR", "-t", "test"],
-    )
+
     check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
     fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
     distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
@@ -119,24 +116,14 @@ def build(wheel_directory, editable=False):  # noqa: C901
     LOG.debug("build command: %s", build_cmd)
     check_call(build_cmd)
 
-    def launch_tests():
-        LOG.info("test")
-        test_env = cmeel_config.get_test_env()
-        cmd = [i.replace("BUILD_DIR", str(build)) for i in test_cmd]
-        LOG.debug("test environment: %s", test_env)
-        LOG.debug("test command: %s", cmd)
-        check_call(cmd, env=test_env)
-
-    if run_tests and not run_tests_after_install:
-        launch_tests()
+    launch_tests(True, run_tests and not run_tests_after_install, pyproject, build)
 
     LOG.info("install")
     install_cmd = ["cmake", "--build", str(build), "-t", "install"]
     LOG.debug("install command: %s", install_cmd)
     check_call(install_cmd)
 
-    if run_tests and run_tests_after_install:
-        launch_tests()
+    launch_tests(False, run_tests and run_tests_after_install, pyproject, build)
 
     LOG.info("fix relocatablization")
     # Replace absolute install path in generated .cmake files, if any.
@@ -178,8 +165,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
 
     expose_bin(install, wheel_dir, distribution)
 
-    if check_relocatable:
-        ensure_relocatable(install, prefix)
+    ensure_relocatable(check_relocatable, install, prefix)
 
     if editable:
         LOG.info("Add .pth in wheel")

@@ -7,7 +7,9 @@ import sys
 import warnings
 from importlib.util import find_spec
 from pathlib import Path
-from subprocess import CalledProcessError, check_output, run
+from subprocess import CalledProcessError, check_call, check_output, run
+
+from .config import cmeel_config
 
 try:
     from packaging.tags import sys_tags
@@ -169,3 +171,21 @@ def ensure_relocatable(install: Path, prefix: Path):
                 raise NonRelocatableError(
                     f"{fc} references temporary paths:\n" + "\n".join(display),
                 )
+
+
+def launch_tests(before: bool, now: bool, pyproject, build: Path):
+    """Launch tests, before or after the install."""
+    if not now:
+        return
+
+    test_cmd = deprecate_build_system(
+        pyproject,
+        "test-cmd",
+        ["cmake", "--build", "BUILD_DIR", "-t", "test"],
+    )
+    LOG.info("test {} install".format("before") if before else "after")
+    test_env = cmeel_config.get_test_env()
+    cmd = [i.replace("BUILD_DIR", str(build)) for i in test_cmd]
+    LOG.debug("test environment: %s", test_env)
+    LOG.debug("test command: %s", cmd)
+    check_call(cmd, env=test_env)
