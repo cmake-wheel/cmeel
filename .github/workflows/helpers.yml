@@ -27,3 +27,5 @@ jobs:
         run: cmeel lib
       - name: pc script
         run: cmeel pc
+      - name: show version
+        run: cmeel version
