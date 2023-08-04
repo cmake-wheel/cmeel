@@ -12,7 +12,9 @@ LOG = logging.getLogger("cmeel")
 
 
 def build_editable(
-    wheel_directory, config_settings=None, metadata_directory=None,
+    wheel_directory,
+    config_settings=None,
+    metadata_directory=None,
 ) -> str:
     """Build an editable wheel: main entry point for PEP 660."""
     LOG.info("cmeel build editable")
