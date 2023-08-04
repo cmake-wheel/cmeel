@@ -181,7 +181,11 @@ def build(wheel_directory, editable=False):  # noqa: C901
     if check_relocatable:
         ensure_relocatable(install, prefix)
 
-    if fix_pkg_config and not editable:
+    if editable:
+        LOG.info("Add .pth in wheel")
+        with (wheel_dir / f"{distribution}.pth").open("w") as f:
+            f.write(str((install / SITELIB).absolute()))
+    elif fix_pkg_config:
         LOG.info("fix pkg-config files")
         for fc in install.glob("**/*.pc"):
             with fc.open() as f:
@@ -192,10 +196,6 @@ def build(wheel_directory, editable=False):  # noqa: C901
                 LOG.warning("fix pkg-config %s: replace %s by %s", fc, install, fix)
                 with fc.open("w") as f:
                     f.write(pc_file.replace(str(install), fix))
-    if editable:
-        LOG.info("Add .pth in wheel")
-        with (wheel_dir / f"{distribution}.pth").open("w") as f:
-            f.write(str((install / SITELIB).absolute()))
 
     LOG.info("wheel pack")
     pack = check_output(
