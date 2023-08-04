@@ -10,12 +10,6 @@ from pathlib import Path
 from subprocess import CalledProcessError, check_call, check_output, run
 
 try:
-    from packaging.tags import sys_tags
-except ImportError as e:
-    err = "You need the 'build' extra option to use this build module.\n"
-    err += "For this you can install the 'cmeel[build]' package."
-    raise ImportError(err) from e
-try:
     import tomllib  # type: ignore
 except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
@@ -24,7 +18,7 @@ from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
-from .utils import deprecate_build_system, log_pip, normalize
+from .utils import deprecate_build_system, get_tag, log_pip, normalize
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -81,12 +75,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
     build = prefix / "bld"
     wheel_dir = prefix / "whl"
     install = (prefix if editable else wheel_dir) / CMEEL_PREFIX
-    tag = str(next(sys_tags()))
-    # handle cross compilation on macOS with cibuildwheel
-    # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
-    if "_PYTHON_HOST_PLATFORM" in os.environ:
-        plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
-        tag = "-".join(tag.split("-")[:-1] + [plat])
+    tag = get_tag()
 
     LOG.info("load conf from pyproject.toml")
     with Path("pyproject.toml").open("rb") as f:
