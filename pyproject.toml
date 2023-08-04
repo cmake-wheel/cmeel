@@ -28,7 +28,6 @@ version = "0.46.0"
 [tool.poetry.dependencies]
 cmake = {optional = true, version = "^3.27.0"}
 git-archive-all = {git = "https://github.com/nim65s/git-archive-all", optional = true}
-importlib-metadata = {python = "<3.8", version = "^6.8.0"}
 packaging = {optional = true, version = "^23.1"}
 python = "^3.8"
 tomli = {python = "< 3.11", version = "^2.0.1"}
@@ -43,7 +42,7 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
 furo = "^2023.7.26"
-isort = {python = "^3.8", version = "^5.12.0"}
+isort = "^5.12.0"
 mypy = "^1.4.1"
 myst-parser = "^2.0.0"
 requests = "^2.31.0"

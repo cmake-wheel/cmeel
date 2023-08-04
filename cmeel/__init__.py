@@ -1,9 +1,6 @@
 """Cmeel module."""
 
-try:
-    from importlib.metadata import metadata
-except ImportError:  # Python < 3.8
-    from importlib_metadata import metadata  # type: ignore
+from importlib.metadata import metadata
 
 __metadata__ = metadata("cmeel")
 __project_name__ = __metadata__["name"]
