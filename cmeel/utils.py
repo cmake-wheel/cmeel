@@ -77,7 +77,7 @@ def log_pip():
                 LOG.debug("  %s", dep)
 
 
-def get_tag(pyproject):
+def get_tag(pyproject) -> str:
     """Find the correct tag for the wheel."""
     tag = str(next(sys_tags()))
     # handle cross compilation on macOS with cibuildwheel
