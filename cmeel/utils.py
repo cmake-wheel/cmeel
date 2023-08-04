@@ -45,6 +45,12 @@ class PatchError(CalledProcessError):
         )
 
 
+class NonRelocatableError(Exception):
+    """Exception raised when absolute paths are in the final package."""
+
+    pass
+
+
 def deprecate_build_system(pyproject, key, default):
     """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
 
@@ -132,3 +138,34 @@ def expose_bin(install: Path, wheel_dir: Path, distribution: str):
             with executable.open("w") as fe:
                 fe.write(EXECUTABLE)
             executable.chmod(0o755)
+
+
+def ensure_relocatable(install: Path, prefix: Path):
+    """Ensure no cmake file contains wrong absolute paths."""
+    LOG.info("check generated cmake files")
+    wrong_dirs = [
+        "/tmp/pip-build-env",
+        "/tmp/pip-req-build",
+        "/opt/_internal",
+        str(prefix),
+    ]
+    for fc in install.glob("**/*.cmake"):
+        with fc.open() as f:
+            cmake_file = f.read()
+            if any(wrong_dir in cmake_file for wrong_dir in wrong_dirs):
+                lines = cmake_file.split("\n")
+                # Get indexes of of problematic lines
+                indexes = [
+                    idx
+                    for idx, line in enumerate(lines)
+                    if any(wrong_dir in line for wrong_dir in wrong_dirs)
+                ]
+                # Get lines at those indexes and around them to display
+                display = [
+                    f"{i}: {line}"
+                    for i, line in enumerate(lines)
+                    if any(idx in indexes for idx in (i - 2, i - 1, i, i + 1, i + 2))
+                ]
+                raise NonRelocatableError(
+                    f"{fc} references temporary paths:\n" + "\n".join(display),
+                )

@@ -20,6 +20,7 @@ from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
 from .utils import (
     deprecate_build_system,
+    ensure_relocatable,
     expose_bin,
     get_tag,
     log_pip,
@@ -28,12 +29,6 @@ from .utils import (
 )
 
 LOG = logging.getLogger("cmeel")
-
-
-class NonRelocatableError(Exception):
-    """Exception raised when absolute paths are in the final package."""
-
-    pass
 
 
 def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
@@ -184,35 +179,8 @@ def build(wheel_directory, editable=False):  # noqa: C901
     expose_bin(install, wheel_dir, distribution)
 
     if check_relocatable:
-        LOG.info("check generated cmake files")
-        wrong_dirs = [
-            "/tmp/pip-build-env",
-            "/tmp/pip-req-build",
-            "/opt/_internal",
-            str(prefix),
-        ]
-        for fc in install.glob("**/*.cmake"):
-            with fc.open() as f:
-                cmake_file = f.read()
-                if any(wrong_dir in cmake_file for wrong_dir in wrong_dirs):
-                    lines = cmake_file.split("\n")
-                    # Get indexes of of problematic lines
-                    indexes = [
-                        idx
-                        for idx, line in enumerate(lines)
-                        if any(wrong_dir in line for wrong_dir in wrong_dirs)
-                    ]
-                    # Get lines at those indexes and around them to display
-                    display = [
-                        f"{i}: {line}"
-                        for i, line in enumerate(lines)
-                        if any(
-                            idx in indexes for idx in (i - 2, i - 1, i, i + 1, i + 2)
-                        )
-                    ]
-                    raise NonRelocatableError(
-                        f"{fc} references temporary paths:\n" + "\n".join(display),
-                    )
+        ensure_relocatable(install, prefix)
+
     if fix_pkg_config and not editable:
         LOG.info("fix pkg-config files")
         for fc in install.glob("**/*.pc"):
