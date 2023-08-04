@@ -6,7 +6,8 @@ import re
 import sys
 import warnings
 from importlib.util import find_spec
-from subprocess import check_output
+from pathlib import Path
+from subprocess import CalledProcessError, check_output, run
 
 try:
     from packaging.tags import sys_tags
@@ -14,6 +15,29 @@ except ImportError as e:
     err = "You need the 'build' extra option to use this build module.\n"
     err += "For this you can install the 'cmeel[build]' package."
     raise ImportError(err) from e
+
+LOG = logging.getLogger("cmeel.utils")
+
+PATCH_IGNORE = [
+    "hunk ignored",
+    "hunks ignored",
+    "Skipping patch.",
+    "The next patch would delete",
+]
+
+
+class PatchError(CalledProcessError):
+    """Exception raised when patch operation failed."""
+
+    def __str__(self):
+        """Render this error as a string."""
+        if self.returncode and self.returncode < 0:
+            return super().__str__()
+        return (
+            f"Command '{self.cmd}' exit status {self.returncode}\n"
+            f"with output:\n{self.output}\n"
+            f"and stderr:\n{self.stderr}\n"
+        )
 
 
 def deprecate_build_system(pyproject, key, default):
@@ -43,14 +67,14 @@ def normalize(name: str) -> str:
     return re.sub(r"[-_.]+", "-", name).lower()
 
 
-def log_pip(log):
+def log_pip():
     """Log output of pip freeze."""
-    if log.getEffectiveLevel() <= logging.DEBUG:
+    if LOG.getEffectiveLevel() <= logging.DEBUG:
         if find_spec("pip") is not None:
-            log.debug("pip freeze:")
+            LOG.debug("pip freeze:")
             deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
             for dep in deps.strip().split("\n"):
-                log.debug("  %s", dep)
+                LOG.debug("  %s", dep)
 
 
 def get_tag(pyproject):
@@ -69,3 +93,23 @@ def get_tag(pyproject):
     elif deprecate_build_system(pyproject, "pyver-any", False):
         tag = f"py3{sys.version_info.minor}-none-any"
     return tag
+
+
+def patch():
+    """Apply cmeel.patch if it exists and was not already applied."""
+    if Path("cmeel.patch").exists():
+        LOG.info("patching")
+        cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
+        ret = run(cmd, capture_output=True, text=True)
+        if ret.returncode != 0:
+            # If this patch was already applied, it's okay.
+            for line in ret.stdout.split("\n"):
+                if not line or any(val in line for val in PATCH_IGNORE):
+                    continue
+                raise PatchError(
+                    returncode=ret.returncode,
+                    cmd=cmd,
+                    output=ret.stdout,
+                    stderr=ret.stderr + f"\nwrong line: {line}\n",
+                )
+            LOG.info("this patch was already applied")

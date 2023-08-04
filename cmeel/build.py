@@ -7,7 +7,7 @@ import os
 import re
 import sys
 from pathlib import Path
-from subprocess import CalledProcessError, check_call, check_output, run
+from subprocess import check_call, check_output
 
 try:
     import tomllib  # type: ignore
@@ -18,39 +18,19 @@ from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
-from .utils import deprecate_build_system, get_tag, log_pip, normalize
+from .utils import deprecate_build_system, get_tag, log_pip, normalize, patch
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
 from cmeel.run import cmeel_run
 cmeel_run()
 """
-PATCH_IGNORE = [
-    "hunk ignored",
-    "hunks ignored",
-    "Skipping patch.",
-    "The next patch would delete",
-]
 
 
 class NonRelocatableError(Exception):
     """Exception raised when absolute paths are in the final package."""
 
     pass
-
-
-class PatchError(CalledProcessError):
-    """Exception raised when patch operation failed."""
-
-    def __str__(self):
-        """Render this error as a string."""
-        if self.returncode and self.returncode < 0:
-            return super().__str__()
-        return (
-            f"Command '{self.cmd}' exit status {self.returncode}\n"
-            f"with output:\n{self.output}\n"
-            f"and stderr:\n{self.stderr}\n"
-        )
 
 
 def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
@@ -109,22 +89,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
 
     # Patch
 
-    if Path("cmeel.patch").exists():
-        LOG.info("patching")
-        cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
-        ret = run(cmd, capture_output=True, text=True)
-        if ret.returncode != 0:
-            # If this patch was already applied, it's okay.
-            for line in ret.stdout.split("\n"):
-                if not line or any(val in line for val in PATCH_IGNORE):
-                    continue
-                raise PatchError(
-                    returncode=ret.returncode,
-                    cmd=cmd,
-                    output=ret.stdout,
-                    stderr=ret.stderr + f"\nwrong line: {line}\n",
-                )
-            LOG.info("this patch was already applied")
+    patch()
 
     # Set env
 
