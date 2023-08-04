@@ -39,14 +39,17 @@ def sdist_impl(sdist_directory) -> str:
         tmp_tar = Path(tmp) / f"{distribution}.tar.gz"
         def_tar = Path(sdist_directory) / f"{distribution}.tar.gz"
 
+        LOG.info("archive git repository and its submodules in {tmp}")
         git_archive_all.main(
             ["git_archive_all.py", str(tmp_tar)],
         )
 
+        LOG.info("write PKG-INFO file")
         requires = pyproject["build-system"]["requires"]
         with tmp_pkg.open("w") as f:
             f.write("\n".join(metadata(conf, requires)))
 
+        LOG.info("create final archive with previous one + PKG-INFO")
         with tarfile.open(tmp_tar, "r") as tr, tarfile.open(def_tar, "w:gz") as tw:
             for member in tr.getmembers():
                 tw.addfile(member, tr.extractfile(member.name))
