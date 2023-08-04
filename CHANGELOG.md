@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- split `cmeel.build` into multiple utils functions
+- split `cmeel.build.build` into multiple utils functions
+- move `cmeel.build.build` to `cmeel.impl.build_impl`
 
 ## [v0.46.0] - 2023-06-29
 
