@@ -6,7 +6,6 @@ import logging
 import os
 import re
 import sys
-from importlib.util import find_spec
 from pathlib import Path
 from subprocess import CalledProcessError, check_call, check_output, run
 
@@ -25,7 +24,7 @@ from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
-from .utils import deprecate_build_system, normalize
+from .utils import deprecate_build_system, log_pip, normalize
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -76,12 +75,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
     LOG.info("cmeel version %s" % __version__)
-    if LOG.getEffectiveLevel() <= logging.DEBUG:
-        if find_spec("pip") is not None:
-            LOG.debug("pip freeze:")
-            deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
-            for dep in deps.strip().split("\n"):
-                LOG.debug("  %s", dep)
+    log_pip(LOG)
 
     prefix = Path() / "build-editable" if editable else cmeel_config.temp_dir
     build = prefix / "bld"
