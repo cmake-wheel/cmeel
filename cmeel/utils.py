@@ -142,8 +142,10 @@ def expose_bin(install: Path, wheel_dir: Path, distribution: str):
             executable.chmod(0o755)
 
 
-def ensure_relocatable(install: Path, prefix: Path):
+def ensure_relocatable(check_relocatable: bool, install: Path, prefix: Path):
     """Ensure no cmake file contains wrong absolute paths."""
+    if not check_relocatable:
+        return
     LOG.info("check generated cmake files")
     wrong_dirs = [
         "/tmp/pip-build-env",
