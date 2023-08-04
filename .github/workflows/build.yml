@@ -24,7 +24,7 @@ jobs:
       - name: build cmeel wheel
         run: python -m pip wheel -w $HOME/wh .
       - name: install cmeel
-        run: python -m pip install $HOME/wh/cmeel*.whl
+        run: python -m pip install $HOME/wh/cmeel*.whl[build]
       - name: build cmeel-example wheel
         run: python -m pip wheel -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
       - name: install cmeel-example
