@@ -291,6 +291,17 @@ sphinx = ">=5.0,<7.0"
 sphinx-basic-ng = "*"
 
 [[package]]
+name = "git-archive-all"
+version = "1.23.1"
+description = "Archive git repository with its submodules."
+optional = true
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.6"
+files = [
+    {file = "git-archive-all-1.23.1.tar.gz", hash = "sha256:a42fe0cedd2e0361250a4f3130f3d3543f640d4f1fe28530771df5972108729f"},
+    {file = "git_archive_all-1.23.1-py2.py3-none-any.whl", hash = "sha256:d9f9611f2df629de3df1d6f134955ced4c704cbc0e423d769a7c0e55a8484242"},
+]
+
+[[package]]
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -1132,4 +1143,4 @@ build = ["cmake", "packaging", "wheel"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "d21d299d44af1e75c3d5b0a9d2080297a69e8fba9656a83bd19aa625a390250c"
+content-hash = "c78e0b330acb4c1196aab92eeddb522a58ef663a5d9bee3cd8ca0f65d850811f"

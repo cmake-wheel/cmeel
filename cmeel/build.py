@@ -6,7 +6,6 @@ import logging
 import os
 import re
 import sys
-import warnings
 from importlib.util import find_spec
 from pathlib import Path
 from subprocess import CalledProcessError, check_call, check_output, run
@@ -26,6 +25,7 @@ from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
+from .utils import deprecate_build_system, normalize
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -60,33 +60,6 @@ class PatchError(CalledProcessError):
         )
 
 
-def deprecate_build_system(pyproject, key, default):
-    """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
-
-    This function helps to deprecate that and move to "tool.cmeel".
-    """
-    if key in pyproject["build-system"]:
-        default = pyproject["build-system"][key]
-        warnings.warn(
-            'Using the "build-system" section of pyproject.toml for cmeel '
-            "configuration is deprecated since cmeel v0.23 and will be removed in v1.\n"
-            f'Please move your "{key} = {default}" to the "tool.cmeel" section.',
-            DeprecationWarning,
-            stacklevel=2,
-        )
-    if "tool" in pyproject and "cmeel" in pyproject["tool"]:
-        return pyproject["tool"]["cmeel"].get(key, default)
-    return default
-
-
-def normalize(name: str) -> str:
-    """Normalize name.
-
-    ref. https://packaging.python.org/en/latest/specifications/name-normalization
-    """
-    return re.sub(r"[-_.]+", "-", name).lower()
-
-
 def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
     """Build an editable wheel: main entry point for PEP 660."""
     os.environ["CMAKE_INSTALL_MODE"] = "ABS_SYMLINK"
@@ -98,7 +71,7 @@ def build_wheel(wheel_directory, config_settings=None, metadata_directory=None):
     return build(wheel_directory, editable=False)
 
 
-def build(wheel_directory, editable=False):  # noqa: C901 TODO
+def build(wheel_directory, editable=False):  # noqa: C901
     """Run CMake configure / build / test / install steps, and pack the wheel."""
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
