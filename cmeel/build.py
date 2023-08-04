@@ -79,30 +79,31 @@ def build(wheel_directory, editable=False):  # noqa: C901
     LOG.info("load conf from pyproject.toml")
     with Path("pyproject.toml").open("rb") as f:
         pyproject = tomllib.load(f)
-        conf = pyproject["project"]
-        conf["name"] = normalize(conf["name"])
-        source = deprecate_build_system(pyproject, "source", ".")
-        run_tests = (
-            os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
-            not in ("0", "NO", "OFF", "FALSE")
-            if "CMEEL_RUN_TESTS" in os.environ
-            else deprecate_build_system(pyproject, "run-tests", True)
-        )
-        run_tests_after_install = deprecate_build_system(
-            pyproject,
-            "run-tests-after-install",
-            False,
-        )
-        build_number = deprecate_build_system(pyproject, "build-number", 0)
-        configure_args = deprecate_build_system(pyproject, "configure-args", [])
-        test_cmd = deprecate_build_system(
-            pyproject,
-            "test-cmd",
-            ["cmake", "--build", "BUILD_DIR", "-t", "test"],
-        )
-        check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
-        fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
-        distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
+
+    conf = pyproject["project"]
+    conf["name"] = normalize(conf["name"])
+    source = deprecate_build_system(pyproject, "source", ".")
+    run_tests = (
+        os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
+        not in ("0", "NO", "OFF", "FALSE")
+        if "CMEEL_RUN_TESTS" in os.environ
+        else deprecate_build_system(pyproject, "run-tests", True)
+    )
+    run_tests_after_install = deprecate_build_system(
+        pyproject,
+        "run-tests-after-install",
+        False,
+    )
+    build_number = deprecate_build_system(pyproject, "build-number", 0)
+    configure_args = deprecate_build_system(pyproject, "configure-args", [])
+    test_cmd = deprecate_build_system(
+        pyproject,
+        "test-cmd",
+        ["cmake", "--build", "BUILD_DIR", "-t", "test"],
+    )
+    check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
+    fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
+    distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 
     LOG.info("build wheel")
 
