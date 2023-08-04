@@ -5,20 +5,11 @@ https://packaging.python.org/en/latest/specifications/declaring-project-metadata
 """
 
 import glob
-import re
 import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
 
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
-
-
-def normalize(name: str) -> str:
-    """Normalize name.
-
-    ref. https://packaging.python.org/en/latest/specifications/name-normalization
-    """
-    return re.sub(r"[-_.]+", "-", name).lower()
 
 
 def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:
@@ -237,3 +228,22 @@ def get_keywords(conf: Dict[str, Any]) -> List[str]:
         keywords = ",".join(conf["keywords"])
         metadata.append(f"Keywords: {keywords}")
     return metadata
+
+
+def metadata(conf, dist_info, requires) -> List[str]:
+    """Return the lines which should go in the METADATA / PKG-INFO file."""
+    return [
+        "Metadata-Version: 2.1",
+        f"Name: {conf['name']}",
+        f"Version: {conf['version']}",
+        f"Summary: {conf['description']}",
+        f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
+        *get_license(conf, dist_info),
+        *get_people(conf, "author"),
+        *get_people(conf, "maintainer"),
+        *get_keywords(conf),
+        *get_urls(conf),
+        *get_deps(conf, requires),
+        *[f"Classifier: {classifier}" for classifier in conf.get("classifiers", [])],
+        *get_readme(conf),
+    ]

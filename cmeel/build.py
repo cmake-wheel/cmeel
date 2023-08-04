@@ -25,15 +25,7 @@ except ModuleNotFoundError:
 from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
-from .metadata import (
-    get_deps,
-    get_keywords,
-    get_license,
-    get_people,
-    get_readme,
-    get_urls,
-    normalize,
-)
+from .metadata import metadata
 
 LOG = logging.getLogger("cmeel")
 EXECUTABLE = """#!python
@@ -85,6 +77,14 @@ def deprecate_build_system(pyproject, key, default):
     if "tool" in pyproject and "cmeel" in pyproject["tool"]:
         return pyproject["tool"]["cmeel"].get(key, default)
     return default
+
+
+def normalize(name: str) -> str:
+    """Normalize name.
+
+    ref. https://packaging.python.org/en/latest/specifications/name-normalization
+    """
+    return re.sub(r"[-_.]+", "-", name).lower()
 
 
 def build_editable(wheel_directory, config_settings=None, metadata_directory=None):
@@ -241,24 +241,9 @@ def build(wheel_directory, editable=False):  # noqa: C901 TODO
 
     LOG.info("create dist-info / METADATA")
 
-    metadata = [
-        "Metadata-Version: 2.1",
-        f"Name: {conf['name']}",
-        f"Version: {conf['version']}",
-        f"Summary: {conf['description']}",
-        f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
-        *get_license(conf, dist_info),
-        *get_people(conf, "author"),
-        *get_people(conf, "maintainer"),
-        *get_keywords(conf),
-        *get_urls(conf),
-        *get_deps(conf, pyproject["build-system"]["requires"]),
-        *[f"Classifier: {classifier}" for classifier in conf.get("classifiers", [])],
-        *get_readme(conf),
-    ]
-
     with (dist_info / "METADATA").open("w") as f:
-        f.write("\n".join(metadata))
+        requires = pyproject["build-system"]["requires"]
+        f.write("\n".join(metadata(conf, dist_info, requires)))
 
     LOG.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
