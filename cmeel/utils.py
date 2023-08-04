@@ -25,6 +25,11 @@ PATCH_IGNORE = [
     "The next patch would delete",
 ]
 
+EXECUTABLE = """#!python
+from cmeel.run import cmeel_run
+cmeel_run()
+"""
+
 
 class PatchError(CalledProcessError):
     """Exception raised when patch operation failed."""
@@ -113,3 +118,17 @@ def patch():
                     stderr=ret.stderr + f"\nwrong line: {line}\n",
                 )
             LOG.info("this patch was already applied")
+
+
+def expose_bin(install: Path, wheel_dir: Path, distribution: str):
+    """Add scripts wrapping calls to CMEEL_PREFIX/bin/ executables."""
+    bin_dir = install / "bin"
+    if bin_dir.is_dir():
+        LOG.info("adding executables")
+        scripts = wheel_dir / f"{distribution}.data" / "scripts"
+        scripts.mkdir(parents=True)
+        for fn in bin_dir.glob("*"):
+            executable = scripts / fn.name
+            with executable.open("w") as fe:
+                fe.write(EXECUTABLE)
+            executable.chmod(0o755)

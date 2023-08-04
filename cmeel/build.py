@@ -18,13 +18,16 @@ from . import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
-from .utils import deprecate_build_system, get_tag, log_pip, normalize, patch
+from .utils import (
+    deprecate_build_system,
+    expose_bin,
+    get_tag,
+    log_pip,
+    normalize,
+    patch,
+)
 
 LOG = logging.getLogger("cmeel")
-EXECUTABLE = """#!python
-from cmeel.run import cmeel_run
-cmeel_run()
-"""
 
 
 class NonRelocatableError(Exception):
@@ -178,16 +181,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
             ),
         )
 
-    bin_dir = install / "bin"
-    if bin_dir.is_dir():
-        LOG.info("adding executables")
-        scripts = wheel_dir / f"{distribution}.data" / "scripts"
-        scripts.mkdir(parents=True)
-        for fn in bin_dir.glob("*"):
-            executable = scripts / fn.name
-            with executable.open("w") as fe:
-                fe.write(EXECUTABLE)
-            executable.chmod(0o755)
+    expose_bin(install, wheel_dir, distribution)
 
     if check_relocatable:
         LOG.info("check generated cmake files")
