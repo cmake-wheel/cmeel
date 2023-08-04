@@ -11,13 +11,6 @@ from subprocess import CalledProcessError, check_call, check_output, run
 
 from .config import cmeel_config
 
-try:
-    from packaging.tags import sys_tags
-except ImportError as e:
-    err = "You need the 'build' extra option to use this build module.\n"
-    err += "For this you can install the 'cmeel[build]' package."
-    raise ImportError(err) from e
-
 LOG = logging.getLogger("cmeel.utils")
 
 PATCH_IGNORE = [
@@ -92,6 +85,13 @@ def log_pip():
 
 def get_tag(pyproject) -> str:
     """Find the correct tag for the wheel."""
+    try:
+        from packaging.tags import sys_tags
+    except ImportError as e:
+        err = "You need the 'build' extra option to use this build module.\n"
+        err += "For this you can install the 'cmeel[build]' package."
+        raise ImportError(err) from e
+
     tag = str(next(sys_tags()))
     # handle cross compilation on macOS with cibuildwheel
     # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
