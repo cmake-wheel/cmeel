@@ -23,8 +23,6 @@ jobs:
           python -m pip install -U wheel
       - name: build cmeel wheel
         run: python -m pip wheel -w $HOME/wh .
-      - name: debug
-        run: echo python -m pip install "$(find $HOME/wh -name cmeel*.whl)[build]"
       - name: install cmeel
         run: python -m pip install "$(find $HOME/wh -name cmeel*.whl)[build]"
       - name: build cmeel-example wheel
