@@ -10,7 +10,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: poetry
-      - run: poetry install --with dev --no-interaction
+      - run: poetry install -E build --with dev --no-interaction
       - run: poetry run black .
       - run: poetry run mypy .
       - run: poetry run safety check
