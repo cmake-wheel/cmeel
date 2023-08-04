@@ -25,7 +25,7 @@ jobs:
       - name: build cmeel-example sdist
         run: |
           git clone --recursive https://github.com/cmake-wheel/cmeel-example
-          python -m build -nso cmeel-example
+          python -m build -nso dist cmeel-example
           rm -rf cmeel-example
       - name: install cmeel-example
         run: python -m pip install dist/cmeel_example-*.tar.gz
