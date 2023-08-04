@@ -237,7 +237,7 @@ def metadata(conf, dist_info, requires) -> List[str]:
         f"Name: {conf['name']}",
         f"Version: {conf['version']}",
         f"Summary: {conf['description']}",
-        f"Requires-Python: {conf.get('requires-python', '>=3.7')}",
+        f"Requires-Python: {conf.get('requires-python', '>=3.8')}",
         *get_license(conf, dist_info),
         *get_people(conf, "author"),
         *get_people(conf, "maintainer"),
