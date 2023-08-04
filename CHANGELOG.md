@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- split `cmeel.build` into multiple utils functions
+
 ## [v0.46.0] - 2023-06-29
 
 - Add undocumented `release` subcommand for cmeel
