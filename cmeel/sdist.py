@@ -47,7 +47,7 @@ def sdist_impl(sdist_directory) -> str:
         with tmp_pkg.open("w") as f:
             f.write("\n".join(metadata(conf, requires)))
 
-        with tarfile.open(tmp_tar, "r") as tr, tarfile.open(def_tar, "w") as tw:
+        with tarfile.open(tmp_tar, "r") as tr, tarfile.open(def_tar, "w:gz") as tw:
             for member in tr.getmembers():
                 tw.addfile(member, tr.extractfile(member.name))
             tw.add(str(tmp_pkg), f"{distribution}/PKG-INFO")
