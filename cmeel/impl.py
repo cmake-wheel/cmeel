@@ -12,7 +12,7 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
 
-from . import __version__
+from .cmeel import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
 from .metadata import metadata
