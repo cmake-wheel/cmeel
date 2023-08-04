@@ -4,7 +4,6 @@ ref. PEP 621, superseeded by
 https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 """
 
-import glob
 import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
@@ -22,8 +21,8 @@ def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:
         lic_files = [*lic_files, *_license_files(conf["license-files"])]
     elif not lic_files:
         for glob_expr in LICENSE_GLOBS:
-            for lic_file in glob.glob(glob_expr):
-                lic_files.append(lic_file)
+            for lic_file_s in Path().glob(glob_expr):
+                lic_files.append(str(lic_file_s))
 
     if not lic_expr and not lic_files:
         e = "'license' or 'license-files' is required"
@@ -55,8 +54,8 @@ def _license_files(license_files: Union[str, List[str], Dict[str, str]]) -> List
                 lic_files.append(lic_file)
         elif "paths" not in license_files and "globs" in license_files:
             for glob_expr in license_files["globs"]:
-                for lic_file in glob.glob(glob_expr):
-                    lic_files.append(lic_file)
+                for lic_file_s in Path().glob(glob_expr):
+                    lic_files.append(str(lic_file_s))
         else:
             e = "'license-files' table must containe either a 'paths' or a 'globs'"
             raise KeyError(e)
