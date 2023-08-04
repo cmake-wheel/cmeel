@@ -6,12 +6,12 @@ https://packaging.python.org/en/latest/specifications/declaring-project-metadata
 
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
-def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:
+def get_license(conf: Dict[str, Any], dist_info: Optional[Path]) -> List[str]:
     """Parse 'license' and 'license-files' keys."""
     metadata = []
 
@@ -30,13 +30,14 @@ def get_license(conf: Dict[str, Any], dist_info: Path) -> List[str]:
 
     if lic_expr:
         metadata.append(f"License-Expression: {lic_expr}")
-    for lic_file in lic_files:
-        metadata.append(f"License-File: {lic_file}")
-        path_src = Path(lic_file)
-        path_dst = dist_info / "license" / path_src
-        path_dst.parent.mkdir(parents=True, exist_ok=True)
-        with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
-            f_dst.write(f_src.read())
+    if dist_info:
+        for lic_file in lic_files:
+            metadata.append(f"License-File: {lic_file}")
+            path_src = Path(lic_file)
+            path_dst = dist_info / "license" / path_src
+            path_dst.parent.mkdir(parents=True, exist_ok=True)
+            with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
+                f_dst.write(f_src.read())
 
     return metadata
 
@@ -229,7 +230,7 @@ def get_keywords(conf: Dict[str, Any]) -> List[str]:
     return metadata
 
 
-def metadata(conf, dist_info, requires) -> List[str]:
+def metadata(conf, requires: List[str], dist_info: Optional[Path] = None) -> List[str]:
     """Return the lines which should go in the METADATA / PKG-INFO file."""
     return [
         "Metadata-Version: 2.1",

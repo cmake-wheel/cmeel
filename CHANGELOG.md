@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Add sdist CI
+- Add PKG-INFO in sdist
 
 ## [v0.47.1] - 2023-08-04
 

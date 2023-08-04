@@ -1,7 +1,9 @@
 """Generate .tar.gz source distribution."""
 
 import logging
+import tarfile
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 try:
     import tomllib  # type: ignore
@@ -15,6 +17,7 @@ except ImportError as e:
     err += "For this you can install the 'cmeel[build]' package."
     raise ImportError(err) from e
 
+from .metadata import metadata
 from .utils import normalize
 
 LOG = logging.getLogger("cmeel.sdist")
@@ -30,7 +33,23 @@ def sdist_impl(sdist_directory) -> str:
     conf["name"] = normalize(conf["name"])
     distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 
-    git_archive_all.main(
-        ["git_archive_all.py", str(Path(sdist_directory) / f"{distribution}.tar.gz")],
-    )
+    # tarfile can't add PKG-INFO to a .tar.gz, so we have to make a tmp one
+    with TemporaryDirectory() as tmp:
+        tmp_pkg = Path(tmp) / "PKG-INFO"
+        tmp_tar = Path(tmp) / f"{distribution}.tar.gz"
+        def_tar = Path(sdist_directory) / f"{distribution}.tar.gz"
+
+        git_archive_all.main(
+            ["git_archive_all.py", str(tmp_tar)],
+        )
+
+        requires = pyproject["build-system"]["requires"]
+        with tmp_pkg.open("w") as f:
+            f.write("\n".join(metadata(conf, requires)))
+
+        with tarfile.open(tmp_tar, "r") as tr, tarfile.open(def_tar, "w") as tw:
+            for member in tr.getmembers():
+                tw.addfile(member, tr.extractfile(member.name))
+            tw.add(str(tmp_pkg), f"{distribution}/PKG-INFO")
+
     return distribution

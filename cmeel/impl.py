@@ -131,7 +131,7 @@ def build_impl(wheel_directory, editable=False) -> str:
 
     with (dist_info / "METADATA").open("w") as f:
         requires = pyproject["build-system"]["requires"]
-        f.write("\n".join(metadata(conf, dist_info, requires)))
+        f.write("\n".join(metadata(conf, requires, dist_info)))
 
     LOG.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
