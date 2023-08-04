@@ -75,7 +75,6 @@ def build(wheel_directory, editable=False):  # noqa: C901
     build = prefix / "bld"
     wheel_dir = prefix / "whl"
     install = (prefix if editable else wheel_dir) / CMEEL_PREFIX
-    tag = get_tag()
 
     LOG.info("load conf from pyproject.toml")
     with Path("pyproject.toml").open("rb") as f:
@@ -103,13 +102,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
         )
         check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
         fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
-        if deprecate_build_system(pyproject, "py3-none", False):
-            tag = "-".join(["py3", "none", tag.split("-")[-1]])
-        elif deprecate_build_system(pyproject, "any", False):
-            tag = "py3-none-any"
-        elif deprecate_build_system(pyproject, "pyver-any", False):
-            tag = f"py3{sys.version_info.minor}-none-any"
-    distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
+        distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 
     LOG.info("build wheel")
 
@@ -213,7 +206,7 @@ def build(wheel_directory, editable=False):  # noqa: C901
                     "Wheel-Version: 1.0",
                     f"Generator: cmeel {__version__}",
                     "Root-Is-Purelib: false",
-                    f"Tag: {tag}",
+                    f"Tag: {get_tag(pyproject)}",
                     "",
                 ],
             ),
