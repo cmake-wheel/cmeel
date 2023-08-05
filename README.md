@@ -54,7 +54,7 @@ changelog = "https://github.com/cmake-wheel/cmeel-example/blob/main/CHANGELOG.md
 
 [build-system]
 requires = ["cmeel[build]"]
-build-backend = "cmeel.build"
+build-backend = "cmeel"
 ```
 
 Complete specification is available at:
