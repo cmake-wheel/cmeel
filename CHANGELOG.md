@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Forward `-DCMEEL_JOBS={config.jobs}` to CMake
+
 ## [v0.48.1] - 2023-08-04
 
 ## [v0.48.0] - 2023-08-04

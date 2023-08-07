@@ -72,6 +72,7 @@ class CmeelConfig:
             f"-DPYTHON_SITELIB={SITELIB}",
             f"-DPython3_EXECUTABLE={sys.executable}",
             "-DCMAKE_APPLE_SILICON_PROCESSOR=arm64",
+            f"-DCMEEL_JOBS={self.jobs}",
             *build_testing,
             *configure_args,
             *self.conf.get("configure-args", []),
