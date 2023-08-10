@@ -132,20 +132,23 @@ Integer which acts as a tie-breaker if two wheel file names are the same. 0 by d
 List of string providing the test command and its arguments. `["cmake", "--build", "BUILD_DIR", "-t", "test"]` by
 default. `BUILD_DIR` is replaced by the current path to the build directory.
 
-#### `py3-none`
-
-Boolean setting to build a wheel for `py3-none-{platform}`. A package with this setting shouldn't provide anything in a
-python sitelib. `false` by default.
-
 #### `any`
 
-Boolean setting to build a wheel for `py3-none-any`. A package with this setting shouldn't provide any binary library
-or executable, nor anything in a python sitelib. `false` by default.
+Boolean setting to build a wheel for `py3-none-any`.
+
+A package with this setting must not provide any binary library or executable, nor anything in a python sitelib. `false` by default.
 
 #### `pyver-any`
 
-Boolean setting to build a wheel for `py3x-none-any` where x is the current python 3 minor version. A package with this
-setting shouldn't provide any binary library or executable. `false` by default.
+Boolean setting to build a wheel for `py3x-none-any` where x is the current python 3 minor version.
+
+A package with this setting must not provide any binary library or executable. `false` by default.
+
+#### `py3-none`
+
+Boolean setting to build a wheel for `py3-none-{platform}`.
+
+A package with this setting must not provide anything in a python sitelib. `false` by default.
 
 #### `check-relocatable`
 
