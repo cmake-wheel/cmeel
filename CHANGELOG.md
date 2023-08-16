@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix `has_binaries` & `has_sitelib` doc and defaults
+
 ## [v0.50.0] - 2023-08-16
 
 - update readthedocs config after python version bump
-
 - ⚠️ `py3-none`, `any` and `pyver-any` are deprecated. Please use `has_binaries` and/or `has_sitelib`
 
 ## [v0.49.0] - 2023-08-08
