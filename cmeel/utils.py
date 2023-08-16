@@ -46,6 +46,16 @@ class NonRelocatableError(Exception):
     pass
 
 
+def dotget(data, key, default):
+    """Get key in data or default."""
+    for part in key.split("."):
+        if part in data:
+            data = data[part]
+        else:
+            return default
+    return data
+
+
 def deprecate_build_system(pyproject, key, default):
     """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
 
@@ -100,11 +110,37 @@ def get_tag(pyproject) -> str:
         tag = "-".join(tag.split("-")[:-1] + [plat])
 
     if deprecate_build_system(pyproject, "py3-none", False):
+        warnings.warn(
+            "The 'py3-none = true' key is deprecated. Please use 'has_sitelib = false'",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         tag = "-".join(["py3", "none", tag.split("-")[-1]])
     elif deprecate_build_system(pyproject, "any", False):
+        warnings.warn(
+            "The 'any = true' key is deprecated. "
+            "Please use 'has_sitelib = false' and 'has_binaries = false'",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         tag = "py3-none-any"
     elif deprecate_build_system(pyproject, "pyver-any", False):
+        warnings.warn(
+            "The 'pyver-any = true' key is deprecated. "
+            "Please use 'has_binaries = false'",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         tag = f"py3{sys.version_info.minor}-none-any"
+    else:
+        binaries = dotget(pyproject, "tool.cmeel.has_binaries", False)
+        sitelib = dotget(pyproject, "tool.cmeel.has_sitelib", False)
+        if not binaries and not sitelib:
+            tag = "py3-none-any"
+        elif not binaries:
+            tag = f"py3{sys.version_info.minor}-none-any"
+        elif not sitelib:
+            tag = "-".join(["py3", "none", tag.split("-")[-1]])
     return tag
 
 

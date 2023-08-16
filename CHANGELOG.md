@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - update readthedocs config after python version bump
 
+- ⚠️ `py3-none`, `any` and `pyver-any` are deprecated. Please use `has_binaries` and/or `has_sitelib`
+
 ## [v0.49.0] - 2023-08-08
 
 - Forward `-DCMEEL_JOBS={config.jobs}` to CMake
