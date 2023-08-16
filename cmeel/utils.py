@@ -133,8 +133,8 @@ def get_tag(pyproject) -> str:
         )
         tag = f"py3{sys.version_info.minor}-none-any"
     else:
-        binaries = dotget(pyproject, "tool.cmeel.has_binaries", False)
-        sitelib = dotget(pyproject, "tool.cmeel.has_sitelib", False)
+        binaries = dotget(pyproject, "tool.cmeel.has_binaries", True)
+        sitelib = dotget(pyproject, "tool.cmeel.has_sitelib", True)
         if not binaries and not sitelib:
             tag = "py3-none-any"
         elif not binaries:
