@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.50.1] - 2023-08-16
+
 - fix `has_binaries` & `has_sitelib` doc and defaults
 
 ## [v0.50.0] - 2023-08-16
@@ -379,6 +381,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.50.1]: https://github.com/cmake-wheel/cmeel/compare/v0.50.0...v0.50.1
 [v0.50.0]: https://github.com/cmake-wheel/cmeel/compare/v0.49.0...v0.50.0
 [v0.49.0]: https://github.com/cmake-wheel/cmeel/compare/v0.48.1...v0.49.0
 [v0.48.1]: https://github.com/cmake-wheel/cmeel/compare/v0.48.0...v0.48.1
