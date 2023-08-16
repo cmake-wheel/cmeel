@@ -34,7 +34,7 @@ def build_impl(wheel_directory, editable=False) -> str:
     """Run CMake configure / build / test / install steps, and pack the wheel."""
     logging.basicConfig(level=cmeel_config.log_level.upper())
     LOG.info("CMake Wheel in editable mode" if editable else "CMake Wheel")
-    LOG.info("cmeel version %s" % __version__)
+    LOG.info("cmeel version %s", __version__)
     log_pip()
 
     prefix = Path() / "build-editable" if editable else cmeel_config.temp_dir
