@@ -134,11 +134,11 @@ default. `BUILD_DIR` is replaced by the current path to the build directory.
 
 #### `has-binaries`
 
-Boolean setting to build wheels with architecture-dependent binaries. `true` by default`.
+Boolean setting to build wheels with architecture-dependent binaries. `true` by default
 
 #### `has-sitelib`
 
-Boolean setting to build wheels wich include content in python sitelib. `true` by default`.
+Boolean setting to build wheels which include content in python sitelib. `true` by default.
 
 #### `any`
 
