@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- ⚠️ rename `has-binaries` & `has-sitelib`
+
 ## [v0.50.1] - 2023-08-16
 
 - fix `has_binaries` & `has_sitelib` doc and defaults

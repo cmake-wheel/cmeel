@@ -132,17 +132,17 @@ Integer which acts as a tie-breaker if two wheel file names are the same. 0 by d
 List of string providing the test command and its arguments. `["cmake", "--build", "BUILD_DIR", "-t", "test"]` by
 default. `BUILD_DIR` is replaced by the current path to the build directory.
 
-#### `has_binaries`
+#### `has-binaries`
 
 Boolean setting to build wheels with architecture-dependent binaries. `true` by default`.
 
-#### `has_sitelib`
+#### `has-sitelib`
 
 Boolean setting to build wheels wich include content in python sitelib. `true` by default`.
 
 #### `any`
 
-⚠️ DEPRECATED: Please use `has_binaries = false` and `has_sitelib = false`
+⚠️ DEPRECATED: Please use `has-binaries = false` and `has-sitelib = false`
 
 Boolean setting to build a wheel for `py3-none-any`.
 
@@ -150,7 +150,7 @@ A package with this setting must not provide any binary library or executable, n
 
 #### `pyver-any`
 
-⚠️ DEPRECATED: Please use `has_binaries = false`
+⚠️ DEPRECATED: Please use `has-binaries = false`
 
 Boolean setting to build a wheel for `py3x-none-any` where x is the current python 3 minor version.
 
@@ -158,7 +158,7 @@ A package with this setting must not provide any binary library or executable. `
 
 #### `py3-none`
 
-⚠️ DEPRECATED: Please use `has_sitelib = false`
+⚠️ DEPRECATED: Please use `has-sitelib = false`
 
 Boolean setting to build a wheel for `py3-none-{platform}`.
 
