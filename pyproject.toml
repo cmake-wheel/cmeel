@@ -41,14 +41,14 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
-furo = "^2023.7.26"
+furo = "^2023.9.10"
 isort = "^5.12.0"
 mypy = "^1.4.1"
 myst-parser = "^2.0.0"
 requests = "^2.31.0"
 ruff = ">=0.0.282,<0.0.288"
 # safety = {allow-prereleases = true, version = "^2.4.0b1"} TODO: bump when they fix packaging support
-sphinx = "^7.1.2"
+sphinx = "<7.2" # 7.2 dropped python 3.8 support
 
 [tool.poetry.scripts]
 cmeel = "cmeel.__main__:main"
