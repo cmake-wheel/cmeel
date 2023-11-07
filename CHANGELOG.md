@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.51.0] - 2023-11-07
+
 - set `PKG_PREFIX_PATH` on configure
 
 ## [v0.50.2] - 2023-08-16
@@ -387,6 +389,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.51.0]: https://github.com/cmake-wheel/cmeel/compare/v0.50.2...v0.51.0
 [v0.50.2]: https://github.com/cmake-wheel/cmeel/compare/v0.50.1...v0.50.2
 [v0.50.1]: https://github.com/cmake-wheel/cmeel/compare/v0.50.0...v0.50.1
 [v0.50.0]: https://github.com/cmake-wheel/cmeel/compare/v0.49.0...v0.50.0
