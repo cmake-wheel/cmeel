@@ -29,7 +29,7 @@ def get_paths(cmd: str, prepend: bool = False, **kwargs) -> str:
     elif cmd == "pc":
         prefixes = [p / sub / "pkgconfig" for p in prefixes for sub in ["lib", "share"]]
 
-    available = [str(p) for p in prefixes if p.exists()]
+    available = [str(p) for p in prefixes if p.is_dir()]
     if prepend:
         ret = []
         for prefix in available + os.environ.get(PATHS[cmd], "").split(os.pathsep):

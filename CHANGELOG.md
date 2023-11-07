@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- set `PKG_PREFIX_PATH` on configure
+
 ## [v0.50.2] - 2023-08-16
 
 - ⚠️ rename `has-binaries` & `has-sitelib`

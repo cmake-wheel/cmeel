@@ -89,8 +89,16 @@ class CmeelConfig:
         available = self._get_available_prefix()
         if available:
             cpp = ret.get("CMAKE_PREFIX_PATH", "")
-            if available not in cpp.split(":"):
+            if str(available) not in cpp.split(":"):
                 ret["CMAKE_PREFIX_PATH"] = f"{available}:{cpp}".strip(":")
+            pcp = ret.get("PKG_CONFIG_PATH", "")
+            lpcp = available / "lib" / "pkgconfig"
+            if lpcp.is_dir() and str(lpcp) not in pcp.split(":"):
+                pcp = f"{lpcp}:{pcp}"
+            spcp = available / "share" / "pkgconfig"
+            if spcp.is_dir() and str(spcp) not in pcp.split(":"):
+                pcp = f"{spcp}:{pcp}"
+            ret["PKG_CONFIG_PATH"] = pcp.strip(":")
         return ret
 
     def get_test_env(self) -> Dict[str, str]:
@@ -99,10 +107,10 @@ class CmeelConfig:
         ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL=self.test_jobs)
         return ret
 
-    def _get_available_prefix(self) -> Optional[str]:
+    def _get_available_prefix(self) -> Optional[Path]:
         for path in sys.path:
             if CMEEL_PREFIX in path:
-                return str(Path(path).parent.parent.parent)
+                return Path(path).parent.parent.parent
         return None
 
 
