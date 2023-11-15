@@ -173,6 +173,10 @@ Boolean setting to check generated `*.cmake` files for wrong absolute paths. `tr
 
 Boolean setting to fix generated `*.pc` files with wrong absolute paths. `true` by default.
 
+#### `upstream-version`
+
+Document upstream version.
+
 ## Global config file
 
 Users can have a `cmeel/cmeel.toml` file in their `$XDG_CONFIG_HOME` directory (usually `~/.config`).
