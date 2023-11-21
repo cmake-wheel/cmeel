@@ -34,7 +34,7 @@ This Install in `${PYTHON_SITELIB}/cmeel.prefix/`:
   packages work out of the box
 - Existing `${PYTHON_SITELIB}/cmeel.prefix` are automatically added to `$CMAKE_PREFIX_PATH`, so we can build CMake
   packages whose dependencies are provided by other packages installed with cmeel
-- Stuff in `${PYTHON_SITELIB}/cmeel.prefix/bin` is exposed via `cmeel.run:cmeel_run`
+- Stuff in `${PYTHON_SITELIB}/cmeel.prefix/bin` is exposed via `cmeel.run:cmeel_run`, or copied if start with a shebang
 
 ## Basic pyproject.toml example
 

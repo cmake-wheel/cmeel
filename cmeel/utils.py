@@ -173,8 +173,10 @@ def expose_bin(install: Path, wheel_dir: Path, distribution: str):
         scripts.mkdir(parents=True)
         for fn in bin_dir.glob("*"):
             executable = scripts / fn.name
+            with fn.open("rb") as fo:
+                is_script = fo.read(2) == b"#!"
             with executable.open("w") as fe:
-                fe.write(EXECUTABLE)
+                fe.write(fn.read_text() if is_script else EXECUTABLE)
             executable.chmod(0o755)
 
 

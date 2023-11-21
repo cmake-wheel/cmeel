@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- document `upstream_version`
+- document `upstream-version`
+- copy scripts with shebang in bin/
 
 ## [v0.51.1] - 2023-11-07
 
