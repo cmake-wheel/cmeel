@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix python shebang in scripts
+
 ## [v0.52.1] - 2023-11-21
 
 ## [v0.52.0] - 2023-11-21

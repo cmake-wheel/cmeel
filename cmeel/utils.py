@@ -20,10 +20,7 @@ PATCH_IGNORE = [
     "The next patch would delete",
 ]
 
-EXECUTABLE = """#!python
-from cmeel.run import cmeel_run
-cmeel_run()
-"""
+EXECUTABLE = ["#!python", "from cmeel.run import cmeel_run", "cmeel_run()"]
 
 
 class PatchError(CalledProcessError):
@@ -176,7 +173,10 @@ def expose_bin(install: Path, wheel_dir: Path, distribution: str):
             with fn.open("rb") as fo:
                 is_script = fo.read(2) == b"#!"
             with executable.open("w") as fe:
-                fe.write(fn.read_text() if is_script else EXECUTABLE)
+                content = fn.read_text().split("\n") if is_script else EXECUTABLE
+                if "python" in content[0]:
+                    content = ["#!python", *content[1:]]
+                fe.write("\n".join(content))
             executable.chmod(0o755)
 
 
