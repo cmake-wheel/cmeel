@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.53.1] - 2023-12-11
+
 - break import order issue
 
 ## [v0.53.0] - 2023-11-30
@@ -404,6 +406,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.53.1]: https://github.com/cmake-wheel/cmeel/compare/v0.53.0...v0.53.1
 [v0.53.0]: https://github.com/cmake-wheel/cmeel/compare/v0.52.1...v0.53.0
 [v0.52.1]: https://github.com/cmake-wheel/cmeel/compare/v0.52.0...v0.52.1
 [v0.52.0]: https://github.com/cmake-wheel/cmeel/compare/v0.51.1...v0.52.0
