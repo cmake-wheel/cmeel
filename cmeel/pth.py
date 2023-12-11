@@ -1,8 +1,12 @@
 """Append cmeel prefix sitelib to sys.path."""
+import os
 import sys
 from pathlib import Path
 
-from .consts import CMEEL_PREFIX, SITELIB
+CMEEL_PREFIX = "cmeel.prefix"
+SITELIB = os.sep.join(  # noqa: PTH118
+    ["lib", "python" + ".".join(sys.version.split(".")[:2]), "site-packages"],
+)
 
 sys.path.append(str(Path(__file__).parent.parent / CMEEL_PREFIX / SITELIB))
 
