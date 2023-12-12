@@ -27,7 +27,7 @@ packages = [
   {include = "cmeel_pth.py"}
 ]
 readme = "README.md"
-version = "0.53.1"
+version = "0.53.2"
 
 [tool.poetry.dependencies]
 cmake = {optional = true, version = "^3.27.7"}

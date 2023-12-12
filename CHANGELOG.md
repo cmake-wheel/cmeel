@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.53.2] - 2023-12-12
+
 - avoid any non-stdlib import in the .pth file
 
 ## [v0.53.1] - 2023-12-11
@@ -408,6 +410,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.53.2]: https://github.com/cmake-wheel/cmeel/compare/v0.53.1...v0.53.2
 [v0.53.1]: https://github.com/cmake-wheel/cmeel/compare/v0.53.0...v0.53.1
 [v0.53.0]: https://github.com/cmake-wheel/cmeel/compare/v0.52.1...v0.53.0
 [v0.52.1]: https://github.com/cmake-wheel/cmeel/compare/v0.52.0...v0.52.1
