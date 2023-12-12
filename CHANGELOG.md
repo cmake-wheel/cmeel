@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- avoid any non-stdlib import in the .pth file
+
 ## [v0.53.1] - 2023-12-11
 
 - break import order issue
