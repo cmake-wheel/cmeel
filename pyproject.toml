@@ -22,6 +22,10 @@ homepage = "https://github.com/cmake-wheel/cmeel"
 include = ['cmeel.pth']
 license = "BSD-2-Clause"
 name = "cmeel"
+packages = [
+  {include = "cmeel"},
+  {include = "cmeel_pth.py"}
+]
 readme = "README.md"
 version = "0.53.1"
 
