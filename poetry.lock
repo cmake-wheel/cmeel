@@ -287,10 +287,14 @@ version = "1.23.1"
 description = "Archive git repository with its submodules."
 optional = true
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.6"
-files = [
-    {file = "git-archive-all-1.23.1.tar.gz", hash = "sha256:a42fe0cedd2e0361250a4f3130f3d3543f640d4f1fe28530771df5972108729f"},
-    {file = "git_archive_all-1.23.1-py2.py3-none-any.whl", hash = "sha256:d9f9611f2df629de3df1d6f134955ced4c704cbc0e423d769a7c0e55a8484242"},
-]
+files = []
+develop = false
+
+[package.source]
+type = "git"
+url = "https://github.com/nim65s/git-archive-all"
+reference = "HEAD"
+resolved_reference = "7d81e3e4d1dce6ef94d9bc233267e48a994c182d"
 
 [[package]]
 name = "idna"
@@ -980,4 +984,4 @@ build = ["cmake", "git-archive-all", "packaging", "wheel"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "33399c4b75b1285a9b02ade049ea36a4949112a627cdfbc8480645a64236e59c"
+content-hash = "6cf8fc6f61bd96768a1e9ea2ffdec380b241113ad9f45b48abf4b60a06985032"
