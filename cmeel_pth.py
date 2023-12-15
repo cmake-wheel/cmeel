@@ -11,7 +11,7 @@ SITELIB = os.sep.join(  # noqa: PTH118
 )
 # ^^^
 
-sys.path.append(str(Path(__file__).parent.parent / CMEEL_PREFIX / SITELIB))
+sys.path.append(str(Path(__file__).parent / CMEEL_PREFIX / SITELIB))
 
 for path in sys.path.copy():
     cmeel_sitelib = Path(path) / CMEEL_PREFIX / SITELIB

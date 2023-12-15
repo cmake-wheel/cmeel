@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix path computation following move of cmeel.pth to cmeel_pth
+
 ## [v0.53.2] - 2023-12-12
 
 - avoid any non-stdlib import in the .pth file
