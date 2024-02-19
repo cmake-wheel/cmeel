@@ -1,4 +1,5 @@
 """Cmeel module."""
+
 # ruff: noqa: F401
 
 from .build import build_editable, build_sdist, build_wheel
