@@ -50,7 +50,7 @@ isort = "^5.13.2"
 mypy = "^1.7.1"
 myst-parser = "^2.0.0"
 requests = "^2.31.0"
-ruff = "^0.1.4"
+ruff = ">=0.1.4,<0.4.0"
 # safety = {allow-prereleases = true, version = "^2.4.0b1"} TODO: bump when they fix packaging support
 sphinx = {python = "^3.9", version = "^7.2.6"}
 
