@@ -4,7 +4,7 @@ repos:
   hooks:
   - id: isort
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.1.9
+  rev: v0.2.2
   hooks:
   - id: ruff
     args:
@@ -42,6 +42,6 @@ repos:
   - id: mixed-line-ending
   - id: trailing-whitespace
 - repo: https://github.com/psf/black
-  rev: 23.12.1
+  rev: 24.2.0
   hooks:
   - id: black
