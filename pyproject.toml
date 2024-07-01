@@ -32,7 +32,7 @@ version = "0.53.3"
 [tool.poetry.dependencies]
 cmake = {optional = true, version = "^3.27.9"}
 git-archive-all = {git = "https://github.com/nim65s/git-archive-all", optional = true}
-packaging = {optional = true, version = "^23.2"}
+packaging = {optional = true, version = ">=23.2,<25.0"}
 python = "^3.8"
 tomli = {python = "< 3.11", version = "^2.0.1"}
 wheel = {optional = true, version = ">=0.42.0"}
