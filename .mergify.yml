@@ -1,11 +1,28 @@
 pull_request_rules:
   - name: merge automatically when CI passes and PR is approved
     conditions:
-      - check-success = lint
-      - check-success = Nix build on ubuntu
-      - check-success = Nix build on macos
-      - check-success = tests
-      - check-success = test-entrypoints
+      - check-success = "Check helpers"
+      - check-success = "Editable 3.10 on macos-latest"
+      - check-success = "Editable 3.10 on ubuntu-latest"
+      - check-success = "Editable 3.11 on macos-latest"
+      - check-success = "Editable 3.11 on ubuntu-latest"
+      - check-success = "Editable 3.8 on macos-latest"
+      - check-success = "Editable 3.8 on ubuntu-latest"
+      - check-success = "Editable 3.9 on macos-latest"
+      - check-success = "Editable 3.9 on ubuntu-latest"
+      - check-success = "lint"
+      - check-success = "Test 3.10 on macos-latest"
+      - check-success = "Test 3.10 on ubuntu-latest"
+      - check-success = "Test 3.11 on macos-latest"
+      - check-success = "Test 3.11 on ubuntu-latest"
+      - check-success = "Test 3.8 on macos-latest"
+      - check-success = "Test 3.8 on ubuntu-latest"
+      - check-success = "Test 3.9 on macos-latest"
+      - check-success = "Test 3.9 on ubuntu-latest"
+      - check-success = "Test docker on manylinux2014_x86_64"
+      - check-success = "Test docker on musllinux_1_1_x86_64"
+      - check-success = "Test sdist on macos-latest"
+      - check-success = "Test sdist on ubuntu-latest"
       - or:
         - approved-reviews-by = nim65s
         - author = nim65s
