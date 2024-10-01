@@ -8,7 +8,7 @@
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v1.json)](https://github.com/charliermarsh/ruff)
 
-Wheel build backend using CMake, to package anything with pip and distribute on PyPI.
+Wheel build backend using CMake, to package any CMake project with pip and distribute on PyPI.
 
 Following those relevant PEPs:
 - [PEP 427](https://peps.python.org/pep-0427/), The Wheel Binary Package Format 1.0
