@@ -35,6 +35,3 @@ jobs:
         run: cmeel-add 3 4
       - name: save artifacts
         run: mkdir wh && cp $HOME/wh/cmeel*.whl wh/
-      - uses: actions/upload-artifact@v4
-        with:
-          path: wh
