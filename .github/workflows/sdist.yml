@@ -33,6 +33,3 @@ jobs:
         run: python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
       - name: test executable
         run: cmeel-add 3 4
-      - uses: actions/upload-artifact@v4
-        with:
-          path: dist
