@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- poetry -> uv + hatch
 - drop safety
 - isort + black -> ruff
 

@@ -4,11 +4,11 @@
 [[ $(basename "$PWD") == docs ]] && cd ..
 
 
-OLD=$(poetry version -s)
+OLD=$(hatch version -s)
 
-poetry version "$1"
+hatch version "$1"
 
-NEW=$(poetry version -s)
+NEW=$(hatch version -s)
 DATE=$(date +%Y-%m-%d)
 
 sed -i "/^## \[Unreleased\]/a \\\n## [v$NEW] - $DATE" CHANGELOG.md
