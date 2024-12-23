@@ -2,9 +2,6 @@
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
-[tool.isort]
-profile = "black"
-
 [tool.poetry]
 authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
 classifiers = [
@@ -61,9 +58,11 @@ cmeel = "cmeel.__main__:main"
 changelog = "https://github.com/cmake-wheel/cmeel/blob/main/CHANGELOG.md"
 
 [tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
 extend-ignore = ["D203", "D213"]
 extend-select = ["A", "B", "C", "COM", "D", "EM", "EXE", "G", "I", "N", "PTH", "RET", "RUF", "UP", "W", "YTT"]
-target-version = "py37"
 
 [tool.tomlsort]
 all = true
