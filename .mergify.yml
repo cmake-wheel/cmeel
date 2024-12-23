@@ -6,6 +6,10 @@ pull_request_rules:
       - check-success = "Editable 3.10 on ubuntu-latest"
       - check-success = "Editable 3.11 on macos-latest"
       - check-success = "Editable 3.11 on ubuntu-latest"
+      - check-success = "Editable 3.12 on macos-latest"
+      - check-success = "Editable 3.12 on ubuntu-latest"
+      - check-success = "Editable 3.13 on macos-latest"
+      - check-success = "Editable 3.13 on ubuntu-latest"
       - check-success = "Editable 3.8 on macos-latest"
       - check-success = "Editable 3.8 on ubuntu-latest"
       - check-success = "Editable 3.9 on macos-latest"
@@ -15,6 +19,10 @@ pull_request_rules:
       - check-success = "Test 3.10 on ubuntu-latest"
       - check-success = "Test 3.11 on macos-latest"
       - check-success = "Test 3.11 on ubuntu-latest"
+      - check-success = "Test 3.12 on macos-latest"
+      - check-success = "Test 3.12 on ubuntu-latest"
+      - check-success = "Test 3.13 on macos-latest"
+      - check-success = "Test 3.13 on ubuntu-latest"
       - check-success = "Test 3.8 on macos-latest"
       - check-success = "Test 3.8 on ubuntu-latest"
       - check-success = "Test 3.9 on macos-latest"
@@ -26,7 +34,8 @@ pull_request_rules:
       - or:
         - approved-reviews-by = nim65s
         - author = nim65s
-        - author = pre-commit-ci[bot]
         - author = dependabot[bot]
+        - author = github-actions[bot]
+        - author = pre-commit-ci[bot]
     actions:
       merge:
