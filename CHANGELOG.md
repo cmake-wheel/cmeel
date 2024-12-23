@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - poetry -> uv + hatch
 - drop safety
 - isort + black -> ruff
+- manylinux2014 -> manylinux_2_28
 
 ## [v0.53.3] - 2023-12-15
 
