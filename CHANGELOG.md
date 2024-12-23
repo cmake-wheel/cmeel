@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- drop safety
+- isort + black -> ruff
+
 ## [v0.53.3] - 2023-12-15
 
 - fix path computation following move of cmeel.pth to cmeel_pth
