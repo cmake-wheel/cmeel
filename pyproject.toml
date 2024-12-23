@@ -1,12 +1,23 @@
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 
-[tool.isort]
-profile = "black"
+[dependency-groups]
+dev = [
+  "build>=1.2.2.post1",
+  "furo>=2024.8.6",
+  "hatch>=1.14.0",
+  "mypy>=1.14.0",
+  "myst-parser>=4.0.0 ; python_full_version >= '3.10'",
+  "requests>=2.32.3",
+  "ruff>=0.8.4",
+  "sphinx>=7.1.2 ; python_full_version >= '3.10'",
+]
 
-[tool.poetry]
-authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
+[project]
+authors = [
+  {email = "guilhem.saurel@laas.fr", name = "Guilhem Saurel"},
+]
 classifiers = [
   "Operating System :: MacOS",
   "Operating System :: POSIX :: Linux",
@@ -14,56 +25,50 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Software Development :: Build Tools",
   "Topic :: System :: Archiving :: Packaging",
-  "Topic :: System :: Software Distribution"
+  "Topic :: System :: Software Distribution",
+]
+dependencies = [
+  "tomli>=2.2.1 ; python_full_version < '3.11'",
 ]
 description = "Create Wheel from CMake projects"
-documentation = "https://cmeel.readthedocs.io/"
-homepage = "https://github.com/cmake-wheel/cmeel"
-include = ['cmeel.pth']
 license = "BSD-2-Clause"
 name = "cmeel"
-packages = [
-  {include = "cmeel"},
-  {include = "cmeel_pth.py"}
-]
 readme = "README.md"
+requires-python = ">=3.8"
 version = "0.53.3"
 
-[tool.poetry.dependencies]
-cmake = {optional = true, version = "^3.27.9"}
-git-archive-all = {git = "https://github.com/nim65s/git-archive-all", optional = true}
-packaging = {optional = true, version = ">=23.2,<25.0"}
-python = "^3.8"
-tomli = {python = "< 3.11", version = "^2.0.1"}
-wheel = {optional = true, version = ">=0.42.0"}
+[project.optional-dependencies]
+build = [
+  "cmake>=3.31.2",
+  "git-archive-all",
+  "packaging>=24.2",
+  "wheel>=0.45.1",
+]
 
-[tool.poetry.extras]
-build = ["cmake", "git-archive-all", "packaging", "wheel"]
-
-[tool.poetry.group.dev]
-optional = true
-
-[tool.poetry.group.dev.dependencies]
-black = ">=23.12,<25.0"
-furo = ">=2023.9.10,<2025.0.0"
-isort = "^5.13.2"
-mypy = "^1.7.1"
-myst-parser = ">=2,<4"
-requests = "^2.31.0"
-ruff = ">=0.1.4,<0.9.0"
-# safety = {allow-prereleases = true, version = "^2.4.0b1"} TODO: bump when they fix packaging support
-sphinx = {python = "^3.9", version = "^7.2.6"}
-
-[tool.poetry.scripts]
+[project.scripts]
 cmeel = "cmeel.__main__:main"
 
-[tool.poetry.urls]
-changelog = "https://github.com/cmake-wheel/cmeel/blob/main/CHANGELOG.md"
+[project.urls]
+Changelog = "https://github.com/cmake-wheel/cmeel/blob/main/CHANGELOG.md"
+Documentation = "https://cmeel.readthedocs.io/"
+Homepage = "https://github.com/cmake-wheel/cmeel"
+
+[tool.hatch.build.targets.sdist]
+include = ["cmeel", "cmeel.pth", "cmeel_pth.py"]
+
+[tool.hatch.build.targets.wheel]
+include = ["cmeel", "cmeel.pth", "cmeel_pth.py"]
 
 [tool.ruff]
-extend-ignore = ["D203", "D213"]
-extend-select = ["A", "B", "C", "COM", "D", "EM", "EXE", "G", "N", "PTH", "RET", "RUF", "UP", "W", "YTT"]
-target-version = "py37"
+target-version = "py38"
+
+[tool.ruff.lint]
+extend-ignore = ["COM812", "D203", "D213"]
+extend-select = ["A", "B", "C", "COM", "D", "EM", "EXE", "G", "I", "N", "PTH", "RET", "RUF", "UP", "W", "YTT"]
 
 [tool.tomlsort]
 all = true
+trailing_comma_inline_array = true
+
+[tool.uv.sources]
+git-archive-all = {git = "https://github.com/nim65s/git-archive-all"}

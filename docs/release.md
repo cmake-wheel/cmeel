@@ -3,7 +3,7 @@
 A github actions handle the build of the release archives, and push them to PyPI and Github Releases.
 To trigger it, we just need to:
 
-1. use poetry to update the version number
+1. use uv to update the version number
 2. update the changelog
 3. `git commit`
 4. `git tag`
