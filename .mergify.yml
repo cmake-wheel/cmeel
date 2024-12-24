@@ -31,6 +31,7 @@ pull_request_rules:
       - check-success = "Test docker on musllinux_1_1_x86_64"
       - check-success = "Test sdist on macos-latest"
       - check-success = "Test sdist on ubuntu-latest"
+      - check-success = "pre-commit.ci - pr"
       - or:
         - approved-reviews-by = nim65s
         - author = nim65s
