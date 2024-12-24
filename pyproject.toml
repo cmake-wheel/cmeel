@@ -28,7 +28,7 @@ classifiers = [
   "Topic :: System :: Software Distribution",
 ]
 dependencies = [
-  "tomli>=2.2.1 ; python_full_version < '3.11'",
+  "tomli>=2.1.0 ; python_full_version < '3.11'",
 ]
 description = "Create Wheel from CMake projects"
 license = "BSD-2-Clause"

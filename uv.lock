@@ -384,7 +384,7 @@ requires-dist = [
     { name = "cmake", marker = "extra == 'build'", specifier = ">=3.31.2" },
     { name = "git-archive-all", marker = "extra == 'build'", git = "https://github.com/nim65s/git-archive-all" },
     { name = "packaging", marker = "extra == 'build'", specifier = ">=24.2" },
-    { name = "tomli", marker = "python_full_version < '3.11'", specifier = ">=2.2.1" },
+    { name = "tomli", marker = "python_full_version < '3.11'", specifier = ">=2.1.0" },
     { name = "wheel", marker = "extra == 'build'", specifier = ">=0.45.1" },
 ]
 
