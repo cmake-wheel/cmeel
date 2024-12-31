@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- release: dist files needs to be built
+
 ## [v0.54.0] - 2024-12-31
 
 - poetry -> uv + hatch
