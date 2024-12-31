@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- release: fix permissions
+
 ## [v0.54.1] - 2024-12-31
 
 - release: dist files needs to be built
