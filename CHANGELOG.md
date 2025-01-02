@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- set LD_LIBRARY_PATH=$(cmeel lib) for tests
+
 ## [v0.54.2] - 2024-12-31
 
 - release: fix permissions

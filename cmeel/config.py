@@ -15,6 +15,7 @@ except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
 
 from .consts import CMEEL_PREFIX, SITELIB
+from .env import get_paths
 
 
 class CmeelConfig:
@@ -105,7 +106,11 @@ class CmeelConfig:
     def get_test_env(self) -> Dict[str, str]:
         """Get test environment."""
         ret = self.env.copy()
-        ret.update(CTEST_OUTPUT_ON_FAILURE="1", CTEST_PARALLEL_LEVEL=self.test_jobs)
+        ret.update(
+            CTEST_OUTPUT_ON_FAILURE="1",
+            CTEST_PARALLEL_LEVEL=self.test_jobs,
+            LD_LIBRARY_PATH=get_paths("lib"),
+        )
         return ret
 
     def _get_available_prefix(self) -> Optional[Path]:
