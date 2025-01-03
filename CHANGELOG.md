@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- docker: default to python 3.13
+
 ## [v0.55.0] - 2025-01-03
 
 - set LD_LIBRARY_PATH=$(cmeel lib) for tests
