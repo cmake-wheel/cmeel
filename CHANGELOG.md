@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- define CMEEL_BUILD environment variable
 - docker: default to python 3.13
 
 ## [v0.55.0] - 2025-01-03

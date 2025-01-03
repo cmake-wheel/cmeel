@@ -36,6 +36,7 @@ class CmeelConfig:
             self.env = environ.copy()
         else:
             self.env = {p: environ[p] for p in ["PATH", "PYTHONPATH"]}
+        self.env["CMEEL_BUILD"] = "1"
         self.jobs = int(self.conf.get("jobs", self.env.get("CMEEL_JOBS", "4")))
         self.test_jobs = self.conf.get(
             "test-jobs",
