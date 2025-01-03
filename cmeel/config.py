@@ -3,8 +3,8 @@
 Parse various configuration files and environment variables.
 """
 
-import os
 import sys
+from os import environ, pathsep
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Dict, List, Optional, Union
@@ -24,7 +24,7 @@ class CmeelConfig:
     def __init__(self) -> None:
         """Get config variables from environment, local, and global config files."""
         config_home = Path("~/.config").expanduser()
-        config_home = Path(os.environ.get("XDG_CONFIG_HOME", config_home))
+        config_home = Path(environ.get("XDG_CONFIG_HOME", config_home))
         config_path = config_home / "cmeel"
         config_file = config_path / "cmeel.toml"
 
@@ -33,9 +33,9 @@ class CmeelConfig:
             with config_file.open("rb") as f:
                 self.conf = tomllib.load(f)
         if self.conf.get("default-env", True):
-            self.env = os.environ.copy()
+            self.env = environ.copy()
         else:
-            self.env = {p: os.environ[p] for p in ["PATH", "PYTHONPATH"]}
+            self.env = {p: environ[p] for p in ["PATH", "PYTHONPATH"]}
         self.jobs = int(self.conf.get("jobs", self.env.get("CMEEL_JOBS", "4")))
         self.test_jobs = self.conf.get(
             "test-jobs",
@@ -91,16 +91,14 @@ class CmeelConfig:
         available = self._get_available_prefix()
         if available:
             cpp = ret.get("CMAKE_PREFIX_PATH", "")
-            if str(available) not in cpp.split(":"):
-                ret["CMAKE_PREFIX_PATH"] = f"{available}:{cpp}".strip(":")
+            if str(available) not in cpp.split(pathsep):
+                ret["CMAKE_PREFIX_PATH"] = f"{available}{pathsep}{cpp}".strip(pathsep)
             pcp = ret.get("PKG_CONFIG_PATH", "")
-            lpcp = available / "lib" / "pkgconfig"
-            if lpcp.is_dir() and str(lpcp) not in pcp.split(":"):
-                pcp = f"{lpcp}:{pcp}"
-            spcp = available / "share" / "pkgconfig"
-            if spcp.is_dir() and str(spcp) not in pcp.split(":"):
-                pcp = f"{spcp}:{pcp}"
-            ret["PKG_CONFIG_PATH"] = pcp.strip(":")
+            for subdir in ("lib", "share"):
+                lpcp = available / subdir / "pkgconfig"
+                if lpcp.is_dir() and str(lpcp) not in pcp.split(pathsep):
+                    pcp = f"{lpcp}{pathsep}{pcp}"
+            ret["PKG_CONFIG_PATH"] = pcp.strip(pathsep)
         return ret
 
     def get_test_env(self) -> Dict[str, str]:
