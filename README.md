@@ -15,7 +15,7 @@ Following those relevant PEPs:
 - [PEP 518](https://peps.python.org/pep-0518/), Specifying Minimum Build System Requirements for Python Projects
 - [PEP 600](https://peps.python.org/pep-0600/), Future ‘manylinux’ Platform Tags for Portable Linux Built Distributions
 - [PEP 621](https://peps.python.org/pep-0621/), Storing project metadata in pyproject.toml
-- [PEP 639](https://peps.python.org/pep-0639/), Improving License Clarity with Better Package Metadata, **DRAFT**
+- [PEP 639](https://peps.python.org/pep-0639/), Improving License Clarity with Better Package Metadata
 - [PEP 660](https://peps.python.org/pep-0660/), Editable installs for pyproject.toml based builds (wheel based)
 
 ## Chat
