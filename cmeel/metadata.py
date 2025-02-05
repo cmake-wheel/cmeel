@@ -34,7 +34,7 @@ def get_license(conf: Dict[str, Any], dist_info: Optional[Path]) -> List[str]:
         for lic_file in lic_files:
             metadata.append(f"License-File: {lic_file}")
             path_src = Path(lic_file)
-            path_dst = dist_info / "license" / path_src
+            path_dst = dist_info / "licenses" / path_src
             path_dst.parent.mkdir(parents=True, exist_ok=True)
             with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
                 f_dst.write(f_src.read())

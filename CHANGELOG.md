@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Install license file in `*.dist-info/license{ -> s}/`
+
 ## [v0.57.0] - 2025-02-05
 
 - bump metadata version to 2.4
