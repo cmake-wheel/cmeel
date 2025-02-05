@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- bump metadata version to 2.4
+
 ## [v0.56.0] - 2025-01-03
 
 - define CMEEL_BUILD environment variable

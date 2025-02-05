@@ -233,7 +233,7 @@ def get_keywords(conf: Dict[str, Any]) -> List[str]:
 def metadata(conf, requires: List[str], dist_info: Optional[Path] = None) -> List[str]:
     """Return the lines which should go in the METADATA / PKG-INFO file."""
     return [
-        "Metadata-Version: 2.1",
+        "Metadata-Version: 2.4",
         f"Name: {conf['name']}",
         f"Version: {conf['version']}",
         f"Summary: {conf['description']}",
