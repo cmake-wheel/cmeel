@@ -24,9 +24,8 @@ https://matrix.to/#/#cmake-wheel:matrix.org
 
 ## Basic idea
 
-Glue between PEP 517 & 660 entry points and modern CMake standard project configuration / build / test / install
-
-This Install in `${PYTHON_SITELIB}/cmeel.prefix/`:
+Glue between PEP 517 & 660 entry points and modern CMake standard project configuration / build / test / install, and
+install in `${PYTHON_SITELIB}/cmeel.prefix/`:
 - As there is a dot, it is not a valid python module name, so no risk of importing anything there by mistake
 - Play well with others, as everything is confined to `${PYTHON_SITELIB}/cmeel.prefix`
 - `${PYTHON_SITELIB}/cmeel.pth` automatically load `${PYTHON_SITELIB}/cmeel.prefix/${PYTHON_SITELIB}`, so python
@@ -40,22 +39,22 @@ This Install in `${PYTHON_SITELIB}/cmeel.prefix/`:
 extract from  https://github.com/cmake-wheel/cmeel-example/blob/main/pyproject.toml:
 
 ```toml
+[build-system]
+build-backend = "cmeel"
+requires = ["cmeel[build]"]
+
 [project]
-name = "cmeel-example"
-version = "0.4.12"
+authors = [{email = "guilhem.saurel@laas.fr", name = "Guilhem Saurel"}]
 description = "This is an example project, to show how to use cmeel"
-requires-python = ">= 3.7"
 license = "BSD-2-Clause"
-authors = [{name = "Guilhem Saurel", email = "guilhem.saurel@laas.fr"}]
+name = "cmeel-example"
+requires-python = ">= 3.8"
+version = "0.7.0"
 
 [project.urls]
+changelog = "https://github.com/cmake-wheel/cmeel-example/blob/main/CHANGELOG.md"
 homepage = "https://github.com/cmake-wheel/cmeel-example"
 repository = "https://github.com/cmake-wheel/cmeel-example.git"
-changelog = "https://github.com/cmake-wheel/cmeel-example/blob/main/CHANGELOG.md"
-
-[build-system]
-requires = ["cmeel[build]"]
-build-backend = "cmeel"
 ```
 
 Complete specification is available at:
