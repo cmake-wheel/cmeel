@@ -18,6 +18,13 @@
       perSystem =
         { self', pkgs, ... }:
         {
+          devShells.default = pkgs.mkShell {
+            inputsFrom = [ self'.packages.default ];
+            packages = [
+              pkgs.hatch
+              pkgs.uv
+            ];
+          };
           packages = {
             default = self'.packages.cmeel;
             cmeel = pkgs.python3Packages.callPackage ./. { };
