@@ -52,7 +52,7 @@ def sdist_impl(sdist_directory) -> str:
         LOG.info("create final archive with previous one + PKG-INFO")
         with tarfile.open(tmp_tar, "r") as tr, tarfile.open(def_tar, "w:gz") as tw:
             for member in tr.getmembers():
-                tw.addfile(member, tr.extractfile(member.name))
+                tw.addfile(member, tr.extractfile(member))
             tw.add(str(tmp_pkg), f"{distribution}/PKG-INFO")
 
     return distribution
