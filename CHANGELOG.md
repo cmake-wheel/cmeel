@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix symlink issue in sdist
+
 ## [v0.57.1] - 2025-02-05
 
 - Install license file in `*.dist-info/license{ -> s}/`
