@@ -1,5 +1,5 @@
 #!/bin/bash -eux
-# ./docs/release.sh [patch|minor|major|x.y.z]
+# ./docs/release.sh [x.y.z]
 
 [[ $(basename "$PWD") == docs ]] && cd ..
 

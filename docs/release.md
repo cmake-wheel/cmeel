@@ -14,5 +14,5 @@ To trigger it, we just need to:
 For this, an helper script is provided:
 
 ```bash
-./docs/release.sh [patch|minor|major|x.y.z]
+./docs/release.sh [x.y.z]
 ```
