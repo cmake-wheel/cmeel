@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [vpatch] - 2025-03-19
+
 - Fix symlink issue in sdist
 
 ## [v0.57.1] - 2025-02-05
@@ -448,6 +450,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[vpatch]: https://github.com/cmake-wheel/cmeel/compare/v0.57.1...vpatch
 [v0.57.1]: https://github.com/cmake-wheel/cmeel/compare/v0.57.0...v0.57.1
 [v0.57.0]: https://github.com/cmake-wheel/cmeel/compare/v0.56.0...v0.57.0
 [v0.56.0]: https://github.com/cmake-wheel/cmeel/compare/v0.55.0...v0.56.0
