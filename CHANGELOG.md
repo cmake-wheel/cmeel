@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Handle symlinks and hardlinks in sdist
+
 ## [v0.57.2] - 2025-03-19
 
 - Fix symlink issue in sdist
