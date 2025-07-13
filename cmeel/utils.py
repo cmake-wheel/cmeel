@@ -104,7 +104,7 @@ def get_tag(pyproject) -> str:
     # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
     if "_PYTHON_HOST_PLATFORM" in os.environ:
         plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
-        tag = "-".join(tag.split("-")[:-1] + [plat])
+        tag = "-".join([*tag.split("-")[:-1], plat])
 
     if deprecate_build_system(pyproject, "py3-none", False):
         warnings.warn(
