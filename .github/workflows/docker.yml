@@ -9,12 +9,12 @@ on:
       - main
 
 jobs:
-  docker:
+  test:
     name: "Test docker on ${{ matrix.image }}_${{ matrix.arch }}"
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        image: ["manylinux_2_28", "musllinux_1_1"]
+        image: ["manylinux_2_28", "musllinux_1_2"]
         arch: ["x86_64"]
     steps:
       - uses: actions/checkout@v4
@@ -46,3 +46,19 @@ jobs:
           . .venv/bin/activate &&
           python -m pip install /wh/cmeel_example*.whl &&
           python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"'
+
+
+  check:
+    if: always()
+    name: check-macos-linux-docker
+
+    needs:
+      - test
+
+    runs-on: Ubuntu-latest
+
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

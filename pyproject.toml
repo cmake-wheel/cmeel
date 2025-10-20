@@ -34,7 +34,7 @@ description = "Create Wheel from CMake projects"
 license = "BSD-2-Clause"
 name = "cmeel"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 version = "0.57.3"
 
 [project.optional-dependencies]
