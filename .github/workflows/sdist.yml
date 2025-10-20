@@ -28,6 +28,8 @@ jobs:
           python -m pip install -U build poetry
       - name: install cmeel
         run: python -m pip install ".[build]"
+      - name: install dependencies
+        run: python -m pip install jrl-cmakemodules pybind11
       - name: build cmeel-example sdist
         run: |
           git clone --recursive https://github.com/cmake-wheel/cmeel-example
