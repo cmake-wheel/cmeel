@@ -1,44 +1,20 @@
 pull_request_rules:
-  - name: merge automatically when CI passes and PR is approved
+  - name: merge [bot] PRs when CI pass
     conditions:
       - check-success = "Check helpers"
-      - check-success = "Editable 3.10 on macos-latest"
-      - check-success = "Editable 3.10 on ubuntu-latest"
-      - check-success = "Editable 3.11 on macos-latest"
-      - check-success = "Editable 3.11 on ubuntu-latest"
-      - check-success = "Editable 3.12 on macos-latest"
-      - check-success = "Editable 3.12 on ubuntu-latest"
-      - check-success = "Editable 3.13 on macos-latest"
-      - check-success = "Editable 3.13 on ubuntu-latest"
-      - check-success = "Editable 3.8 on macos-latest"
-      - check-success = "Editable 3.8 on ubuntu-latest"
-      - check-success = "Editable 3.9 on macos-latest"
-      - check-success = "Editable 3.9 on ubuntu-latest"
+      - check-success = "check-macos-linux-build"
+      - check-success = "check-macos-linux-docker"
+      - check-success = "check-macos-linux-editable"
+      - check-success = "check-macos-linux-nix"
+      - check-success = "check-macos-linux-sdist"
       - check-success = "lint"
-      - check-success = "Nix build on macos"
-      - check-success = "Nix build on ubuntu"
-      - check-success = "Test 3.10 on macos-latest"
-      - check-success = "Test 3.10 on ubuntu-latest"
-      - check-success = "Test 3.11 on macos-latest"
-      - check-success = "Test 3.11 on ubuntu-latest"
-      - check-success = "Test 3.12 on macos-latest"
-      - check-success = "Test 3.12 on ubuntu-latest"
-      - check-success = "Test 3.13 on macos-latest"
-      - check-success = "Test 3.13 on ubuntu-latest"
-      - check-success = "Test 3.8 on macos-latest"
-      - check-success = "Test 3.8 on ubuntu-latest"
-      - check-success = "Test 3.9 on macos-latest"
-      - check-success = "Test 3.9 on ubuntu-latest"
-      - check-success = "Test docker on manylinux_2_28_x86_64"
-      - check-success = "Test docker on musllinux_1_1_x86_64"
-      - check-success = "Test sdist on macos-latest"
-      - check-success = "Test sdist on ubuntu-latest"
       - check-success = "pre-commit.ci - pr"
       - or:
-        - approved-reviews-by = nim65s
-        - author = nim65s
-        - author = dependabot[bot]
-        - author = github-actions[bot]
-        - author = pre-commit-ci[bot]
+          - approved-reviews-by = nim65s
+          - author = nim65s
+          - author = dependabot[bot]
+          - author = github-actions[bot]
+          - author = hrp2-14
+          - author = pre-commit-ci[bot]
     actions:
       merge:
