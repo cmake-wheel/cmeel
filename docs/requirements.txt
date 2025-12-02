@@ -4,9 +4,9 @@ alabaster==0.7.16 ; python_version >= "3.8" and python_version < "4.0" \
 babel==2.17.0 ; python_version >= "3.8" and python_version < "4.0" \
     --hash=sha256:0c54cffb19f690cdcc52a3b50bcbf71e07a808d1c80d549f2459b9d2cf0afb9d \
     --hash=sha256:4d0b53093fdfb4b21c92b5213dba5a1b23885afa8383709427046b21c366e5f2
-beautifulsoup4==4.13.4 ; python_version >= "3.8" and python_version < "4.0" \
-    --hash=sha256:9bbbb14bfde9d79f38b8cd5f8c7c85f4b8f2523190ebed90e950a8dea4cb1c4b \
-    --hash=sha256:dbb3c4e1ceae6aefebdaf2423247260cd062430a410e38c66f2baa50a8437195
+beautifulsoup4==4.14.3 ; python_version >= "3.8" and python_version < "4.0" \
+    --hash=sha256:0918bfe44902e6ad8d57732ba310582e98da931428d231a5ecb9e7c703a735bb \
+    --hash=sha256:6292b1c5186d356bba669ef9f7f051757099565ad9ada5dd630bd9de5fa7fb86
 black==25.11.0 ; python_version >= "3.8" and python_version < "4.0" \
     --hash=sha256:0a1d40348b6621cc20d3d7530a5b8d67e9714906dfd7346338249ad9c6cedf2b \
     --hash=sha256:0c0f7c461df55cf32929b002335883946a4893d759f2df343389c4396f3b6b37 \
