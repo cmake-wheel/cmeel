@@ -13,7 +13,7 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.ref_name }}
       - run: curl https://github.com/nim65s.gpg | gpg --import
