@@ -73,6 +73,7 @@ class CmeelConfig:
             "-DCMAKE_INSTALL_LIBDIR=lib",
             f"-DCMAKE_INSTALL_PREFIX={install}",
             f"-DPYTHON_SITELIB={SITELIB}",
+            f"-DPython_EXECUTABLE={sys.executable}",
             f"-DPython3_EXECUTABLE={sys.executable}",
             "-DCMAKE_APPLE_SILICON_PROCESSOR=arm64",
             f"-DCMEEL_JOBS={self.jobs}",
