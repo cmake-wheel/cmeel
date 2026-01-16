@@ -3,10 +3,10 @@ name: Test docker builds
 on:
   push:
     branches:
-      - main
+      - cmeel
   pull_request:
     branches:
-      - main
+      - cmeel
 
 jobs:
   test:

@@ -3,10 +3,10 @@ name: Lints
 on:
   push:
     branches:
-      - main
+      - cmeel
   pull_request:
     branches:
-      - main
+      - cmeel
 
 jobs:
   lint:

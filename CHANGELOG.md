@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Require python >= 3.9
 - Test python 3.14
 - update `musllinux_1_1` to `musllinux_1_2`
+- main branch is now `cmeel`
 
 ## [v0.57.3] - 2025-03-19
 
