@@ -3,7 +3,7 @@
 
 from logging import getLogger
 from pathlib import Path
-from subprocess import check_call
+from subprocess import run
 
 try:
     import tomllib  # type: ignore
@@ -33,15 +33,15 @@ def release(**kwargs):
 
     commit_cmd = ["git", "commit", "-am", release]
     LOG.debug("commit command: %s", commit_cmd)
-    check_call(commit_cmd)
+    run(commit_cmd, check=False)
 
     tag_cmd = ["git", "tag", "-s", tag, "-m", release]
     LOG.debug("tag command: %s", tag_cmd)
-    check_call(tag_cmd)
+    run(tag_cmd, check=True)
 
     push_cmd = ["git", "push", "origin", tag]
     LOG.debug("push command: %s", push_cmd)
-    check_call(push_cmd)
+    run(push_cmd, check=True)
 
 
 if __name__ == "__main__":

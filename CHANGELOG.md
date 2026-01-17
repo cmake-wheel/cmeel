@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update `musllinux_1_1` to `musllinux_1_2`
 - main branch is now `cmeel`
 - set both `-DPython_EXECUTABLE` and `-DPython3_EXECUTABLE`. Thanks CMake.
+- `cmeel release` now accept to tag without creating a new commit first
 
 ## [v0.57.3] - 2025-03-19
 
