@@ -90,8 +90,7 @@ class CmeelConfig:
     def get_configure_env(self) -> dict[str, str]:
         """Get CMake initial environment."""
         ret = self.env.copy()
-        available = self._get_available_prefix()
-        if available:
+        if available := self._get_available_prefix():
             ret["CMEEL_AVAILABLE_PREFIX"] = str(available)
             cpp = ret.get("CMAKE_PREFIX_PATH", "")
             if str(available) not in cpp.split(pathsep):
