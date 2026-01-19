@@ -4,7 +4,7 @@ import logging
 import os
 import pathlib
 from subprocess import check_call
-from typing import List, Optional
+from typing import Optional
 
 from .backports import BooleanOptionalAction
 
@@ -72,7 +72,7 @@ def docker_build(
     cache: bool,
     upgrade: bool,
     cwd: str,
-    env: Optional[List[str]],
+    env: Optional[list[str]],
     cmeel_env: bool,
     **kwargs,
 ):
@@ -83,7 +83,7 @@ def docker_build(
         check_call(pull)
 
     volumes = ["-v", f"{cwd}/:/src"]
-    envs: List[str] = []
+    envs: list[str] = []
     if env:
         for e in env:
             envs = [*envs, "-e", e]
