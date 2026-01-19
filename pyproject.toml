@@ -59,9 +59,6 @@ include = ["cmeel", "cmeel.pth", "cmeel_pth.py"]
 [tool.hatch.build.targets.wheel]
 include = ["cmeel", "cmeel.pth", "cmeel_pth.py"]
 
-[tool.ruff]
-target-version = "py38"
-
 [tool.ruff.lint]
 extend-ignore = ["COM812", "D203", "D213"]
 extend-select = ["A", "B", "C", "COM", "D", "EM", "EXE", "G", "I", "N", "PTH", "RET", "RUF", "UP", "W", "YTT"]
