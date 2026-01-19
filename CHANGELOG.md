@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- expose `CMEEL_AVAILABLE_PREFIX` in configure env
+
 ## [v0.58.0] - 2026-01-17
 
 - Require python >= 3.9

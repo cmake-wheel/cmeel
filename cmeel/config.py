@@ -92,6 +92,7 @@ class CmeelConfig:
         ret = self.env.copy()
         available = self._get_available_prefix()
         if available:
+            ret["CMEEL_AVAILABLE_PREFIX"] = str(available)
             cpp = ret.get("CMAKE_PREFIX_PATH", "")
             if str(available) not in cpp.split(pathsep):
                 ret["CMAKE_PREFIX_PATH"] = f"{available}{pathsep}{cpp}".strip(pathsep)
