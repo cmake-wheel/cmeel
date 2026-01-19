@@ -6,12 +6,12 @@ https://packaging.python.org/en/latest/specifications/declaring-project-metadata
 
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
-def get_license(conf: Dict[str, Any], dist_info: Optional[Path]) -> List[str]:
+def get_license(conf: dict[str, Any], dist_info: Optional[Path]) -> list[str]:
     """Parse 'license' and 'license-files' keys."""
     metadata = []
 
@@ -42,7 +42,7 @@ def get_license(conf: Dict[str, Any], dist_info: Optional[Path]) -> List[str]:
     return metadata
 
 
-def _license_files(license_files: Union[str, List[str], Dict[str, str]]) -> List[str]:
+def _license_files(license_files: Union[str, list[str], dict[str, str]]) -> list[str]:
     """Parse 'license-files' key."""
     lic_files = []
     if isinstance(license_files, str):
@@ -67,7 +67,7 @@ def _license_files(license_files: Union[str, List[str], Dict[str, str]]) -> List
     return lic_files
 
 
-def _license(conf) -> Tuple[str, List[str]]:
+def _license(conf) -> tuple[str, list[str]]:
     """Parse 'license' key."""
     lic_expr, lic_files = "", []
     if "license" in conf:
@@ -94,7 +94,7 @@ def _license(conf) -> Tuple[str, List[str]]:
     return lic_expr, lic_files
 
 
-def get_people(conf: Dict[str, Any], key: str) -> List[str]:
+def get_people(conf: dict[str, Any], key: str) -> list[str]:
     """Parse 'authors' and 'maintainers' keys."""
     metadata = []
 
@@ -116,7 +116,7 @@ def get_people(conf: Dict[str, Any], key: str) -> List[str]:
     return metadata
 
 
-def get_urls(conf: Dict[str, Any]) -> List[str]:
+def get_urls(conf: dict[str, Any]) -> list[str]:
     """Parse 'urls' keys."""
     metadata = []
 
@@ -131,7 +131,7 @@ def get_urls(conf: Dict[str, Any]) -> List[str]:
     return metadata
 
 
-def get_deps(conf: Dict[str, Any], build_deps: List[str]) -> List[str]:
+def get_deps(conf: dict[str, Any], build_deps: list[str]) -> list[str]:
     """Parse 'dependencies' keys."""
     metadata = []
 
@@ -160,7 +160,7 @@ def get_deps(conf: Dict[str, Any], build_deps: List[str]) -> List[str]:
     return metadata
 
 
-def get_readme(conf: Dict[str, Any]) -> List[str]:
+def get_readme(conf: dict[str, Any]) -> list[str]:
     """Parse 'readme' key."""
     metadata = []
 
@@ -192,7 +192,7 @@ def get_readme(conf: Dict[str, Any]) -> List[str]:
     return metadata
 
 
-def _readme_dict(conf: Dict[str, Any]) -> Tuple[str, str, str]:
+def _readme_dict(conf: dict[str, Any]) -> tuple[str, str, str]:
     """Parse 'readme' key when it is a table."""
     readme_file, readme_content, readme_type = "", "", ""
 
@@ -221,7 +221,7 @@ def _ext_type(filename: str) -> str:
     return "text/plain"
 
 
-def get_keywords(conf: Dict[str, Any]) -> List[str]:
+def get_keywords(conf: dict[str, Any]) -> list[str]:
     """Parse 'keyword' key."""
     metadata = []
     if "keywords" in conf:
@@ -230,7 +230,7 @@ def get_keywords(conf: Dict[str, Any]) -> List[str]:
     return metadata
 
 
-def metadata(conf, requires: List[str], dist_info: Optional[Path] = None) -> List[str]:
+def metadata(conf, requires: list[str], dist_info: Optional[Path] = None) -> list[str]:
     """Return the lines which should go in the METADATA / PKG-INFO file."""
     return [
         "Metadata-Version: 2.4",

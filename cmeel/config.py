@@ -7,7 +7,7 @@ import sys
 from os import environ, pathsep
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 try:
     import tomllib  # type: ignore
@@ -58,15 +58,15 @@ class CmeelConfig:
 
     def get_configure_args(
         self,
-        conf: Dict[str, Any],
+        conf: dict[str, Any],
         install: Union[Path, str],
-        configure_args: List[str],
-        configure_env: Dict[str, str],
+        configure_args: list[str],
+        configure_env: dict[str, str],
         run_tests: bool,
-    ) -> List[str]:
+    ) -> list[str]:
         """Get CMake initial arguments."""
         project = conf["name"]
-        build_testing: List[str] = [] if run_tests else ["-DBUILD_TESTING=OFF"]
+        build_testing: list[str] = [] if run_tests else ["-DBUILD_TESTING=OFF"]
         ret = [
             "-DBoost_NO_WARN_NEW_VERSIONS=ON",
             "-DCMAKE_BUILD_TYPE=Release",
@@ -87,7 +87,7 @@ class CmeelConfig:
             ret += configure_env["CMEEL_CMAKE_ARGS"].split()
         return ret
 
-    def get_configure_env(self) -> Dict[str, str]:
+    def get_configure_env(self) -> dict[str, str]:
         """Get CMake initial environment."""
         ret = self.env.copy()
         available = self._get_available_prefix()
@@ -103,7 +103,7 @@ class CmeelConfig:
             ret["PKG_CONFIG_PATH"] = pcp.strip(pathsep)
         return ret
 
-    def get_test_env(self) -> Dict[str, str]:
+    def get_test_env(self) -> dict[str, str]:
         """Get test environment."""
         ret = self.env.copy()
         ret.update(
