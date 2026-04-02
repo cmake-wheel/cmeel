@@ -166,9 +166,9 @@ furo==2025.12.19 ; python_version >= "3.8" and python_version < "4.0" \
 idna==3.11 ; python_version >= "3.8" and python_version < "4.0" \
     --hash=sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea \
     --hash=sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902
-imagesize==1.4.1 ; python_version >= "3.8" and python_version < "4.0" \
-    --hash=sha256:0d8d18d08f840c19d0ee7ca1fd82490fdc3729b7ac93f49870406ddde8ef8d8b \
-    --hash=sha256:69150444affb9cb0d5cc5a92b3676f0b2fb7cd9ae39e947a5e11a36b4497cd4a
+imagesize==1.5.0 ; python_version >= "3.8" and python_version < "4.0" \
+    --hash=sha256:32677681b3f434c2cb496f00e89c5a291247b35b1f527589909e008057da5899 \
+    --hash=sha256:8bfc5363a7f2133a89f0098451e0bcb1cd71aba4dc02bbcecb39d99d40e1b94f
 importlib-metadata==8.7.1 ; python_version >= "3.8" and python_version < "3.10" \
     --hash=sha256:49fef1ae6440c182052f407c8d34a68f72efc36db9ca90dc0113398f2fdde8bb \
     --hash=sha256:5a1f80bf1daa489495071efbb095d75a634cf28a8bc299581244063b53176151
