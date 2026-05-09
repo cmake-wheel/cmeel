@@ -54,7 +54,7 @@ class Metadata:
     def gen(self) -> str:
         """Generate full file content."""
         self.data = [
-            "Metadata-Version: 2.4",
+            "Metadata-Version: 2.5",
             f"Name: {self.conf['name']}",
             f"Version: {self.conf['version']}",
             f"Summary: {self.conf['description']}",
@@ -68,6 +68,7 @@ class Metadata:
         self.gen_urls()
         self.gen_deps()
         self.gen_classifiers()
+        self.gen_import_name()
         self.gen_readme()
 
         return "\n".join(self.data)
@@ -286,6 +287,16 @@ class Metadata:
         if "classifiers" in self.conf:
             self.data += [
                 f"Classifier: {classifier}" for classifier in self.conf["classifiers"]
+            ]
+
+    def gen_import_name(self):
+        """Parse PEP 794 'import-names' and 'import-namespaces' keys."""
+        if "import-names" in self.conf:
+            self.data += [f"Import-Name: {name}" for name in self.conf["import-names"]]
+        if "import-namespaces" in self.conf:
+            self.data += [
+                f"Import-Namespace: {namespace}"
+                for namespace in self.conf["import-namespaces"]
             ]
 
     def get_tag(self) -> str:

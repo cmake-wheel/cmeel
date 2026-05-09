@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - :warning: Refactored python API. No change to cli or pip APIs.
 - added `metadata` cli command
+- added [PEP 794](https://peps.python.org/pep-0794/) support for `import-name`
 
 ## [v0.59.0] - 2026-01-19
 
