@@ -86,6 +86,15 @@ wheels = [
 ]
 
 [[package]]
+name = "argcomplete"
+version = "3.6.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/38/61/0b9ae6399dd4a58d8c1b1dc5a27d6f2808023d0b5dd3104bb99f45a33ff6/argcomplete-3.6.3.tar.gz", hash = "sha256:62e8ed4fd6a45864acc8235409461b72c9a28ee785a2011cc5eb78318786c89c", size = 73754, upload-time = "2025-10-20T03:33:34.741Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/74/f5/9373290775639cb67a2fce7f629a1c240dce9f12fe927bc32b2736e16dfc/argcomplete-3.6.3-py3-none-any.whl", hash = "sha256:f5007b3a600ccac5d25bbce33089211dfd49eab4a7718da3f10e3082525a92ce", size = 43846, upload-time = "2025-10-20T03:33:33.021Z" },
+]
+
+[[package]]
 name = "babel"
 version = "2.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -545,6 +554,9 @@ build = [
     { name = "packaging" },
     { name = "wheel" },
 ]
+cli = [
+    { name = "argcomplete" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -566,13 +578,14 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "argcomplete", marker = "extra == 'cli'", specifier = ">=3.6.3" },
     { name = "cmake", marker = "extra == 'build'", specifier = ">=3.31.2" },
     { name = "git-archive-all", marker = "extra == 'build'", git = "https://github.com/nim65s/git-archive-all" },
     { name = "packaging", marker = "extra == 'build'", specifier = ">=24.2" },
     { name = "tomli", marker = "python_full_version < '3.11'", specifier = ">=2.1.0" },
     { name = "wheel", marker = "extra == 'build'", specifier = ">=0.45.1" },
 ]
-provides-extras = ["build"]
+provides-extras = ["build", "cli"]
 
 [package.metadata.requires-dev]
 dev = [

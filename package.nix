@@ -1,6 +1,8 @@
 {
   lib,
   buildPythonApplication,
+  installShellFiles,
+  argcomplete,
   cmake,
   git-archive-all,
   hatchling,
@@ -25,6 +27,11 @@ buildPythonApplication {
     ];
   };
 
+  nativeBuildInputs = [
+    installShellFiles
+    argcomplete
+  ];
+
   build-system = [
     hatchling
   ];
@@ -40,11 +47,22 @@ buildPythonApplication {
       packaging
       wheel
     ];
+    cli = [
+      argcomplete
+    ];
   };
 
   pythonImportsCheck = [
     "cmeel"
   ];
+
+  postInstall = ''
+    installShellCompletion --cmd cmeel \
+      --bash <(register-python-argcomplete --shell bash cmeel) \
+      --fish <(register-python-argcomplete --shell fish cmeel) \
+      --zsh <(register-python-argcomplete --shell zsh cmeel)
+
+  '';
 
   meta = {
     description = "Create Wheel from CMake projects";
