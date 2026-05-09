@@ -1,3 +1,4 @@
+# PYTHON_ARGCOMPLETE_OK
 """Run cmeel as a python module."""
 
 import argparse
@@ -47,6 +48,13 @@ def parse_args() -> argparse.Namespace:
 
     ver = subparsers.add_parser("version", help="print current cmeel version.")
     ver.set_defaults(cmd="version")
+
+    try:
+        import argcomplete
+
+        argcomplete.autocomplete(parser)
+    except ImportError:
+        LOG.warning("argcomplete is not available")
 
     args = parser.parse_args()
 

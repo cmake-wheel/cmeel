@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - :warning: Refactored python API. No change to cli or pip APIs.
 - added `metadata` cli command
 - added [PEP 794](https://peps.python.org/pep-0794/) support for `import-name`
+- added argcomplete
 - removed backport as we now have python 3.9
 - mypy -> ty
 
