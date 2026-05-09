@@ -51,6 +51,26 @@ class Metadata:
         self.conf = conf
         self.dist = dist
 
+        self.data = [
+            "Metadata-Version: 2.4",
+            f"Name: {self.conf['name']}",
+            f"Version: {self.conf['version']}",
+            f"Summary: {self.conf['description']}",
+            f"Requires-Python: {self.conf.get('requires-python', '>=3.8')}",
+        ]
+
+        self.lic_files = self.gen_license()
+        self.gen_people("author")
+        self.gen_people("maintainer")
+        self.gen_keywords()
+        self.gen_urls()
+        self.gen_deps()
+        self.data += [
+            f"Classifier: {classifier}"
+            for classifier in self.conf.get("classifiers", [])
+        ]
+        self.gen_readme()
+
     def deprecate_build_system(self, key, default):
         """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
 
@@ -69,10 +89,8 @@ class Metadata:
             return self.pyproject["tool"]["cmeel"].get(key, default)
         return default
 
-    def get_license(self) -> list[str]:
+    def gen_license(self) -> list[str]:
         """Parse 'license' and 'license-files' keys."""
-        metadata = []
-
         lic_expr, lic_files = self._license()
 
         if "license-files" in self.conf:
@@ -87,16 +105,15 @@ class Metadata:
             raise KeyError(e)
 
         if lic_expr:
-            metadata.append(f"License-Expression: {lic_expr}")
+            self.data.append(f"License-Expression: {lic_expr}")
         for lic_file in lic_files:
-            metadata.append(f"License-File: {lic_file}")
+            self.data.append(f"License-File: {lic_file}")
             # path_src = Path(lic_file)
             # path_dst = dist_info / "licenses" / path_src
             # path_dst.parent.mkdir(parents=True, exist_ok=True)
             # with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
             #     f_dst.write(f_src.read())
-
-        return metadata
+        return lic_files
 
     def _license_files(
         self, license_files: Union[str, list[str], dict[str, str]]
@@ -153,10 +170,8 @@ class Metadata:
                 raise TypeError(e)
         return lic_expr, lic_files
 
-    def get_people(self, key: str) -> list[str]:
+    def gen_people(self, key: str):
         """Parse 'authors' and 'maintainers' keys."""
-        metadata = []
-
         names, mails = [], []
 
         for person in self.conf.get(f"{key}s", []):
@@ -168,65 +183,55 @@ class Metadata:
                 names.append(person["name"])
 
         if names:
-            metadata.append(f"{key.title()}: " + ",".join(names))
+            self.data.append(f"{key.title()}: " + ",".join(names))
         if mails:
-            metadata.append(f"{key.title()}-email: " + ",".join(mails))
+            self.data.append(f"{key.title()}-email: " + ",".join(mails))
 
-        return metadata
-
-    def get_urls(self) -> list[str]:
+    def gen_urls(self):
         """Parse 'urls' keys."""
-        metadata = []
-
         if "urls" in self.conf:
             for key, url in self.conf["urls"].items():
                 if key == "homepage":
-                    metadata.append(f"Home-page: {url}")
+                    self.data.append(f"Home-page: {url}")
                 else:
                     name = key.replace("-", " ").capitalize()
-                    metadata.append(f"Project-URL: {name}, {url}")
+                    self.data.append(f"Project-URL: {name}, {url}")
 
-        return metadata
-
-    def get_deps(self) -> list[str]:
+    def gen_deps(self):
         """Parse 'dependencies' keys."""
-        metadata = []
-
-        build_deps = self.pyproject["build-system"]["requires"]
         dependencies = ["cmeel", *self.conf.get("dependencies", [])]
         for dep in dependencies:
-            metadata.append(f"Requires-Dist: {dep}")
+            self.data.append(f"Requires-Dist: {dep}")
 
+        build_deps = self.pyproject["build-system"]["requires"]
         build_dependencies = [
             build_dep
             for build_dep in build_deps
             if build_dep != "cmeel[build]" and build_dep not in dependencies
         ]
         if build_dependencies:
-            metadata.append("Provides-Extra: build")
+            self.data.append("Provides-Extra: build")
             for build_dep in build_dependencies:
-                metadata.append(f'Requires-Dist: {build_dep} ; extra == "build"')
+                self.data.append(f'Requires-Dist: {build_dep} ; extra == "build"')
 
         for extra, deps in self.conf.get("optional-dependencies", []):
             if extra == "build":
                 e = "the 'build' extra is reserved by cmeel."
                 raise ValueError(e)
-            metadata.append(f"Provides-Extra: {extra}")
+            self.data.append(f"Provides-Extra: {extra}")
             for dep in deps:
-                metadata.append(f'Requires-Dist: {dep} ; extra == "{extra}"')
+                self.data.append(f'Requires-Dist: {dep} ; extra == "{extra}"')
 
-        return metadata
-
-    def get_readme(self) -> list[str]:
+    def gen_readme(self):
         """Parse 'readme' key."""
-        metadata = []
-
         readme_file, readme_content, readme_type = "", "", ""
+
         if "readme" not in self.conf:
             for ext in [".md", ".rst", ".txt", ""]:
                 if Path(f"README{ext}").exists():
                     self.conf["readme"] = f"README{ext}"
                     break
+
         if "readme" in self.conf:
             if isinstance(self.conf["readme"], str):
                 readme_file = self.conf["readme"]
@@ -236,17 +241,15 @@ class Metadata:
             else:
                 e = "'readme' accepts either a string or a table."
                 raise TypeError(e)
-            metadata.append(f"Description-Content-Type: {readme_type}")
+            self.data.append(f"Description-Content-Type: {readme_type}")
 
-            metadata.append("")
+            self.data.append("")
 
             if readme_content:
-                metadata.append(readme_content)
+                self.data.append(readme_content)
             elif readme_file:
                 with Path(readme_file).open() as f:
-                    metadata.append(f.read())
-
-        return metadata
+                    self.data.append(f.read())
 
     def _readme_dict(self) -> tuple[str, str, str]:
         """Parse 'readme' key when it is a table."""
@@ -275,34 +278,11 @@ class Metadata:
             return "text/x-rst"
         return "text/plain"
 
-    def get_keywords(self) -> list[str]:
+    def gen_keywords(self):
         """Parse 'keyword' key."""
-        metadata = []
         if "keywords" in self.conf:
             keywords = ",".join(self.conf["keywords"])
-            metadata.append(f"Keywords: {keywords}")
-        return metadata
-
-    def generate(self) -> list[str]:
-        """Return the lines which should go in the METADATA / PKG-INFO file."""
-        return [
-            "Metadata-Version: 2.4",
-            f"Name: {self.conf['name']}",
-            f"Version: {self.conf['version']}",
-            f"Summary: {self.conf['description']}",
-            f"Requires-Python: {self.conf.get('requires-python', '>=3.8')}",
-            *self.get_license(),
-            *self.get_people("author"),
-            *self.get_people("maintainer"),
-            *self.get_keywords(),
-            *self.get_urls(),
-            *self.get_deps(),
-            *[
-                f"Classifier: {classifier}"
-                for classifier in self.conf.get("classifiers", [])
-            ],
-            *self.get_readme(),
-        ]
+            self.data.append(f"Keywords: {keywords}")
 
     def get_tag(self) -> str:
         """Find the correct tag for the wheel."""
@@ -355,3 +335,7 @@ class Metadata:
             elif not sitelib:
                 tag = "-".join(["py3", "none", tag.split("-")[-1]])
         return tag
+
+    def get_content(self) -> str:
+        """Full file content."""
+        return "\n".join(self.data)

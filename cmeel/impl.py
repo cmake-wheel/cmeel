@@ -115,7 +115,7 @@ def build_impl(wheel_directory, editable=False) -> str:
     LOG.info("create dist-info / METADATA")
 
     with (dist_info / "METADATA").open("w") as f:
-        f.write("\n".join(metadata.generate()))
+        f.write("\n".join(metadata.get_content()))
 
     LOG.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
