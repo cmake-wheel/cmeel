@@ -15,7 +15,7 @@ except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
 
 from .consts import CMEEL_PREFIX, SITELIB
-from .env import get_paths
+from .env import paths_cmd
 
 
 class CmeelConfig:
@@ -109,7 +109,7 @@ class CmeelConfig:
         ret.update(
             CTEST_OUTPUT_ON_FAILURE="1",
             CTEST_PARALLEL_LEVEL=self.test_jobs,
-            LD_LIBRARY_PATH=get_paths("lib"),
+            LD_LIBRARY_PATH=paths_cmd("lib"),
         )
         return ret
 
