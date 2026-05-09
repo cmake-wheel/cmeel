@@ -115,7 +115,7 @@ def build_impl(wheel_directory, editable=False) -> str:
     LOG.info("create dist-info / METADATA")
 
     with (dist_info / "METADATA").open("w") as f:
-        f.write("\n".join(metadata.get_content()))
+        f.write(metadata.gen())
 
     LOG.info("create dist-info / licenses")
     for lic_file in metadata.lic_files:

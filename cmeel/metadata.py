@@ -17,9 +17,8 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
 
-from .consts import LICENSE_GLOBS
-
 LOG = logging.getLogger("cmeel.metadata")
+LICENSE_GLOBS = ["LICEN[CS]E*", "COPYING*", "NOTICE*", "AUTHORS*"]
 
 
 def dotget(data, key, default):
@@ -45,12 +44,15 @@ class Metadata:
         # normalize name
         # ref. https://packaging.python.org/en/latest/specifications/name-normalization
         conf["name"] = re.sub(r"[-_.]+", "-", conf["name"]).lower()
-        dist = f"{conf['name'].replace('-', '_')}-{conf['version']}"
 
         self.pyproject = pyproject
         self.conf = conf
-        self.dist = dist
+        self.dist = f"{conf['name'].replace('-', '_')}-{conf['version']}"
+        self.data = []
+        self.lic_files = []
 
+    def gen(self) -> str:
+        """Generate full file content."""
         self.data = [
             "Metadata-Version: 2.4",
             f"Name: {self.conf['name']}",
@@ -59,17 +61,16 @@ class Metadata:
             f"Requires-Python: {self.conf.get('requires-python', '>=3.8')}",
         ]
 
-        self.lic_files = self.gen_license()
+        self.gen_license()
         self.gen_people("author")
         self.gen_people("maintainer")
         self.gen_keywords()
         self.gen_urls()
         self.gen_deps()
-        self.data += [
-            f"Classifier: {classifier}"
-            for classifier in self.conf.get("classifiers", [])
-        ]
+        self.gen_classifiers()
         self.gen_readme()
+
+        return "\n".join(self.data)
 
     def deprecate_build_system(self, key, default):
         """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
@@ -89,7 +90,7 @@ class Metadata:
             return self.pyproject["tool"]["cmeel"].get(key, default)
         return default
 
-    def gen_license(self) -> list[str]:
+    def gen_license(self):
         """Parse 'license' and 'license-files' keys."""
         lic_expr, lic_files = self._license()
 
@@ -108,7 +109,8 @@ class Metadata:
             self.data.append(f"License-Expression: {lic_expr}")
         for lic_file in lic_files:
             self.data.append(f"License-File: {lic_file}")
-        return lic_files
+
+        self.lic_files = lic_files
 
     def _license_files(
         self, license_files: Union[str, list[str], dict[str, str]]
@@ -209,8 +211,8 @@ class Metadata:
             for build_dep in build_dependencies:
                 self.data.append(f'Requires-Dist: {build_dep} ; extra == "build"')
 
-        for extra, deps in self.conf.get("optional-dependencies", []):
-            if extra == "build":
+        for extra, deps in self.conf.get("optional-dependencies", {}).items():
+            if extra == "build" and self.conf["name"] != "cmeel":
                 e = "the 'build' extra is reserved by cmeel."
                 raise ValueError(e)
             self.data.append(f"Provides-Extra: {extra}")
@@ -279,6 +281,13 @@ class Metadata:
             keywords = ",".join(self.conf["keywords"])
             self.data.append(f"Keywords: {keywords}")
 
+    def gen_classifiers(self):
+        """Parse 'classifiers' key."""
+        if "classifiers" in self.conf:
+            self.data += [
+                f"Classifier: {classifier}" for classifier in self.conf["classifiers"]
+            ]
+
     def get_tag(self) -> str:
         """Find the correct tag for the wheel."""
         try:
@@ -331,6 +340,27 @@ class Metadata:
                 tag = "-".join(["py3", "none", tag.split("-")[-1]])
         return tag
 
-    def get_content(self) -> str:
-        """Full file content."""
-        return "\n".join(self.data)
+
+def add_metadata_arguments(subparsers):
+    """Append metadata command for argparse."""
+    sub = subparsers.add_parser(
+        "metadata", help="generate metadata from pyproject.toml."
+    )
+    sub.set_defaults(cmd="metadata")
+
+    sub.add_argument("--dist", action="store_true", help="get distribution name")
+
+
+def metadata_cmd(dist: bool = False, **kwargs) -> str:
+    """Generate metadata from pyproject.toml."""
+    metadata = Metadata()
+    if dist:
+        return metadata.dist
+    return metadata.gen()
+
+
+if __name__ == "__main__":
+    import logging
+
+    logging.basicConfig(level=logging.DEBUG)
+    metadata_cmd()
