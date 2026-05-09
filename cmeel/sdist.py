@@ -34,7 +34,7 @@ def sdist_impl(sdist_directory) -> str:
 
         LOG.info("write PKG-INFO file")
         with tmp_pkg.open("w") as f:
-            f.write("\n".join(metadata.generate()))
+            f.write("\n".join(metadata.get_content()))
 
         LOG.info("create final archive with previous one + PKG-INFO")
         with tarfile.open(tmp_tar, "r") as tr, tarfile.open(def_tar, "w:gz") as tw:
