@@ -52,7 +52,7 @@ cli = [
 cmeel = "cmeel.__main__:main"
 
 [project.urls]
-Changelog = "https://github.com/cmake-wheel/cmeel/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/cmake-wheel/cmeel/blob/cmeel/CHANGELOG.md"
 Documentation = "https://cmeel.readthedocs.io/"
 Homepage = "https://github.com/cmake-wheel/cmeel"
 

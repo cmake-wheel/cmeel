@@ -13,7 +13,9 @@ sed -i "/^## \[Unreleased\]/a \\\n## [v$NEW] - $DATE" CHANGELOG.md
 sed -i "/^\[Unreleased\]/s/$OLD/$NEW/" CHANGELOG.md
 sed -i "/^\[Unreleased\]/a [v$NEW]: https://github.com/cmake-wheel/cmeel/compare/v$OLD...v$NEW" CHANGELOG.md
 
-git add pyproject.toml package.nix CHANGELOG.md
+uv sync
+
+git add pyproject.toml package.nix CHANGELOG.md uv.lock
 git commit -m "Release v$NEW"
 git tag -s "v$NEW" -m "Release v$NEW"
 git push
