@@ -20,4 +20,4 @@ jobs:
       - run: uv run pip freeze
       - run: uv run ruff check -e
       - run: uv run ruff format --check
-      - run: uv run mypy .
+      - run: uv run ty check

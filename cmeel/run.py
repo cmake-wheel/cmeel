@@ -13,7 +13,7 @@ def cmeel_run():
     prefix = Path(__file__).parent.parent / CMEEL_PREFIX  # TODO: not uniq
 
     exe = Path(sys.argv[0]).name
-    sys.argv[0] = prefix / "bin" / exe
+    sys.argv[0] = str(prefix / "bin" / exe)
 
     # TODO: RPATH would be better
     lib = f"{prefix}/lib"
