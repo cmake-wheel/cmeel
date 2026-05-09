@@ -17,6 +17,6 @@ jobs:
       - uses: astral-sh/setup-uv@v8.1.0
 
       - name: test metadata
-        run: uv run cmeel metadata | grep -q "# CMake Wheel: cmeel"
+        run: "uv run cmeel metadata | grep -q '# CMake Wheel: cmeel'"
       - name: test metadata dist
         run: uv run cmeel metadata --dist | grep -q cmeel-
