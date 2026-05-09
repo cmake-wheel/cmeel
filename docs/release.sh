@@ -8,7 +8,7 @@ OLD=$(hatch version)
 NEW=$1
 DATE=$(date +%Y-%m-%d)
 
-sed -i "/^version =/s/$OLD/$NEW/" pyproject.toml
+sed -i "/^ *version =/s/$OLD/$NEW/" pyproject.toml package.nix
 sed -i "/^## \[Unreleased\]/a \\\n## [v$NEW] - $DATE" CHANGELOG.md
 sed -i "/^\[Unreleased\]/s/$OLD/$NEW/" CHANGELOG.md
 sed -i "/^\[Unreleased\]/a [v$NEW]: https://github.com/cmake-wheel/cmeel/compare/v$OLD...v$NEW" CHANGELOG.md

@@ -9,9 +9,9 @@
   wheel,
 }:
 
-buildPythonApplication rec {
+buildPythonApplication {
   pname = "cmeel";
-  version = "0.57.1";
+  version = "0.59.0";
   pyproject = true;
 
   src = lib.fileset.toSource {
@@ -49,7 +49,7 @@ buildPythonApplication rec {
   meta = {
     description = "Create Wheel from CMake projects";
     homepage = "https://github.com/cmake-wheel/cmeel";
-    changelog = "https://github.com/cmake-wheel/cmeel/blob/${src.rev}/CHANGELOG.md";
+    changelog = "https://github.com/cmake-wheel/cmeel/blob/cmeel/CHANGELOG.md";
     license = lib.licenses.bsd2;
     maintainers = with lib.maintainers; [ nim65s ];
     mainProgram = "cmeel";

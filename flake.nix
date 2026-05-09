@@ -27,7 +27,7 @@
           };
           packages = {
             default = self'.packages.cmeel;
-            cmeel = pkgs.python3Packages.callPackage ./. { };
+            cmeel = pkgs.python3Packages.callPackage ./package.nix { };
           };
         };
     };
