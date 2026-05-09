@@ -117,6 +117,15 @@ def build_impl(wheel_directory, editable=False) -> str:
     with (dist_info / "METADATA").open("w") as f:
         f.write("\n".join(metadata.get_content()))
 
+    LOG.info("create dist-info / licenses")
+    for lic_file in metadata.lic_files:
+        path_src = Path(lic_file)
+        path_dst = dist_info / "licenses" / path_src
+        path_dst.parent.mkdir(parents=True, exist_ok=True)
+        # path_src.copy(path_dst) only in 3.14
+        with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
+            f_dst.write(f_src.read())
+
     LOG.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
         f.write("")

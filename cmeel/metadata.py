@@ -108,11 +108,6 @@ class Metadata:
             self.data.append(f"License-Expression: {lic_expr}")
         for lic_file in lic_files:
             self.data.append(f"License-File: {lic_file}")
-            # path_src = Path(lic_file)
-            # path_dst = dist_info / "licenses" / path_src
-            # path_dst.parent.mkdir(parents=True, exist_ok=True)
-            # with path_src.open("r") as f_src, path_dst.open("w") as f_dst:
-            #     f_dst.write(f_src.read())
         return lic_files
 
     def _license_files(
