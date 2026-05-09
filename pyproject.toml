@@ -45,7 +45,7 @@ build = [
   "wheel>=0.45.1",
 ]
 cli = [
-    "argcomplete>=3.6.3",
+  "argcomplete>=3.6.3",
 ]
 
 [project.scripts]
