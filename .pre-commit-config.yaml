@@ -9,19 +9,11 @@ repos:
     - --fix
     - --exit-non-zero-on-fix
   - id: ruff-format
-# - repo: https://github.com/nim65s/pre-commit-sort
-#   rev: v1.0.0
-#   hooks:
-#   - id: pre-commit-sort
 - repo: https://github.com/pappasam/toml-sort
   rev: v0.24.4
   hooks:
   - id: toml-sort-fix
     exclude: uv.lock
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.20.0
-  hooks:
-  - id: mypy
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v6.0.0
   hooks:

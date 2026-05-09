@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added `metadata` cli command
 - added [PEP 794](https://peps.python.org/pep-0794/) support for `import-name`
 - removed backport as we now have python 3.9
+- mypy -> ty
 
 ## [v0.59.0] - 2026-01-19
 
