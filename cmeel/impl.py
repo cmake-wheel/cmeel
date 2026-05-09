@@ -7,23 +7,15 @@ import sys
 from pathlib import Path
 from subprocess import check_call, check_output
 
-try:
-    import tomllib  # type: ignore
-except ModuleNotFoundError:
-    import tomli as tomllib  # type: ignore
-
 from .cmeel import __version__
 from .config import cmeel_config
 from .consts import CMEEL_PREFIX, SITELIB
-from .metadata import metadata
+from .metadata import Metadata
 from .utils import (
-    deprecate_build_system,
     ensure_relocatable,
     expose_bin,
-    get_tag,
     launch_tests,
     log_pip,
-    normalize,
     patch,
 )
 
@@ -42,31 +34,24 @@ def build_impl(wheel_directory, editable=False) -> str:
     wheel_dir = prefix / "whl"
     install = (prefix if editable else wheel_dir) / CMEEL_PREFIX
 
-    LOG.info("load conf from pyproject.toml")
-    with Path("pyproject.toml").open("rb") as f:
-        pyproject = tomllib.load(f)
+    metadata = Metadata()
 
-    conf = pyproject["project"]
-    conf["name"] = normalize(conf["name"])
-    distribution = f"{conf['name'].replace('-', '_')}-{conf['version']}"
-
-    source = deprecate_build_system(pyproject, "source", ".")
+    source = metadata.deprecate_build_system("source", ".")
     run_tests = (
         os.environ.get("CMEEL_RUN_TESTS", "ON").upper()
         not in ("0", "NO", "OFF", "FALSE")
         if "CMEEL_RUN_TESTS" in os.environ
-        else deprecate_build_system(pyproject, "run-tests", True)
+        else metadata.deprecate_build_system("run-tests", True)
     )
-    run_tests_after_install = deprecate_build_system(
-        pyproject,
+    run_tests_after_install = metadata.deprecate_build_system(
         "run-tests-after-install",
         False,
     )
-    build_number = deprecate_build_system(pyproject, "build-number", 0)
-    configure_args = deprecate_build_system(pyproject, "configure-args", [])
+    build_number = metadata.deprecate_build_system("build-number", 0)
+    configure_args = metadata.deprecate_build_system("configure-args", [])
 
-    check_relocatable = deprecate_build_system(pyproject, "check-relocatable", True)
-    fix_pkg_config = deprecate_build_system(pyproject, "fix-pkg-config", True)
+    check_relocatable = metadata.deprecate_build_system("check-relocatable", True)
+    fix_pkg_config = metadata.deprecate_build_system("fix-pkg-config", True)
 
     LOG.info("build wheel")
 
@@ -88,7 +73,7 @@ def build_impl(wheel_directory, editable=False) -> str:
     LOG.info("configure")
     configure_env = cmeel_config.get_configure_env()
     configure_args = cmeel_config.get_configure_args(
-        conf,
+        metadata.conf,
         install,
         configure_args,
         configure_env,
@@ -104,14 +89,14 @@ def build_impl(wheel_directory, editable=False) -> str:
     LOG.debug("build command: %s", build_cmd)
     check_call(build_cmd)
 
-    launch_tests(True, run_tests and not run_tests_after_install, pyproject, build)
+    launch_tests(True, run_tests and not run_tests_after_install, metadata, build)
 
     LOG.info("install")
     install_cmd = ["cmake", "--build", str(build), "-t", "install"]
     LOG.debug("install command: %s", install_cmd)
     check_call(install_cmd)
 
-    launch_tests(False, run_tests and run_tests_after_install, pyproject, build)
+    launch_tests(False, run_tests and run_tests_after_install, metadata, build)
 
     LOG.info("fix relocatablization")
     # Replace absolute install path in generated .cmake files, if any.
@@ -124,14 +109,13 @@ def build_impl(wheel_directory, editable=False) -> str:
 
     LOG.info("create dist-info")
 
-    dist_info = wheel_dir / f"{distribution}.dist-info"
+    dist_info = wheel_dir / f"{metadata.dist}.dist-info"
     dist_info.mkdir(parents=True)
 
     LOG.info("create dist-info / METADATA")
 
     with (dist_info / "METADATA").open("w") as f:
-        requires = pyproject["build-system"]["requires"]
-        f.write("\n".join(metadata(conf, requires, dist_info)))
+        f.write("\n".join(metadata.generate()))
 
     LOG.info("create dist-info / top level")
     with (dist_info / "top_level.txt").open("w") as f:
@@ -145,19 +129,19 @@ def build_impl(wheel_directory, editable=False) -> str:
                     "Wheel-Version: 1.0",
                     f"Generator: cmeel {__version__}",
                     "Root-Is-Purelib: false",
-                    f"Tag: {get_tag(pyproject)}",
+                    f"Tag: {metadata.get_tag()}",
                     "",
                 ],
             ),
         )
 
-    expose_bin(install, wheel_dir, distribution)
+    expose_bin(install, wheel_dir, metadata.dist)
 
     ensure_relocatable(check_relocatable, install, prefix)
 
     if editable:
         LOG.info("Add .pth in wheel")
-        with (wheel_dir / f"{distribution}.pth").open("w") as f:
+        with (wheel_dir / f"{metadata.dist}.pth").open("w") as f:
             f.write(str((install / SITELIB).absolute()))
     elif fix_pkg_config:
         LOG.info("fix pkg-config files")
