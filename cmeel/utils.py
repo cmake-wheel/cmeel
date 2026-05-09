@@ -41,16 +41,6 @@ class NonRelocatableError(Exception):
     pass
 
 
-def dotget(data, key, default):
-    """Get key in data or default."""
-    for part in key.split("."):
-        if part in data:
-            data = data[part]
-        else:
-            return default
-    return data
-
-
 def log_pip():
     """Log output of pip freeze."""
     if LOG.getEffectiveLevel() <= logging.DEBUG:

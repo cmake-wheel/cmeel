@@ -18,9 +18,18 @@ except ModuleNotFoundError:
     import tomli as tomllib  # type: ignore
 
 from .consts import LICENSE_GLOBS
-from .utils import dotget
 
 LOG = logging.getLogger("cmeel.metadata")
+
+
+def dotget(data, key, default):
+    """Get key in data or default."""
+    for part in key.split("."):
+        if part in data:
+            data = data[part]
+        else:
+            return default
+    return data
 
 
 class Metadata:
