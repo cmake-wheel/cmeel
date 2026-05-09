@@ -183,7 +183,7 @@ class Metadata:
         if names:
             self.data.append(f"{key.title()}: " + ",".join(names))
         if mails:
-            self.data.append(f"{key.title()}-email: " + ",".join(mails))
+            self.data.append(f"{key.title()}-Email: " + ",".join(mails))
 
     def gen_urls(self):
         """Parse 'urls' keys."""
@@ -210,7 +210,7 @@ class Metadata:
         if build_dependencies:
             self.data.append("Provides-Extra: build")
             for build_dep in build_dependencies:
-                self.data.append(f'Requires-Dist: {build_dep} ; extra == "build"')
+                self.data.append(f'Requires-Dist: {build_dep}; extra == "build"')
 
         for extra, deps in self.conf.get("optional-dependencies", {}).items():
             if extra == "build" and self.conf["name"] != "cmeel":
@@ -218,7 +218,7 @@ class Metadata:
                 raise ValueError(e)
             self.data.append(f"Provides-Extra: {extra}")
             for dep in deps:
-                self.data.append(f'Requires-Dist: {dep} ; extra == "{extra}"')
+                self.data.append(f'Requires-Dist: {dep}; extra == "{extra}"')
 
     def gen_readme(self):
         """Parse 'readme' key."""
