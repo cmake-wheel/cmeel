@@ -65,7 +65,7 @@ def add_docker_arguments(subparsers):
     sub.set_defaults(cmd="docker")
 
 
-def docker_build(
+def docker_cmd(
     image: str,
     python: str,
     update: bool,

@@ -19,7 +19,7 @@ def add_release_arguments(subparsers):
     sub.set_defaults(cmd="release")
 
 
-def release(**kwargs):
+def release_cmd(**kwargs):
     """Release a cmeel project."""
     with Path("pyproject.toml").open("rb") as f:
         pyproject = tomllib.load(f)
@@ -48,4 +48,4 @@ if __name__ == "__main__":
     import logging
 
     logging.basicConfig(level=logging.DEBUG)
-    release()
+    release_cmd()

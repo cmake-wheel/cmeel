@@ -7,9 +7,9 @@ import pathlib
 import sys
 
 from . import __version__
-from .docker import add_docker_arguments, docker_build
-from .env import add_paths_arguments, get_paths
-from .release import add_release_arguments, release
+from .docker import add_docker_arguments, docker_cmd
+from .env import add_paths_arguments, paths_cmd
+from .release import add_release_arguments, release_cmd
 
 LOG = logging.getLogger("cmeel")
 
@@ -68,13 +68,13 @@ def main():
     """Run helpers."""
     args = parse_args()
     if args.cmd == "docker":
-        docker_build(**vars(args))
+        docker_cmd(**vars(args))
     elif args.cmd == "release":
-        release(**vars(args))
+        release_cmd(**vars(args))
     elif args.cmd == "version":
         print(f"This is cmeel version {__version__}")
     else:
-        print(get_paths(**vars(args)))
+        print(paths_cmd(**vars(args)))
 
 
 if __name__ == "__main__":
