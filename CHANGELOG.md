@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- :warning: refactor `cmeel.metadata` as a class. parts of `cmeel.utils` too. No change to cli or pip APIs.
+
 ## [v0.59.0] - 2026-01-19
 
 - expose `CMEEL_AVAILABLE_PREFIX` in configure env

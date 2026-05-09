@@ -1,15 +1,13 @@
 """Utilities."""
 
 import logging
-import os
-import re
 import sys
-import warnings
 from importlib.util import find_spec
 from pathlib import Path
 from subprocess import CalledProcessError, check_call, check_output, run
 
 from .config import cmeel_config
+from .metadata import Metadata
 
 LOG = logging.getLogger("cmeel.utils")
 
@@ -53,33 +51,6 @@ def dotget(data, key, default):
     return data
 
 
-def deprecate_build_system(pyproject, key, default):
-    """Cmeel up to v0.22 was using the "build-system" section of pyproject.toml.
-
-    This function helps to deprecate that and move to "tool.cmeel".
-    """
-    if key in pyproject["build-system"]:
-        default = pyproject["build-system"][key]
-        warnings.warn(
-            'Using the "build-system" section of pyproject.toml for cmeel '
-            "configuration is deprecated since cmeel v0.23 and will be removed in v1.\n"
-            f'Please move your "{key} = {default}" to the "tool.cmeel" section.',
-            DeprecationWarning,
-            stacklevel=2,
-        )
-    if "tool" in pyproject and "cmeel" in pyproject["tool"]:
-        return pyproject["tool"]["cmeel"].get(key, default)
-    return default
-
-
-def normalize(name: str) -> str:
-    """Normalize name.
-
-    ref. https://packaging.python.org/en/latest/specifications/name-normalization
-    """
-    return re.sub(r"[-_.]+", "-", name).lower()
-
-
 def log_pip():
     """Log output of pip freeze."""
     if LOG.getEffectiveLevel() <= logging.DEBUG:
@@ -88,57 +59,6 @@ def log_pip():
             deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
             for dep in deps.strip().split("\n"):
                 LOG.debug("  %s", dep)
-
-
-def get_tag(pyproject) -> str:
-    """Find the correct tag for the wheel."""
-    try:
-        from packaging.tags import sys_tags
-    except ImportError as e:
-        err = "You need the 'build' extra option to use this build module.\n"
-        err += "For this you can install the 'cmeel[build]' package."
-        raise ImportError(err) from e
-
-    tag = str(next(sys_tags()))
-    # handle cross compilation on macOS with cibuildwheel
-    # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
-    if "_PYTHON_HOST_PLATFORM" in os.environ:
-        plat = os.environ["_PYTHON_HOST_PLATFORM"].replace("-", "_").replace(".", "_")
-        tag = "-".join([*tag.split("-")[:-1], plat])
-
-    if deprecate_build_system(pyproject, "py3-none", False):
-        warnings.warn(
-            "The 'py3-none = true' key is deprecated. Please use 'has-sitelib = false'",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        tag = "-".join(["py3", "none", tag.split("-")[-1]])
-    elif deprecate_build_system(pyproject, "any", False):
-        warnings.warn(
-            "The 'any = true' key is deprecated. "
-            "Please use 'has-sitelib = false' and 'has-binaries = false'",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        tag = "py3-none-any"
-    elif deprecate_build_system(pyproject, "pyver-any", False):
-        warnings.warn(
-            "The 'pyver-any = true' key is deprecated. "
-            "Please use 'has-binaries = false'",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        tag = f"py3{sys.version_info.minor}-none-any"
-    else:
-        binaries = dotget(pyproject, "tool.cmeel.has-binaries", True)
-        sitelib = dotget(pyproject, "tool.cmeel.has-sitelib", True)
-        if not binaries and not sitelib:
-            tag = "py3-none-any"
-        elif not binaries:
-            tag = f"py3{sys.version_info.minor}-none-any"
-        elif not sitelib:
-            tag = "-".join(["py3", "none", tag.split("-")[-1]])
-    return tag
 
 
 def patch():
@@ -213,13 +133,12 @@ def ensure_relocatable(check_relocatable: bool, install: Path, prefix: Path):
                 )
 
 
-def launch_tests(before: bool, now: bool, pyproject, build: Path):
+def launch_tests(before: bool, now: bool, metadata: Metadata, build: Path):
     """Launch tests, before or after the install."""
     if not now:
         return
 
-    test_cmd = deprecate_build_system(
-        pyproject,
+    test_cmd = metadata.deprecate_build_system(
         "test-cmd",
         ["cmake", "--build", "BUILD_DIR", "-t", "test"],
     )
