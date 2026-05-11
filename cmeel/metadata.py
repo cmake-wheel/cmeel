@@ -54,11 +54,11 @@ class Metadata:
     def gen(self) -> str:
         """Generate full file content."""
         self.data = [
-            "Metadata-Version: 2.5",
+            "Metadata-Version: 2.4",  # TODO actually we are 2.5, but PyPI refuse that for now
             f"Name: {self.conf['name']}",
             f"Version: {self.conf['version']}",
             f"Summary: {self.conf['description']}",
-            f"Requires-Python: {self.conf.get('requires-python', '>=3.8')}",
+            f"Requires-Python: {self.conf.get('requires-python', '>=3.9')}",
         ]
 
         self.gen_license()

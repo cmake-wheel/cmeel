@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- back to metadata version 2.4
+
 ## [v0.60.0] - 2026-05-09
 
 - :warning: Refactored python API. No change to cli or pip APIs.
