@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.60.1] - 2026-05-11
+
 - back to metadata version 2.4
 
 ## [v0.60.0] - 2026-05-09
@@ -479,6 +481,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial minial working example
 
 [Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.4.2...main
+[v0.60.1]: https://github.com/cmake-wheel/cmeel/compare/v0.60.0...v0.60.1
 [v0.60.0]: https://github.com/cmake-wheel/cmeel/compare/v0.59.0...v0.60.0
 [v0.59.0]: https://github.com/cmake-wheel/cmeel/compare/v0.58.0...v0.59.0
 [v0.58.0]: https://github.com/cmake-wheel/cmeel/compare/v0.57.3...v0.58.0

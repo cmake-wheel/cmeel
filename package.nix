@@ -13,7 +13,7 @@
 
 buildPythonApplication {
   pname = "cmeel";
-  version = "0.60.0";
+  version = "0.60.1";
   pyproject = true;
 
   src = lib.fileset.toSource {
