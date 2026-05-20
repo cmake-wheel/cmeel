@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- add `-t` / `--test` flag to `cmeel docker`, allowing use of test.pypi.org
+
 ## [v0.60.1] - 2026-05-11
 
 - back to metadata version 2.4

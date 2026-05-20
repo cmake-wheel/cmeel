@@ -44,6 +44,12 @@ def add_docker_arguments(subparsers):
         help="binds /root/.cache/pip",
     )
     sub.add_argument(
+        "-t",
+        "--test",
+        action="store_true",
+        help="use test.pypi.org plus pypi.org as extra",
+    )
+    sub.add_argument(
         "-C",
         "--cwd",
         default=str(pathlib.Path.cwd()),
@@ -70,6 +76,7 @@ def docker_cmd(
     update: bool,
     cache: bool,
     upgrade: bool,
+    test: bool,
     cwd: str,
     env: Optional[list[str]],
     cmeel_env: bool,
@@ -93,7 +100,16 @@ def docker_cmd(
     if cache:
         volumes = [*volumes, "-v", "/root/.cache/pip:/root/.cache/pip"]
     docker = ["docker", "run", "--rm", *envs, *volumes, "-w", "/src", "-t", image]
-    build = [python, "-m", "pip", "wheel", "-vw", "wh", "."]
+    build = [python, "-m", "pip", "wheel"]
+    if test:
+        build = [
+            *build,
+            "--index-url",
+            "https://test.pypi.org/simple",
+            "--extra-index-url",
+            "https://pypi.org/simple",
+        ]
+    build = [*build, "-vw", "wh", "."]
     if upgrade:
         pip = [python, "-m", "pip", "install", "-U", "pip"]
         pip_cmd = " ".join(pip)
