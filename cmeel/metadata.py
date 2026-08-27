@@ -308,7 +308,14 @@ class Metadata:
             err += "For this you can install the 'cmeel[build]' package."
             raise ImportError(err) from e
 
-        tag = str(next(sys_tags()))
+        tag = str(
+            next(
+                p
+                for p in sys_tags()
+                if ("linux" not in p.platform)
+                or ("manylinux" in p.platform or "musllinux" in p.platform)
+            )
+        )
         # handle cross compilation on macOS with cibuildwheel
         # ref. https://github.com/pypa/cibuildwheel/blob/6549a9/cibuildwheel/macos.py#L221
         if "_PYTHON_HOST_PLATFORM" in os.environ:
