@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.61.0] - 2026-08-27
+
 - :warning: enforce manylinux/musllinux on linux, following packaging 26.3
 - add `-t` / `--test` flag to `cmeel docker`, allowing use of test.pypi.org
 
@@ -483,7 +485,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial minial working example
 
-[Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.60.1...HEAD
+[Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.61.0...HEAD
+[0.61.0]: https://github.com/cmake-wheel/cmeel/compare/v0.60.1...v0.61.0
 [0.60.1]: https://github.com/cmake-wheel/cmeel/compare/v0.60.0...v0.60.1
 [0.60.0]: https://github.com/cmake-wheel/cmeel/compare/v0.59.0...v0.60.0
 [0.59.0]: https://github.com/cmake-wheel/cmeel/compare/v0.58.0...v0.59.0
