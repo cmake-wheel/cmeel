@@ -38,8 +38,6 @@ class PatchError(CalledProcessError):
 class NonRelocatableError(Exception):
     """Exception raised when absolute paths are in the final package."""
 
-    pass
-
 
 def log_pip():
     """Log output of pip freeze."""
