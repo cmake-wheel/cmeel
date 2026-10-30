@@ -58,7 +58,7 @@ class Metadata:
             f"Name: {self.conf['name']}",
             f"Version: {self.conf['version']}",
             f"Summary: {self.conf['description']}",
-            f"Requires-Python: {self.conf.get('requires-python', '>=3.9')}",
+            f"Requires-Python: {self.conf.get('requires-python', '>=3.10')}",
         ]
 
         self.gen_license()
