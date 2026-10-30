@@ -10,7 +10,6 @@ import re
 import sys
 import warnings
 from pathlib import Path
-from typing import Union
 
 try:
     import tomllib  # type: ignore
@@ -114,7 +113,7 @@ class Metadata:
         self.lic_files = lic_files
 
     def _license_files(
-        self, license_files: Union[str, list[str], dict[str, str]]
+        self, license_files: str | list[str] | dict[str, str]
     ) -> list[str]:
         """Parse 'license-files' key."""
         lic_files = []

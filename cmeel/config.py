@@ -7,7 +7,7 @@ import sys
 from os import environ, pathsep
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Optional, Union
+from typing import Any
 
 try:
     import tomllib  # type: ignore
@@ -59,7 +59,7 @@ class CmeelConfig:
     def get_configure_args(
         self,
         conf: dict[str, Any],
-        install: Union[Path, str],
+        install: Path | str,
         configure_args: list[str],
         configure_env: dict[str, str],
         run_tests: bool,
@@ -113,7 +113,7 @@ class CmeelConfig:
         )
         return ret
 
-    def _get_available_prefix(self) -> Optional[Path]:
+    def _get_available_prefix(self) -> Path | None:
         for path in sys.path:
             if CMEEL_PREFIX in path:
                 return Path(path).parent.parent.parent
