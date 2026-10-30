@@ -71,4 +71,4 @@ all = true
 trailing_comma_inline_array = true
 
 [tool.uv.sources]
-git-archive-all = {git = "https://github.com/nim65s/git-archive-all"}
+git-archive-all = {git = "https://github.com/Kentzo/git-archive-all"}
