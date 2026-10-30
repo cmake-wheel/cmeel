@@ -53,7 +53,7 @@ def patch():
     if Path("cmeel.patch").exists():
         LOG.info("patching")
         cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
-        ret = run(cmd, capture_output=True, text=True)
+        ret = run(cmd, capture_output=True, text=True, check=False)
         if ret.returncode != 0:
             # If this patch was already applied, it's okay.
             for line in ret.stdout.split("\n"):

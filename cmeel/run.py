@@ -23,5 +23,7 @@ def cmeel_run():
     else:
         os.environ["LD_LIBRARY_PATH"] = lib
 
-    exe = run(sys.argv, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
+    exe = run(
+        sys.argv, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, check=False
+    )
     sys.exit(exe.returncode)
