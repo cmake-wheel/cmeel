@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.62.0] - 2026-11-01
+
 - Require python >= 3.10
 - Test python 3.15
 
@@ -488,7 +490,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial minial working example
 
-[Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.61.0...HEAD
+[Unreleased]: https://github.com/cmake-wheel/cmeel/compare/v0.62.0...HEAD
+[0.62.0]: https://github.com/cmake-wheel/cmeel/compare/v0.61.0...v0.62.0
 [0.61.0]: https://github.com/cmake-wheel/cmeel/compare/v0.60.1...v0.61.0
 [0.60.1]: https://github.com/cmake-wheel/cmeel/compare/v0.60.0...v0.60.1
 [0.60.0]: https://github.com/cmake-wheel/cmeel/compare/v0.59.0...v0.60.0
