@@ -32,7 +32,7 @@ jobs:
       - name: install cmeel
         run: python -m pip install $HOME/wh/cmeel*.whl
       - name: build cmeel-example wheel
-        run: python -m pip wheel -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
+        run: python -m pip wheel --no-build-isolation -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
       - name: install cmeel-example
         run: python -m pip install $HOME/wh/cmeel_example*.whl
       - name: test module

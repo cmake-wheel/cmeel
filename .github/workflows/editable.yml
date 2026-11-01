@@ -34,7 +34,7 @@ jobs:
       - name: clone cmeel-example
         run: git clone --recursive -j2 https://github.com/cmake-wheel/cmeel-example
       - name: install cmeel-example in editable mode
-        run: cd cmeel-example && python -m pip install --editable .
+        run: cd cmeel-example && python -m pip install --no-build-isolation --editable .
       - name: test module
         run: python -c "import cmeel_example; assert cmeel_example.cmeel_add(3, 4) == 7"
       - name: update source
