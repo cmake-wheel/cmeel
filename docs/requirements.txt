@@ -1075,9 +1075,9 @@ uv==0.12.7 \
     --hash=sha256:fe9a871bd638ee6d2fd73bf40c2ee98153e44d06f796a03fcecf9d12b36d42d8 \
     --hash=sha256:ff33305718665c6fba25efdd260c67a6bd500c665e3d5d61059612791ca10c90
     # via hatch
-virtualenv==21.3.0 \
-    --hash=sha256:4d28ee41f6d9ec8f1f00cd472b9ffbcedda1b3d3b9a575b5c94a2d004fd51bd7 \
-    --hash=sha256:733750db978ec95c2d8eb4feadaa57091002bce404cb39ba69899cf7bd28944e
+virtualenv==21.15.1 \
+    --hash=sha256:0d14a991689c67600316880eadc0a37b7690cb632e3b4ac67e2bc05b2b2e24a4 \
+    --hash=sha256:e79c90b8f601701599c25905e02839924fede2c798d52325670d24fbdaab74ee
     # via hatch
 zipp==3.23.1 ; python_full_version < '3.12' \
     --hash=sha256:0b3596c50a5c700c9cb40ba8d86d9f2cc4807e9bedb06bcdf7fac85633e444dc \
