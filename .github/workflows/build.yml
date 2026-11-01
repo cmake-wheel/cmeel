@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
     env:
       SYSTEM_VERSION_COMPAT: 0
     steps:
@@ -32,7 +32,7 @@ jobs:
       - name: install cmeel
         run: python -m pip install $HOME/wh/cmeel*.whl
       - name: build cmeel-example wheel
-        run: python -m pip wheel -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
+        run: python -m pip wheel --no-build-isolation -w $HOME/wh git+https://github.com/cmake-wheel/cmeel-example
       - name: install cmeel-example
         run: python -m pip install $HOME/wh/cmeel_example*.whl
       - name: test module

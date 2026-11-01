@@ -5,7 +5,6 @@ import logging
 import os
 import pathlib
 from subprocess import check_call
-from typing import Optional
 
 LOG = logging.getLogger("cmeel.docker")
 
@@ -78,7 +77,7 @@ def docker_cmd(
     upgrade: bool,
     test: bool,
     cwd: str,
-    env: Optional[list[str]],
+    env: list[str] | None,
     cmeel_env: bool,
     **kwargs,
 ):

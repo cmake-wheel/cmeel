@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Require python >= 3.10
+- Test python 3.15
+
 ## [0.61.0] - 2026-08-27
 
 - :warning: enforce manylinux/musllinux on linux, following packaging 26.3

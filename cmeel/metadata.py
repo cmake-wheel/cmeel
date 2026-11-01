@@ -10,7 +10,6 @@ import re
 import sys
 import warnings
 from pathlib import Path
-from typing import Union
 
 try:
     import tomllib  # type: ignore
@@ -58,7 +57,7 @@ class Metadata:
             f"Name: {self.conf['name']}",
             f"Version: {self.conf['version']}",
             f"Summary: {self.conf['description']}",
-            f"Requires-Python: {self.conf.get('requires-python', '>=3.9')}",
+            f"Requires-Python: {self.conf.get('requires-python', '>=3.10')}",
         ]
 
         self.gen_license()
@@ -114,7 +113,7 @@ class Metadata:
         self.lic_files = lic_files
 
     def _license_files(
-        self, license_files: Union[str, list[str], dict[str, str]]
+        self, license_files: str | list[str] | dict[str, str]
     ) -> list[str]:
         """Parse 'license-files' key."""
         lic_files = []

@@ -38,17 +38,14 @@ class PatchError(CalledProcessError):
 class NonRelocatableError(Exception):
     """Exception raised when absolute paths are in the final package."""
 
-    pass
-
 
 def log_pip():
     """Log output of pip freeze."""
-    if LOG.getEffectiveLevel() <= logging.DEBUG:
-        if find_spec("pip") is not None:
-            LOG.debug("pip freeze:")
-            deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
-            for dep in deps.strip().split("\n"):
-                LOG.debug("  %s", dep)
+    if LOG.getEffectiveLevel() <= logging.DEBUG and find_spec("pip") is not None:
+        LOG.debug("pip freeze:")
+        deps = check_output([sys.executable, "-m", "pip", "freeze"], text=True)
+        for dep in deps.strip().split("\n"):
+            LOG.debug("  %s", dep)
 
 
 def patch():
@@ -56,7 +53,7 @@ def patch():
     if Path("cmeel.patch").exists():
         LOG.info("patching")
         cmd = ["patch", "-p0", "-s", "-N", "-i", "cmeel.patch"]
-        ret = run(cmd, capture_output=True, text=True)
+        ret = run(cmd, capture_output=True, text=True, check=False)
         if ret.returncode != 0:
             # If this patch was already applied, it's okay.
             for line in ret.stdout.split("\n"):
